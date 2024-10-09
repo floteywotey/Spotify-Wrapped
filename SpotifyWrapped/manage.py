@@ -2,10 +2,14 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from dotenv import load_dotenv, dotenv_values
+
+load_dotenv(dotenv_path='.env')
 
 
 def main():
     """Run administrative tasks."""
+    print(os.getenv('APIKEY'))
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'SpotifyWrapped.settings')
     try:
         from django.core.management import execute_from_command_line
