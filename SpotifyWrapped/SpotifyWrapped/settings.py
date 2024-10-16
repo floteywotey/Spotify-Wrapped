@@ -11,27 +11,37 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-from decouple import config
+#from decouple import config
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+SPOTIFY_CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
+SPOTIFY_CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
+SPOTIFY_REDIRECT_URI = os.getenv('SPOTIFY_REDIRECT_URI')
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = config("APIKEY")
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-if __name__ == '__main__':
-    print(SECRET_KEY)
+# if __name__ == '__main__':
+#     print(SECRET_KEY)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-pyf#olkan-&*h*-lf9c%jf@lbfvj_2b^u+igcj71_z1veay=50'
+#SECRET_KEY = 'django-insecure-pyf#olkan-&*h*-lf9c%jf@lbfvj_2b^u+igcj71_z1veay=50'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'spotifywrapp',
 ]
 
 MIDDLEWARE = [
