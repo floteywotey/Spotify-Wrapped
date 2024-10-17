@@ -66,6 +66,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'SpotifyWrapped.urls'
 
+ALLOWED_HOSTS = ["3.140.248.253"]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
