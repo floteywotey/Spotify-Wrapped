@@ -10,7 +10,7 @@ load_dotenv(dotenv_path='.env')
 def main():
     """Run administrative tasks."""
     print(os.getenv('APIKEY'))
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'SpotifyWrapped.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'system.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
