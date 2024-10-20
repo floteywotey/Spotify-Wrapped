@@ -3,6 +3,8 @@ import requests
 import base64
 
 from django.shortcuts import redirect
+from django.shortcuts import render
+
 from dotenv import load_dotenv
 from django.http import JsonResponse
 from django.http import HttpResponse
