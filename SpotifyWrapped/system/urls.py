@@ -19,7 +19,8 @@ from django.urls import path
 from spotifywrapp import views
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', views.startscreen, name='startscreen'),
+    path('register/', views.register, name='register'),
     path('spotify-authorize/', views.spotify_authorize, name='spotify_authorize'),
     path('spotify-callback/', views.spotify_callback, name='spotify_callback'),
     path('spotify-data/', views.spotify_data, name='spotify_data'),
