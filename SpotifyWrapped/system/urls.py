@@ -1,5 +1,5 @@
 """
-URL configuration for SpotifyWrapped project.
+URL configuration for system project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -19,7 +19,8 @@ from django.urls import path
 from spotifywrapp import views
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', views.startscreen, name='startscreen'),
+    path('register/', views.register, name='register'),
     path('spotify-authorize/', views.spotify_authorize, name='spotify_authorize'),
     path('spotify-callback/', views.spotify_callback, name='spotify_callback'),
     path('spotify-data/', views.spotify_data, name='spotify_data'),

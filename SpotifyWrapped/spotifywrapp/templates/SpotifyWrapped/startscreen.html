@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spotify Wrapped Tarot</title>
+    <link rel="stylesheet" href="{% static 'SpotifyWrapped/startscreen.css' %}">
+</head>
+<body>
+    <h1> THIS IS TO TEST THE LOGIN WOOHOOOO</h1>
+    <div>
+        <h2> LOGIN </h2>
+        <!-- Login form -->
+        <form method="post" action="{% url 'startscreen' %}">
+            {% csrf_token %}
+            {{ form.as_p }} <!-- Renders form field -->
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- Register Linked -->
+        <p>Make an account dur <a href="{% url 'register' %}">Sign up here</a></p>
+
+
+    </div>
+
+</body>
+</html>
