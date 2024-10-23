@@ -20,6 +20,7 @@ from spotifywrapp import views
 
 urlpatterns = [
     path('', views.startscreen, name='startscreen'),
+    path('login/',views.login, name='login'),
     path('register/', views.register, name='register'),
     path('spotify-authorize/', views.spotify_authorize, name='spotify_authorize'),
     path('spotify-callback/', views.spotify_callback, name='spotify_callback'),
