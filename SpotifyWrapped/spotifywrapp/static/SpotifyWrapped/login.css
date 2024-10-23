@@ -1,6 +1,11 @@
-/*custom fonts: Kaisei Tokumin, Kalnia*/
-@import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&display=swap');
+/*custom fonts: Kaisei Tokumin, Kalnia, Sahitya*/
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
 
 body {
-    background: black url("images/dark-mode-background-decorative.png");
+    background: black url("images/backgrounds/dark-mode-background-decorative.png");
+}
+
+.login-container {
+    background: black;
+
 }
