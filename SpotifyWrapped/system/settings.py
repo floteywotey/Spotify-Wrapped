@@ -39,7 +39,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["3.140.248.253","127.0.0.1","localhost"]
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # Application definition
@@ -66,10 +66,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'system.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'spotifywrapp', 'templates', 'SpotifyWrapped')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -131,6 +132,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'spotifywrapp', 'static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

@@ -2,9 +2,9 @@ import os
 import requests
 import base64
 
-from django.shortcuts import redirect
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from dotenv import load_dotenv
 from django.http import JsonResponse
 from django.http import HttpResponse
@@ -17,15 +17,34 @@ CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
 CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
 REDIRECT_URI = os.getenv("SPOTIFY_REDIRECT_URI")
 
+
 #Spotify Token URL
 AUTH_URL = 'https://accounts.spotify.com/api/token'
 
-def home(request):
-    token = request.session.get('access_token')
-    if not token:
-        return redirect('spotify_authorize')
+def startscreen(request):
+    error_message = None
+    form = AuthenticationForm()
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('spotify_authorize')
+    return render(request, 'startscreen.html', {'form': form, 'error_message': error_message})
 
-    return HttpResponse("MUSIC WRAP BOOM")
+# Home Page (Before spotify authorization login)
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('startscreen')
+    else:
+        form = UserCreationForm()
+
+    return render(request, 'register.html', {'form': form})
+
 
 # Redirect user for Spotify authorization
 def spotify_authorize(request):
