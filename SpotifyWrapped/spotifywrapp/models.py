@@ -20,10 +20,17 @@ class invites(models.Model):
 
 class wraps(models.Model):
 
+    field_name = models.DecimalField(max_digits=5, decimal_places=2)
+    field_name = models.DecimalField(max_digits=5, decimal_places=2)
+    field_name = models.DecimalField(max_digits=5, decimal_places=2)
+    valence = models.DecimalField(max_digits=5, decimal_places=2)
+
+
     energy = models.DecimalField(max_digits=None, decimal_places=None)
     danceability = models.DecimalField(max_digits=None, decimal_places=None)
     speechiness = models.DecimalField(max_digits=None, decimal_places=None)
     valence = models.DecimalField(max_digits=None, decimal_places=None)
+
     user1 = models.CharField(max_length=150)
     user2 = models.CharField(max_length=150)
 

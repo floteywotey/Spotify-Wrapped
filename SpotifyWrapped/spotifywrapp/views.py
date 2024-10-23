@@ -22,6 +22,9 @@ REDIRECT_URI = os.getenv("SPOTIFY_REDIRECT_URI")
 AUTH_URL = 'https://accounts.spotify.com/api/token'
 
 def startscreen(request):
+    return render(request, 'startscreen.html')
+
+def login(request):
     error_message = None
     form = AuthenticationForm()
     if request.method == 'POST':
@@ -31,6 +34,7 @@ def startscreen(request):
             login(request, user)
             return redirect('spotify_authorize')
     return render(request, 'login.html', {'form': form, 'error_message': error_message})
+
 
 # Home Page (Before spotify authorization login)
 def register(request):
