@@ -30,7 +30,7 @@ def startscreen(request):
             user = form.get_user()
             login(request, user)
             return redirect('spotify_authorize')
-    return render(request, 'startscreen.html', {'form': form, 'error_message': error_message})
+    return render(request, 'login.html', {'form': form, 'error_message': error_message})
 
 # Home Page (Before spotify authorization login)
 def register(request):
