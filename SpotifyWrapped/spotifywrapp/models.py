@@ -19,10 +19,10 @@ class invites(models.Model):
     message = models.CharField(max_length=150)
 
 class wraps(models.Model):
-    energy = models.DecimalField(max_digits=1, decimal_places=9)
-    danceability = models.DecimalField(max_digits=1, decimal_places=9)
-    speechiness = models.DecimalField(max_digits=1, decimal_places=9)
-    valence = models.DecimalField(max_digits=1, decimal_places=9)
+    energy = models.DecimalField(max_digits=10, decimal_places=9)
+    danceability = models.DecimalField(max_digits=10, decimal_places=9)
+    speechiness = models.DecimalField(max_digits=10, decimal_places=9)
+    valence = models.DecimalField(max_digits=10, decimal_places=9)
 
     user1 = models.CharField(max_length=150)
     user2 = models.CharField(max_length=150)
