@@ -3,7 +3,7 @@ import requests
 import base64
 
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login as auth_login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from dotenv import load_dotenv
 from django.http import JsonResponse
@@ -24,14 +24,14 @@ AUTH_URL = 'https://accounts.spotify.com/api/token'
 def startscreen(request):
     return render(request, 'startscreen.html')
 
-def login(request):
+def userlogin(request):
     error_message = None
     form = AuthenticationForm()
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
-            login(request, user)
+            auth_login(request, user)
             return redirect('spotify_authorize')
     return render(request, 'login.html', {'form': form, 'error_message': error_message})
 
@@ -42,11 +42,10 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
+            auth_login(request, user)
             return redirect('startscreen')
     else:
         form = UserCreationForm()
-
     return render(request, 'register.html', {'form': form})
 
 
