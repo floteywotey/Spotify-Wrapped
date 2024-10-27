@@ -95,8 +95,8 @@ DATABASES = {
         'NAME': 'SpotifyWrappedDB',
         'USER': 'admin',
         'PASSWORD': 'password',
-        'HOST': '3.18.124.64',
-        'PORT': '5432'
+        'HOST': 'localhost',
+        'PORT': ''
     }
 }
 
