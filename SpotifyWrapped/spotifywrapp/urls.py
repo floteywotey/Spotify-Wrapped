@@ -7,5 +7,4 @@ urlpatterns = [
     path("register/", register, name='register'),
     path("spotify_authorize/", spotify_authorize, name='spotify_authorize'),
     path("spotify_callback/", spotify_callback, name='spotify_callback'),
-    path("home/", home, name='home'),
 ]
