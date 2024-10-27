@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'system.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'SpotifyWrappedDB',
+        'NAME': 'spotifywrappeddb',
         'USER': 'admin',
         'PASSWORD': 'password',
         'HOST': 'localhost',
