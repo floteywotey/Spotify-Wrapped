@@ -6,8 +6,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
         body {
-            font-family: Verdana, Helvetica, sans-serif;
-            font-size: 90%;
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
@@ -18,25 +16,68 @@
         * {
             margin: 0;
         }
+
         .container {
             display: flex;
             flex-direction: row;
-            gap: 12px;
-            
+            padding: 20px 40px;
         }
 
         .dark-header {
-            color: white;
-            background-color: darkslateblue;
+            color: black;
+            background-color: #9a90ff;
+            font-size: larger;
         }
 
+        .left {
+            display: flex;
+            gap: 40px;
+            justify-content: flex-start;
+            flex: 1 1 0;
+        }
+
+        .right {
+            display: flex;
+            justify-content: flex-end;
+            flex: 1 1 0;
+        }
+        .dark-header a {
+            text-decoration: none;
+            color: black;
+        }
+        .main {
+            justify-content: center;
+            align-content: center;
+            color: white;
+        }
+        .main a {
+            font-size: x-large;
+            color: white;
+            padding: 20px;
+            border-radius: 32px;
+            border: 1px solid white;
+        }
     </style>
 </head>
 <body>
     <div class="dark-header container">
-        <h3>Home</h3>
-        <h3>Past Readings</h3>
-        <h3>Profile</h3>
+        <div class="left">
+            <a href="home.html">Home</a>
+            <a>Past Readings</a>
+        </div>
+        <div class="right">
+            <a>Profile</a>
+        </div>
+    </div>
+
+    <div class="main container">
+        <a>Create a Spotify Reading</a>
+    </div>
+    <div class="recent container">
+        <h2>Recent Readings</h2>
+        <div class="past-readings">
+            
+        </div>
     </div>
 </body>
 </html>
