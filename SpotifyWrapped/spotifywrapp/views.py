@@ -88,6 +88,7 @@ def spotify_callback(request):
         # Handle the case where the request to Spotify's token endpoint failed
         return JsonResponse({'error': 'Failed to get the access token from Spotify'}, status=response.status_code)
 
+
 def get_top_artists(token, limit=10):
     headers = {'Authorization': f'Bearer {token}'}
     params = {'limit': limit, 'time_range': 'medium_term'}
@@ -141,3 +142,5 @@ def spotify_data(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
+def home(request):
+    return render(request, 'home.html')

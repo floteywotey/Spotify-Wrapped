@@ -24,6 +24,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('spotify-authorize/', views.spotify_authorize, name='spotify_authorize'),
     path('spotify-callback/', views.spotify_callback, name='spotify_callback'),
+    path('home/', views.home, name='home'),
     path('spotify-data/', views.spotify_data, name='spotify_data'),
 ]
 
