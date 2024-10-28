@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,11 +63,11 @@
 <body>
     <div class="dark-header container">
         <div class="left">
-            <a href="{% url home %}">Home</a>
+            <a href="{% url 'home' %}">Home</a>
             <a>Past Readings</a>
         </div>
         <div class="right">
-            <a>Profile</a>
+            <a href="{% url 'spotify_data'%}">Profile</a>
         </div>
     </div>
 

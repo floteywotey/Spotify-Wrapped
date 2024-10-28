@@ -11,4 +11,5 @@ urlpatterns = [
     path("spotify-authorize/", views.spotify_authorize, name='spotify_authorize'),
     path("spotify-callback/", views.spotify_callback, name='spotify_callback'),
     path("spotify-data/", views.spotify_data, name='spotify_data'),
+    path("home/", views.home, name='home'),
 ]

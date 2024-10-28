@@ -79,7 +79,7 @@ def spotify_callback(request):
             # Store the access token in the session
             request.session['spotify_access_token'] = token_info['access_token']
             # Redirect to the view that fetches user data
-            return redirect('spotify_data')
+            return redirect('home')
         else:
             # Handle missing access token in the response
             return JsonResponse({'error': 'Access token not found in the response'}, status=500)
