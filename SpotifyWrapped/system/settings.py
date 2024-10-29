@@ -92,13 +92,15 @@ WSGI_APPLICATION = 'system.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'sqlite3',
     }
 }
 
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'spotifywrapp/static')
 
 AUTH_PASSWORD_VALIDATORS = [
     {
