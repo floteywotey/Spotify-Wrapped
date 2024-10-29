@@ -19,8 +19,9 @@
             align-items: center;
         }
 
-        .dark-header {
+        .dark-header{
             font-size: larger;
+            backdrop-filter: blur(10px);
         }
 
         .left {
@@ -51,6 +52,7 @@
             color: white;
             display: flex;
             flex-direction: column;
+            gap: 20px;
         }
         .main a {
             font-size: x-large;
@@ -61,10 +63,13 @@
             backdrop-filter: blur(10px);
         }
 
-        #the-orb {
+
+
+        #orb {
             background: url("images/decorations/homescreen-orb.svg") no-repeat;
-            width: 270px;
-            height: 270px;
+            width: 260px;
+            height: 260px;
+            position: absolute;
         }
         .floating {
             position: relative;
@@ -75,12 +80,22 @@
             0% {
                 transform: translateY(0);
             }
-
             50% {
                 transform: translateY(-20px);
             }
-
             100% {
                 transform: translateY(0);
             }
+        }
+
+        #moon-ring {
+            background: url("images/decorations/moonring.svg") no-repeat;
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        .readings{
+            justify-content: flex-start;
+            align-items: flex-start;
         }
