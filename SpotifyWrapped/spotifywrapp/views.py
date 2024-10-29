@@ -143,3 +143,6 @@ def spotify_data(request):
 
 def home(request):
     return render(request, 'home.html')
+
+def readings(request):
+    return render(request, 'readings.html')

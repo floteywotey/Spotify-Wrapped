@@ -12,4 +12,5 @@ urlpatterns = [
     path("spotify-callback/", views.spotify_callback, name='spotify_callback'),
     path("spotify-data/", views.spotify_data, name='spotify_data'),
     path("home/", views.home, name='home'),
+    path("readings/", views.readings, name='readings'),
 ]

@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
+body {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background: black url("images/backgrounds/dark-mode-background.png");
+    color: white;
+}
+
+* {
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    padding: 20px 40px;
+    justify-content: center;
+    align-items: center;
+}
+
+.dark-header{
+    font-size: larger;
+    backdrop-filter: blur(10px);
+}
+
+.left {
+    display: flex;
+    gap: 40px;
+    justify-content: flex-start;
+    flex: 1 1 0;
+}
+
+.right {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1 1 0;
+}
+
+.dark-header a {
+    text-decoration: none;
+    color: white;
+}
+
+.dark-header a:hover {
+    text-decoration: none;
+    color: #8b8df8;
+}
