@@ -79,13 +79,14 @@ def spotify_callback(request):
             # Store the access token in the session
             request.session['spotify_access_token'] = token_info['access_token']
             # Redirect to the view that fetches user data
-            return redirect('spotify_data')
+            return redirect('home')
         else:
             # Handle missing access token in the response
             return JsonResponse({'error': 'Access token not found in the response'}, status=500)
     else:
         # Handle the case where the request to Spotify's token endpoint failed
         return JsonResponse({'error': 'Failed to get the access token from Spotify'}, status=response.status_code)
+
 
 def get_top_artists(token, limit=10):
     headers = {'Authorization': f'Bearer {token}'}
@@ -140,3 +141,5 @@ def spotify_data(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
+def home(request):
+    return render(request, 'home.html')
