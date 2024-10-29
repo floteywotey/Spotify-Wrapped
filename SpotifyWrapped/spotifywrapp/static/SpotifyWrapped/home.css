@@ -1,3 +1,86 @@
-/*custom fonts: Kaisei Tokumin, Kalnia*/
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
+        body {
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            background: black url("images/backgrounds/dark-mode-background-decorative.png");
+            color: white;
+        }
 
+        * {
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            padding: 20px 40px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dark-header {
+            font-size: larger;
+        }
+
+        .left {
+            display: flex;
+            gap: 40px;
+            justify-content: flex-start;
+            flex: 1 1 0;
+        }
+
+        .right {
+            display: flex;
+            justify-content: flex-end;
+            flex: 1 1 0;
+        }
+
+        .dark-header a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .dark-header a:hover {
+            text-decoration: none;
+            color: #8b8df8;
+        }
+        .main {
+            justify-content: center;
+            align-content: center;
+            color: white;
+            display: flex;
+            flex-direction: column;
+        }
+        .main a {
+            font-size: x-large;
+            color: white;
+            padding: 20px;
+            border-radius: 32px;
+            border: 1px solid rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        #the-orb {
+            background: url("images/decorations/homescreen-orb.svg") no-repeat;
+            width: 270px;
+            height: 270px;
+        }
+        .floating {
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
