@@ -7,6 +7,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from dotenv import load_dotenv
 from django.http import JsonResponse
+from django.contrib.auth.views import PasswordResetView
 from django.http import HttpResponse
 
 
@@ -47,6 +48,9 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
+
+# Reset password
+def custom_reset_password()
 
 
 # Redirect user for Spotify authorization
