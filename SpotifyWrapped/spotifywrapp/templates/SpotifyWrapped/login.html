@@ -15,22 +15,26 @@
         <p>Log Into Your Account</p>
     </div>
 
-    <div class="login-form">
+    <div class="login-form-container">
+        <form class="form-login" action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <!-- Username field -->
+            <div class="form-group" >
+                <label for="id_username">Username:</label>
+                <input type="text" name="username" id="id_username" class="form-control"
+                       value="{{ form.username.value|default_if_none:'' }}">
+            </div>
 
-        <div class="form-group">
-            <label for="id_username">Username:</label>
-            <input type="text" name="username" id="id_username" class="form-control"
-                   value="{{ form.username.value|default_if_none:'' }}">
-        </div>
+            <!-- Password field -->
+            <div class="form-group">
+                <label for="id_password">Password:</label>
+                <input type="password" name="password" id="id_password" class="form-control"
+                           value="{{ form.password.value|default_if_none:'' }}">
+            </div>
+            <p><a href="">Forgot your password? Reset</a></p>
 
-        <div class="form-group">
-            <label for="id_password">Password:</label>
-            <input type="password" name="password" id="id_password" class="form-control"
-                       value="{{ form.password.value|default_if_none:'' }}">
-        </div>
-
-        <button class="form-submit">Log In</button>
-
+            <button class="form-submit">Log In</button>
+        </form>
         <p>New to this side of the universe? <a href="/register">Sign Up</a></p>
     </div>
 </div>
