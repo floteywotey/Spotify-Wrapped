@@ -19,6 +19,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Python 3.12 (Spotify-Wrapped)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Atlanta-food-finder" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />

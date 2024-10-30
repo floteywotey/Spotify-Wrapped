@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 class User(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    info = models.OneToOneField(User, on_delete=models.CASCADE)
     spotifytoken = models.CharField(max_length=100)
     def __str__(self):
         return str(self.user.username)
