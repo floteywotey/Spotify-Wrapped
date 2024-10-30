@@ -5,7 +5,20 @@
     <title>Title</title>
 </head>
 <body>
-{{ user }}
-test
+    {% if usertoken %}
+        <button onclick="window.location.href='{% url 'spotify_unauthorize' %}'">Unlink</button>
+    {% else %}
+        <button onclick="window.location.href='{% url 'spotify_authorize' %}'">Link</button>
+    {% endif %}
+
+    <form class="logout" action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button class="logout-button" aria-label="User Logout" title="User Logout">Logout</button>
+    </form>
+
+    <form class="delete" action="{% url 'delete' %}" method="post">
+        {% csrf_token %}
+        <button class="delete-button" aria-label="User Delete" title="User Delete">Delete</button>
+    </form>
 </body>
 </html>
