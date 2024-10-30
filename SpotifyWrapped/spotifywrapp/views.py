@@ -79,7 +79,7 @@ def register(request):
             auth_login(request, user)
             spot = SpotifyUser.objects.create(user=user.username, spotifytoken="")
             spot.save()
-            return redirect('startscreen')
+            return redirect('home')
     else:
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
