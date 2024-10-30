@@ -23,7 +23,10 @@
         .dark-header{
             font-size: larger;
             backdrop-filter: blur(10px);
-            position: sticky;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
         }
 
         .left {
@@ -75,6 +78,7 @@
             width: 260px;
             height: 260px;
             position: absolute;
+
         }
         .floating {
             animation: float 3s ease-in-out infinite;
@@ -101,6 +105,7 @@
         #moon-ring {
             opacity: 30%;
             filter: contrast(120%) brightness(300%);
+            box-shadow: 0 0 25px rebeccapurple;
         }
 
         .readings {
