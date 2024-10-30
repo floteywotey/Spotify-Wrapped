@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Atlanta-food-finder/.idea/Atlanta-food-finder.iml" filepath="$PROJECT_DIR$/../Atlanta-food-finder/.idea/Atlanta-food-finder.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Spotify-Wrapped.iml" filepath="$PROJECT_DIR$/.idea/Spotify-Wrapped.iml" />
     </modules>
   </component>
