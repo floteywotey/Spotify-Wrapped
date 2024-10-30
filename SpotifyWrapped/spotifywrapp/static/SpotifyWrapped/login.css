@@ -2,10 +2,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
 
 body {
-    background: black url("images/backgrounds/dark-mode-background-decorative.png");
+    background: black url("images/backgrounds/dark-mode-background-decorative.svg");
+    color: white;
+    font-family: Sahitya, serif;
 }
 
 .login-container {
-    background: black;
-
+    width: 24vw;
+    height: 70vh;
+    padding: 20px;
+    margin: auto;
+    background: black url("images/decorations/dark-mode-authorization-box.svg") no-repeat center center;
+    border-radius: 12px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 25px rebeccapurple;
+    align-content: center;
 }
