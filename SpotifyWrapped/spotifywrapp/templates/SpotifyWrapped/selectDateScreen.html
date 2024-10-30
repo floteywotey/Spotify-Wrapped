@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form id="filter-form" method="POST" action="{% url 'results' %}">
+    <form id="filter-form" method="POST" action="{% url 'solo_results' %}">
         {% csrf_token %}
         <div class="filter-group">
             <h5>How far back (Fix up as needed)</h5>

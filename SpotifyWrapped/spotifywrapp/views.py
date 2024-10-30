@@ -26,6 +26,22 @@ def startscreen(request):
         return redirect('home')
     return render(request, 'startscreen.html')
 
+def home(request):
+    print(list(SpotifyUser.objects.filter(user=request.user.username))[0].spotifytoken)
+    unsortedArray = list(wraps.objects.filter(user1=request.user.username))
+    from datetime import datetime
+
+    sortedArray = sorted(
+        unsortedArray,
+        key=lambda x: x.getdate(), reverse=True
+    )
+    print(sortedArray)
+    if not request.user.is_authenticated:
+        return redirect('startscreen')
+    if (list(SpotifyUser.objects.filter(user=request.user.username))[0].spotifytoken != ''):
+        spotify_authorize(request)
+    return render(request, 'home.html')
+
 def userlogin(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -75,7 +91,7 @@ def profile(request):
 
 
 # Redirect user for Spotify authorization
-def spotify_authorize():
+def spotify_authorize(request):
     scope = 'user-top-read'
     auth_url = (
         'https://accounts.spotify.com/authorize?'
@@ -101,7 +117,6 @@ def spotify_callback(request):
     }
 
     response = requests.post(token_url, data=data)
-
     # Check if the request was successful
     if response.status_code == 200:
         token_info = response.json()  # Get the token information
@@ -139,14 +154,12 @@ def get_top_tracks(token, time, limit=10):
         raise Exception(f"Failed to fetch top tracks! Status code: {response.status_code}")
     return response.json()
 
-def home(request):
-    print(list(SpotifyUser.objects.all()))
-    return render(request, 'home.html')
+
 
 def select_date(request):
     return render(request, 'selectDateScreen.html')
 
-def results(request):
+def solo_results(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
     if request.method == "POST":
@@ -159,6 +172,7 @@ def results(request):
 
         try:
             token = list(SpotifyUser.objects.filter(user=request.user.username))[0].spotifytoken  # Retrieve token from session
+            print(token)
             if not token:
                 return JsonResponse({'error': 'No access token found, please authorize again.'}, status=401)
 
@@ -176,7 +190,7 @@ def results(request):
             albums = {}
             for track in top_tracks['items']:
                 album = track['album']['name']
-                songcsv = str(track['id']) + ','
+                songcsv += str(track['id']) + ','
                 albums[album] = albums.get(album, 0) + 1
             sorted_albums = sorted(albums.items(), key=lambda x: x[1], reverse=True)
 
@@ -186,11 +200,11 @@ def results(request):
             response = requests.get('https://api.spotify.com/v1/audio-features', headers=headers, params=params)
             if response.status_code != 200:
                 raise Exception(f"Failed to fetch top tracks! Status code: {response.status_code}")
-            for track in response:
-                valence += track[valence]
-                danceability += track[danceability]
-                speechiness += track[speechiness]
-                energy += track[energy]
+            for item in response.json()['audio_features']:
+                valence += item['valence']
+                danceability += item['danceability']
+                speechiness += item['speechiness']
+                energy += item['energy']
             danceability /= 10.0
             speechiness /= 10.0
             energy /= 10.0
@@ -206,8 +220,9 @@ def results(request):
                 'energy' : energy,
                 'valence' : valence
             }
-            wrap = SpotifyUser.objects.create(wrap1=data, isDuo=false, user1=response.user.username)
+            wrap = wraps.objects.create(wrap1=data, wrap2 = {}, duowrap = {}, isDuo=False, user1=request.user.username)
             wrap.save()
+            redirect('home')
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
     return render(request, 'results.html', context={'wrap':wrap})

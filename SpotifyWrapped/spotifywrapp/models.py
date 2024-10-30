@@ -26,5 +26,7 @@ class wraps(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     user1 = models.CharField(max_length=150)
     user2 = models.CharField(max_length=150)
+    def getdate(self):
+        return self.date
 
 
