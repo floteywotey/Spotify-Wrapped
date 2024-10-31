@@ -28,17 +28,15 @@ def startscreen(request):
     return render(request, 'startscreen.html')
 
 def home(request):
-    print(list(SpotifyUser.objects.filter(user=request.user.username))[0].spotifytoken)
-    unsortedArray = list(wraps.objects.filter(user1=request.user.username)) + list(wraps.objects.filter(user2=request.user.username))
-    print(unsortedArray)
-    sortedArray = sorted(
-        unsortedArray,
-        key=lambda x: x.getdate(), reverse=True
-    )
-    print(sortedArray)
+    # unsortedArray = list(wraps.objects.filter(user1=request.user.username)) + list(wraps.objects.filter(user2=request.user.username))
+    # print(unsortedArray)
+    # sortedArray = sorted(
+    #     unsortedArray,
+    #     key=lambda x: x.getdate(), reverse=True
+    # )
     if not request.user.is_authenticated:
         return redirect('startscreen')
-    if (list(SpotifyUser.objects.filter(user=request.user.username))[0].spotifytoken != ''):
+    if (list(SpotifyUser.objects.filter(user=request.user.username))[0].spotifytoken == ''):
         spotify_authorize(request)
     return render(request, 'home.html')
 
@@ -204,7 +202,6 @@ def solo_results(request):
                 valence += item['valence']
                 danceability += item['danceability']
                 speechiness += item['speechiness']
-                print(item['speechiness'])
                 energy += item['energy']
             danceability /= 10.0
             speechiness /= 10.0
