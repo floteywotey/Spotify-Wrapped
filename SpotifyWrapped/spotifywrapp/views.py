@@ -8,7 +8,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from dotenv import load_dotenv
 from django.http import JsonResponse
 
-from spotifywrapp.models import SpotifyUser, wraps
+from spotifywrapp.models import SpotifyUser, wraps, invites
+
 
 #loads environment variables from .env, so client id and secret client etc
 load_dotenv()
@@ -28,9 +29,8 @@ def startscreen(request):
 
 def home(request):
     print(list(SpotifyUser.objects.filter(user=request.user.username))[0].spotifytoken)
-    unsortedArray = list(wraps.objects.filter(user1=request.user.username))
-    from datetime import datetime
-
+    unsortedArray = list(wraps.objects.filter(user1=request.user.username)) + list(wraps.objects.filter(user2=request.user.username))
+    print(unsortedArray)
     sortedArray = sorted(
         unsortedArray,
         key=lambda x: x.getdate(), reverse=True
@@ -79,7 +79,7 @@ def register(request):
             auth_login(request, user)
             spot = SpotifyUser.objects.create(user=user.username, spotifytoken="")
             spot.save()
-            return redirect('startscreen')
+            return redirect('home')
     else:
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
@@ -204,6 +204,7 @@ def solo_results(request):
                 valence += item['valence']
                 danceability += item['danceability']
                 speechiness += item['speechiness']
+                print(item['speechiness'])
                 energy += item['energy']
             danceability /= 10.0
             speechiness /= 10.0
