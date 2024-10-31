@@ -9,6 +9,10 @@ class SpotifyUser(models.Model):
     nexttoken = models.CharField(max_length=100)
     def __str__(self):
         return str(self.user)
+    def getspotifytoken(self):
+        return self.spotifytoken
+    def getrefreshtoken(self):
+        return self.nexttoken
 
 class Friends(models.Model):
     user1 = models.CharField(max_length=150)
