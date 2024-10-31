@@ -3,11 +3,11 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
-class User(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class SpotifyUser(models.Model):
+    user = models.CharField(max_length=150)
     spotifytoken = models.CharField(max_length=100)
     def __str__(self):
-        return str(self.user.username)
+        return str(self.user)
 
 class Friends(models.Model):
     user1 = models.CharField(max_length=150)
@@ -19,11 +19,14 @@ class invites(models.Model):
     message = models.CharField(max_length=150)
 
 class wraps(models.Model):
-    energy = models.DecimalField(max_digits=10, decimal_places=9)
-    danceability = models.DecimalField(max_digits=10, decimal_places=9)
-    speechiness = models.DecimalField(max_digits=10, decimal_places=9)
-    valence = models.DecimalField(max_digits=10, decimal_places=9)
-
+    wrap1 = models.JSONField()
+    wrap2 = models.JSONField()
+    duowrap = models.JSONField()
+    isDuo = models.BooleanField()
+    date = models.DateTimeField(auto_now_add=True)
     user1 = models.CharField(max_length=150)
     user2 = models.CharField(max_length=150)
+    def getdate(self):
+        return self.date
+
 

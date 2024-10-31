@@ -2,10 +2,60 @@
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
 
 body {
-    background: black url("images/backgrounds/dark-mode-background-decorative.png");
+    background: black url("images/backgrounds/dark-mode-background-decorative.svg") no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
+    color: white;
+    font-family: Sahitya, serif;
 }
 
 .login-container {
-    background: black;
+    width: 400px;
+    height: 630px;
+    aspect-ratio: 2/3;
+    padding: 20px;
+    margin: auto;
+    background: black url("images/decorations/dark-mode-authorization-box.svg") no-repeat center center fixed;
+    background-size: contain;
+    border-radius: 12px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 25px rebeccapurple;
+    align-content: center;
+}
 
+.general-text {
+    text-align: center;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.general-text h1 {
+    font-size: 3vw;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.general-text p {
+    font-size: 1vw;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+input {
+    width: 80%;
+    padding: 16px;
+    font-size: 13px;
+    float: left;
+    background: black;
+    border-color: white;
+    border-radius: 16px;
+    border-style: solid;
+    margin-bottom: 15px;
+}
+
+label {
+    margin-top: 30px;
 }

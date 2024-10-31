@@ -4,26 +4,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Spotify Wrapped Tarot</title>
+    <title>Log In</title>
     <link rel="stylesheet" href="{% static 'SpotifyWrapped/login.css' %}">
 </head>
 <body>
 
 <div class="login-container">
     <div class="general-text">
-        <h1> THIS IS TO TEST THE LOGIN WOOHOOOO</h1>
-        <div>
-            <h2> LOGIN </h2>
-            <!-- Login form -->
-            <form method="post" action="{% url 'login' %}">
-                {% csrf_token %}
-                {{ form.as_p }} <!-- Renders form field -->
-                <button type="submit">Login</button>
-            </form>
+        <h1>Return to the Stars</h1>
+        <p>Log Into Your Account</p>
+    </div>
 
-            <!-- Register Linked -->
-            <p>Make an account dur <a href="{% url 'register' %}">Sign up here</a></p>
-        </div>
+    <div class="form-container">
+        <form class="form-with-validation" action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <!-- Username field -->
+            <div class="form-group">
+                <label for="id_username">Username:</label>
+                <input type="text" name="username" id="id_username" class="form-control"
+                       value="{{ form.username.value|default_if_none:'' }}">
+                <!-- Display form error for username -->
+                {% if form.username.errors %}
+                    <div class="error-message">
+                        {{ form.username.errors|join:", " }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Password field -->
+            <div class="form-group">
+                <label for="id_password">Password:</label>
+                <input type="password" name="password" id="id_password" class="form-control"
+                       value="{{ form.password.value|default_if_none:'' }}">
+                <!-- Display form error for password -->
+                {% if form.password.errors %}
+                    <div class="error-message">
+                        {{ form.password.errors|join:", " }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <button class="form-submit">Log In</button>
+        </form>
+
+        <p>New to this side of the universe? <a href="/register">Sign Up</a></p>
     </div>
 </div>
 
