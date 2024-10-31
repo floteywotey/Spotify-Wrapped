@@ -44,13 +44,13 @@ def userlogin(request):
     if request.user.is_authenticated:
         return redirect('home')
     error_message = None
-    form = AuthenticationForm()
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             auth_login(request, user)
             return redirect('home')
+    form = AuthenticationForm()
     return render(request, 'login.html', {'form': form, 'error_message': error_message})
 
 def logout_view(request):
@@ -163,7 +163,7 @@ def solo_results(request):
     if request.method == "POST":
         time = request.POST.get('time', '')
         danceability = 0.0
-        speechiness = 0.0
+        popularity = 0.0
         energy = 0.0
         valence = 0.0
         songcsv = ''
@@ -171,6 +171,7 @@ def solo_results(request):
         try:
             token = list(SpotifyUser.objects.filter(user=request.user.username))[0].spotifytoken  # Retrieve token from session
             print(token)
+            print('aaaaaa')
             if not token:
                 return JsonResponse({'error': 'No access token found, please authorize again.'}, status=401)
 
@@ -187,6 +188,7 @@ def solo_results(request):
             top_tracks = get_top_tracks(token, time)
             albums = {}
             for track in top_tracks['items']:
+                popularity += track['popularity']
                 album = track['album']['name']
                 songcsv += str(track['id']) + ','
                 albums[album] = albums.get(album, 0) + 1
@@ -201,10 +203,9 @@ def solo_results(request):
             for item in response.json()['audio_features']:
                 valence += item['valence']
                 danceability += item['danceability']
-                speechiness += item['speechiness']
                 energy += item['energy']
             danceability /= 10.0
-            speechiness /= 10.0
+            popularity /= 10.0
             energy /= 10.0
             valence /= 10.0
             # Prepare data for response
@@ -214,7 +215,7 @@ def solo_results(request):
                 'top_tracks': [track['name'] for track in top_tracks['items']],
                 'top_albums': [album[0] for album in sorted_albums],
                 'danceability' : danceability,
-                'speechiness' : speechiness,
+                'popularity' : popularity,
                 'energy' : energy,
                 'valence' : valence
             }
