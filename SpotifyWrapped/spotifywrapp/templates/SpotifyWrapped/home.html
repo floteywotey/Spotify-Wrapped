@@ -18,13 +18,26 @@
     </div>
 
     <div class="main container">
-        <div class="orb-container"><div id="the-orb" class="floating"></div></div>
-        <a href="{% url 'select_date' %}"> Create a Spotify Reading</a>
+{#        <div class="moon-ring-container">#}
+{#            <img src="{% static 'SpotifyWrapped/images/decorations/moonring.svg' %}" id="moon-ring" alt="Moonring" width="100%">#}
+{#        </div>#}
+        <div class="main-items">
+            <svg id="orb" class="floating"></svg>
+            <a href="{% url 'select_date' %}">Create a Spotify Reading</a>
+        </div>
     </div>
-    <div class="recent container">
+    <div class="readings container">
         <h2>Recent Readings</h2>
-        <div class="past-readings">
-            
+        <div class="cards container">
+            <div class="card-container">
+                <svg></svg>
+            </div>
+            <div class="card-container">
+                <svg></svg>
+            </div>
+            <div class="card-container">
+                <svg></svg>
+            </div>
         </div>
     </div>
 </body>

@@ -3,7 +3,8 @@
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
-            background: black url("images/backgrounds/dark-mode-background-decorative.png");
+            background: black url("images/backgrounds/dark-mode-background.svg") no-repeat center center fixed;
+            -webkit-background-size: cover;
             color: white;
         }
 
@@ -14,13 +15,18 @@
         .container {
             display: flex;
             flex-direction: row;
-            padding: 20px 40px;
+            padding: 20px 100px;
             justify-content: center;
             align-items: center;
         }
 
-        .dark-header {
+        .dark-header{
             font-size: larger;
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
         }
 
         .left {
@@ -51,6 +57,7 @@
             color: white;
             display: flex;
             flex-direction: column;
+            gap: 20px;
         }
         .main a {
             font-size: x-large;
@@ -58,16 +65,28 @@
             padding: 20px;
             border-radius: 32px;
             border: 1px solid rgba(255,255,255,0.5);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px);
         }
 
-        #the-orb {
+        .main a:hover {
+            box-shadow: 0 0 30px #b67bed;
+        }
+
+        .main-items {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+
+        }
+        #orb {
             background: url("images/decorations/homescreen-orb.svg") no-repeat;
-            width: 270px;
-            height: 270px;
+            width: 260px;
+            height: 260px;
+
         }
         .floating {
-            position: relative;
             animation: float 3s ease-in-out infinite;
         }
 
@@ -75,12 +94,56 @@
             0% {
                 transform: translateY(0);
             }
-
             50% {
                 transform: translateY(-20px);
             }
-
             100% {
                 transform: translateY(0);
             }
         }
+
+        .moon-ring-container {
+            width: 600px;
+            height: 600px;
+            position: relative;
+        }
+
+        #moon-ring {
+            opacity: 30%;
+            filter: contrast(120%) brightness(300%);
+            box-shadow: 0 0 25px rebeccapurple;
+        }
+
+        .readings {
+            flex-direction: column;
+            gap: 50px;
+            padding: 20px 100px;
+        }
+
+        .readings h2 {
+            align-self: flex-start;
+        }
+
+        .main-items {
+            position: relative;
+            width: 300px;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .cards{
+            display: flex;
+            flex-direction: row;
+            gap: 90px;
+        }
+
+        .card-container {
+            position: relative;
+            width: 20vw;
+            height: 30vw;
+            backdrop-filter: blur(5px);
+            background-image: url("images/decorations/cardborder.svg");
+        }
+
