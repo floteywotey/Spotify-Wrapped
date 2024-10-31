@@ -66,18 +66,24 @@
             border-radius: 32px;
             border: 1px solid rgba(255,255,255,0.5);
             backdrop-filter: blur(5px);
-            position: absolute;
         }
 
-        .orb-container {
-            position: absolute;
+        .main a:hover {
+            box-shadow: 0 0 30px #b67bed;
         }
 
+        .main-items {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+
+        }
         #orb {
             background: url("images/decorations/homescreen-orb.svg") no-repeat;
             width: 260px;
             height: 260px;
-            position: absolute;
 
         }
         .floating {
@@ -114,8 +120,12 @@
             padding: 20px 100px;
         }
 
+        .readings h2 {
+            align-self: flex-start;
+        }
+
         .main-items {
-            position: absolute;
+            position: relative;
             width: 300px;
             height: 500px;
             display: flex;
@@ -126,12 +136,17 @@
         .cards{
             display: flex;
             flex-direction: row;
-            gap: 70px;
+            gap: 90px;
         }
 
         .card-container {
             position: relative;
-            width: 300px;
-            height: 400px;
+            width: 432px;
+            height: 665px;
             backdrop-filter: blur(5px);
+            background-image: url("images/decorations/cardborder.svg");
+        }
+
+        .reading container {
+            width: 1300px;
         }
