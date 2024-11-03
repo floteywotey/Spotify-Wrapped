@@ -22,8 +22,8 @@
 
         .dark-header{
             font-size: larger;
-            backdrop-filter: blur(10px);
             position: fixed;
+            z-index: 4;
             top: 0;
             left: 0;
             right: 0;
@@ -148,16 +148,20 @@
             height: 30vw;
             backdrop-filter: blur(5px);
             background: url("images/decorations/cardborder.svg") no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Ensures the card doesn't exceed the border */
         }
 
         .card-content {
+            width: 70%; /* Adjust this to fit the border padding */
+            height: 70%; /* Keeps it square */
             position: absolute;
-            background:url("images/card/default-card-back.svg") no-repeat;
-            background-size: contain;
-            top: 65px;
-            left: 45px;
-            width: 200px;
-            height: 315px;
+            background:url("images/card/default-card-back.svg") no-repeat center center;
+            background-size: contain; /* Ensures image scales without distortion */
         }
+
+
 
 
