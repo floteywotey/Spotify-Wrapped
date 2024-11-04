@@ -19,7 +19,7 @@
         <form class="form-with-validation" action="{% url 'login' %}" method="post">
             {% csrf_token %}
             <!-- Username field -->
-            <div class="form-group">
+            <div class="form-group {% if form.username.errors %}has-error{% endif %}">
                 <label for="id_username">Username:</label>
                 <input type="text" name="username" id="id_username" class="form-control"
                        value="{{ form.username.value|default_if_none:'' }}">
@@ -32,7 +32,7 @@
             </div>
 
             <!-- Password field -->
-            <div class="form-group">
+            <div class="form-group {% if form.username.errors %}has-error{% endif %}">
                 <label for="id_password">Password:</label>
                 <input type="password" name="password" id="id_password" class="form-control"
                        value="{{ form.password.value|default_if_none:'' }}">
@@ -44,7 +44,9 @@
                 {% endif %}
             </div>
 
-            <button class="form-submit">Log In</button>
+            <div class="form-group">
+                <button>Log In</button>
+            </div>
         </form>
 
         <p>New to this side of the universe? <a href="/register">Sign Up</a></p>
