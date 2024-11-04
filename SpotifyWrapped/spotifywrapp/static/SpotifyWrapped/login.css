@@ -1,11 +1,106 @@
 /*custom fonts: Kaisei Tokumin, Kalnia, Sahitya*/
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
+* {
+    box-sizing: border-box;
+}
 
 body {
-    background: black url("images/backgrounds/dark-mode-background-decorative.png");
+    background: black url("images/backgrounds/dark-mode-background-decorative.svg") no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
+    color: white;
+    font-family: Sahitya, serif;
 }
 
 .login-container {
-    background: black;
+    width: 400px;
+    height: 630px;
+    aspect-ratio: 2/3;
+    padding: 20px;
+    margin: auto;
+    background: black url("images/decorations/dark-mode-authorization-box.svg") no-repeat center center fixed;
+    background-size: contain;
+    border-radius: 12px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 25px rebeccapurple;
+    align-content: space-around;
+}
 
+.general-text {
+    text-align: center;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.general-text h1 {
+    font-size: calc(1.7*(1vh + 1vw));
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.general-text p {
+    font-size: calc(0.7*(1vh + 1vw));;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.form-group input {
+    width: 100%;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    font-size: 13px;
+    background: black;
+    border-radius: 16px;
+    border: 1px solid white;
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    font-size: 15px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+.form-group.has-error input {
+    margin-bottom: 5px;
+}
+
+input, select, textarea{
+    color: white;
+}
+
+textarea:focus, input:focus {
+    color: white;
+}
+
+.form-group button {
+    width: 100%;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    background: white;
+    color: black;
+    border-radius: 16px;
+    border: 1px solid white;
+    font-family: Sahitya, serif;
+    font-size: 16px;
+}
+
+.login-container p {
+    text-align: center;
+}
+
+.error-message {
+    color: red;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+a {
+    color: white;
 }

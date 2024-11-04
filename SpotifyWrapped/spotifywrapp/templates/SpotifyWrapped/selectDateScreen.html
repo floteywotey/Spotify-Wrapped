@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form id="filter-form" method="POST" action="{% url 'solo_results' %}">
+        {% csrf_token %}
+        <div class="filter-group">
+            <h5>How far back (Fix up as needed)</h5>
+            <div class="choices">
+                <input type="radio" id="longterm" name="time" value="long_term">
+                <label for="longterm">Long term</label><br>
+                <input type="radio" id="medterm" name="time" value="medium_term">
+                <label for="medterm">Medium term</label><br>
+                <input type="radio" id="shortterm" name="time" value="short_term">
+                <label for="shortterm">Short Term</label>
+            </div>
+        </div>
+        <button type="submit" class="filter-button">Read your past or something idk</button>
+    </form>
+</body>
+</html>

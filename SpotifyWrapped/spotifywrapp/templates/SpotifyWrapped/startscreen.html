@@ -4,16 +4,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="{% static 'SpotifyWrapped/home.css' %}">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="{% static 'SpotifyWrapped/startscreen.css' %}">
 </head>
 <body>
-    <h1>Login Redirect Page</h1>
-    <div>
-        <p>Press this button</p>
-        <button onclick="window.location.href='{% url 'login' %}'">Go to Login</button>
+    <div class="welcome-container">
+        <h1>Spotify Wrapped...<br>All year round</h1>
+        <div class="start-button">
+            <button onclick="window.location.href='{% url 'login' %}'">
+                <img src="{% static 'SpotifyWrapped/images/icons/startscreen_icon.svg' %}" alt="star icon for start button">
+                Get a Reading
+            </button>
+        </div>
     </div>
-
-
+    <div class="card-stack">
+        <div id="card1" class="card"><span></span></div>
+        <div id="card2" class="card"><span></span></div>
+    </div>
 </body>
 </html>
