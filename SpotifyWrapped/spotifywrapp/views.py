@@ -225,9 +225,5 @@ def solo_results(request):
             return JsonResponse({'error': str(e)}, status=500)
     return render(request, 'results.html', context={'wrap':wrap})
 
-
-def home(request):
-    return render(request, 'home.html')
-
 def readings(request):
     return render(request, 'readings.html')
