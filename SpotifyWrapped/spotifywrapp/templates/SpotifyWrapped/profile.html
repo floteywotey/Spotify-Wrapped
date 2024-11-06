@@ -25,5 +25,29 @@
         {% csrf_token %}
         <button class="home-button" aria-label="Home" title="Home">Home</button>
     </form>
+    {% if usertoken %}
+        <form class="form-with-validation" action="{% url 'profile' %}" method="POST"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Your invite:</label>
+                {{ form }}
+            </div>
+
+            <div class="buttons">
+                <button type="button" class="cancel-button"><a href="{{ link }}">Cancel</a></button>
+                <button type="submit" class="form-submit">Send invite</button>
+            </div>
+        </form>
+    {% endif %}
+    {% for invite in inviteList %}
+        <form class="search" method="post" action="{% url 'duo-results' %}">
+        {% csrf_token %}
+        <input type="hidden" id="fromUser" name="fromUser" value="{{ invite.userFrom }}">
+            <input type="hidden" id="time" name="time" value="{{ invite.time }}">
+        <button class="search-button" type="submit">{{ invite.userFrom }}</button>
+    </form>
+    {% endfor %}
 </body>
 </html>
