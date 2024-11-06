@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
+
 body {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    background: black url("images/backgrounds/dark-mode-background.png");
+    background: black url("images/backgrounds/dark-mode-background.svg") no-repeat center center fixed;
+    -webkit-background-size: cover;
     color: white;
 }
 
@@ -19,7 +21,7 @@ body {
     align-items: center;
 }
 
-.dark-header{
+.dark-header {
     font-size: larger;
     backdrop-filter: blur(10px);
 }
@@ -47,52 +49,62 @@ body {
     color: #8b8df8;
 }
 
-        .cards{
-            display: flex;
-            flex-direction: row;
-            gap: 90px;
-        }
+.cards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 90px;
+}
 
-        .card-container {
-            position: relative;
-            width: 20vw;
-            height: 30vw;
-            backdrop-filter: blur(5px);
-            background: url("images/decorations/cardborder.svg") no-repeat;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden; /* Ensures the card doesn't exceed the border */
-        }
-        .card {
-            width: 70%; /* Adjust this to fit the border padding */
-            height: 70%; /* Keeps it square */
-            transform-style: preserve-3d;
-            transition: all 0.5s ease;
-            position: absolute;
-        }
-        /* Flip the pane when hovered */
-        .card-container:hover .card{
-            transform: rotateY(180deg);
-        }
+.readings .container{
+    padding-top: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        .card-front, .card-back {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
+.card-container {
+    position: relative;
+    width: 20vw;
+    height: 30vw;
+    backdrop-filter: blur(5px);
+    background: url("images/decorations/cardborder.svg") no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
 
-        }
+.card {
+    width: 70%; /* Adjust this to fit the border padding */
+    height: 70%; /* Keeps it square */
+    transform-style: preserve-3d;
+    transition: all 0.5s ease;
+    position: absolute;
+}
 
-        .card-front {
-            background: white;
-            color: black;
-            transform: rotateY(180deg);
-        }
+/* Flip the pane when hovered */
+.card-container:hover .card {
+    transform: rotateY(180deg);
+}
 
-        .card-back {
-            background:url("images/card/default-card-back.svg") no-repeat center center;
-            background-size: contain; /* Ensures image scales without distortion */
-        }
+.card-front, .card-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+
+}
+
+.card-front {
+    background: white;
+    color: black;
+    transform: rotateY(180deg);
+}
+
+.card-back {
+    background: url("images/card/default-card-back.svg") no-repeat center center;
+    background-size: contain; /* Ensures image scales without distortion */
+}
