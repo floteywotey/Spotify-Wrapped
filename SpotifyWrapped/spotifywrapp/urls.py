@@ -18,4 +18,5 @@ urlpatterns = [
     path("select-date/", views.select_date, name='select_date'),
     path("delete/", views.deleteUser, name='delete'),
     path("profile/", views.profile, name='profile'),
+    path("duo-results/", views.duo_results, name='duo_results'),
 ]

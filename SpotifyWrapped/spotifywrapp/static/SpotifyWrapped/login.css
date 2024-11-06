@@ -29,6 +29,10 @@ body {
     align-content: space-around;
 }
 
+input {
+    color:white;
+}
+
 .general-text {
     text-align: center;
     flex-direction: column;

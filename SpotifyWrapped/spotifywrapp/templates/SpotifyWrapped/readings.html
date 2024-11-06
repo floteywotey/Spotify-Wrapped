@@ -19,48 +19,14 @@
 <div class="readings container">
     <h2>Rediscover your Readings</h2>
     <div class="cards">
-        <div class="card-container">
-            <div class="card">
-                <svg viewBox="0 0 200 315" class="card-back"></svg>
-                <div class="card-front">Front content</div>
+        {% for item in recent %}
+            <div class="card-container">
+                <div class="card">
+                    <svg viewBox="0 0 200 315" class="card-back"></svg>
+                    <div class="card-front">{{ item.wrap1 }}</div>
+                </div>
             </div>
-        </div>
-        <div class="card-container">
-            <div class="card">
-                <svg viewBox="0 0 200 315" class="card-back"></svg>
-                <div class="card-front">Front content</div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="card">
-                <svg viewBox="0 0 200 315" class="card-back"></svg>
-                <div class="card-front">Front content</div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="card">
-                <svg viewBox="0 0 200 315" class="card-back"></svg>
-                <div class="card-front">Front content</div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="card">
-                <svg viewBox="0 0 200 315" class="card-back"></svg>
-                <div class="card-front">Front content</div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="card">
-                <svg viewBox="0 0 200 315" class="card-back"></svg>
-                <div class="card-front">Front content</div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="card">
-                <svg viewBox="0 0 200 315" class="card-back"></svg>
-                <div class="card-front">Front content</div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 </div>
 </body>

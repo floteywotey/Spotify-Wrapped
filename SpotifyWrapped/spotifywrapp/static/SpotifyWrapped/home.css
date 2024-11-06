@@ -144,8 +144,8 @@
 
         .card-container {
             position: relative;
-            width: 20vw;
-            height: 30vw;
+            width: 18.8vw;
+            height: 29vw;
             backdrop-filter: blur(5px);
             background: url("images/decorations/cardborder.svg") no-repeat;
             display: flex;
