@@ -42,10 +42,11 @@
         </form>
     {% endif %}
     {% for invite in inviteList %}
-        <form class="search" method="post" action="{% url 'duo-results' %}">
+        <form class="search" method="post" action="{% url 'duo_results' %}">
         {% csrf_token %}
         <input type="hidden" id="fromUser" name="fromUser" value="{{ invite.userFrom }}">
             <input type="hidden" id="time" name="time" value="{{ invite.time }}">
+            <input type="hidden" id="time" name="invite" value="{{ invite }}">
         <button class="search-button" type="submit">{{ invite.userFrom }}</button>
     </form>
     {% endfor %}
