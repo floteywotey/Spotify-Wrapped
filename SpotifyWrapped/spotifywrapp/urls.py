@@ -13,6 +13,7 @@ urlpatterns = [
     path("spotify-unauthorize/", views.spotify_unauthorize, name='spotify_unauthorize'),
     path("spotify-callback/", views.spotify_callback, name='spotify_callback'),
     path("home/", views.home, name='home'),
+    path("readings/", views.readings, name='readings'),
     path("solo-results/", views.solo_results, name='solo_results'),
     path("select-date/", views.select_date, name='select_date'),
     path("delete/", views.deleteUser, name='delete'),

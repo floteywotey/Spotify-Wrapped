@@ -175,9 +175,7 @@ def solo_results(request):
             print(token)
             if not token:
                 return JsonResponse({'error': 'No access token found, please authorize again.'}, status=401)
-
-
-            # Get top artists and extract genres
+                # Get top artists and extract genres
             top_artists = get_top_artists(token, time)
             genres = {}
             for artist in top_artists['items']:
@@ -226,3 +224,6 @@ def solo_results(request):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
     return render(request, 'results.html', context={'wrap':wrap})
+
+def readings(request):
+    return render(request, 'readings.html')
