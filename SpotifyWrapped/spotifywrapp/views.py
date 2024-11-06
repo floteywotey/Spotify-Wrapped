@@ -28,6 +28,11 @@ def startscreen(request):
         return redirect('home')
     return render(request, 'startscreen.html')
 
+def readings(request):
+    if not request.user.is_authenticated:
+        return redirect('startscreen')
+    return render(request, 'readings.html', {"recent" : recentWraps(request.user.username)})
+
 def home(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
@@ -78,7 +83,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            spot = SpotifyUser.objects.create(user=user.username, spotifytoken="")
+            spot = SpotifyUser.objects.create(user=user.username, spotifytoken="", refreshtoken='')
             spot.save()
             return redirect('home')
     else:
@@ -87,6 +92,7 @@ def register(request):
 
 def profile(request):
     inviteList = invites.objects.filter(userTo=request.user.username)
+    print(request.user.is_authenticated)
     if not request.user.is_authenticated:
         return redirect('login')
     if request.method == 'POST':
@@ -177,6 +183,7 @@ def get_top_tracks(request, token, time, username, limit=10):
     response = requests.get('https://api.spotify.com/v1/me/top/tracks', headers=headers, params=params)
     if response.status_code == 401:
         refreshToken(request, username)
+        headers = {'Authorization': f'Bearer {getSpotifyUser(username).getspotifytoken()}'}
         response = requests.get('https://api.spotify.com/v1/me/top/tracks', headers=headers, params=params)
     if response.status_code != 200:
         raise Exception(f"Failed to fetch top artists! Status code: {response.status_code}")
@@ -189,7 +196,7 @@ def get_top_artists(request, token, time, username, limit=10):
     response = requests.get('https://api.spotify.com/v1/me/top/artists', headers=headers, params=params)
     if response.status_code == 401:
         refreshToken(request, username)
-        headers = {'Authorization': f'Bearer {getSpotifyUser(request.user.username).getspotifytoken()}'}
+        headers = {'Authorization': f'Bearer {getSpotifyUser(username).getspotifytoken()}'}
         response = requests.get('https://api.spotify.com/v1/me/top/artists', headers=headers, params=params)
     if response.status_code != 200:
         raise Exception(f"Failed to fetch top artists! Status code: {response.status_code}")
@@ -226,6 +233,8 @@ def getSoloWrap(request, username, time):
             genres[genre] = genres.get(genre, 0) + 1
     sorted_genres = sorted(genres.items(), key=lambda x: x[1], reverse=True)
 
+    user = list(SpotifyUser.objects.filter(user=username))[0]
+    token = user.getspotifytoken()
     # Get top tracks and extract albums
     top_tracks = get_top_tracks(request, token, time, username)
     albums = {}
@@ -270,6 +279,7 @@ def getSoloWrap(request, username, time):
 
 # Redirect user for Spotify authorization
 def spotify_authorize(request):
+    print(request.user.is_authenticated)
     scope = 'user-top-read'
     auth_url = (
         'https://accounts.spotify.com/authorize?'
@@ -285,6 +295,7 @@ def spotify_unauthorize(request):
 
 def spotify_callback(request):
     code = request.GET.get('code')
+    print(request.user.is_authenticated)
     token_url = 'https://accounts.spotify.com/api/token'
     data = {
         'grant_type': 'authorization_code',
@@ -293,7 +304,6 @@ def spotify_callback(request):
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET,
     }
-
     response = requests.post(token_url, data=data)
     # Check if the request was successful
     if response.status_code == 200:
