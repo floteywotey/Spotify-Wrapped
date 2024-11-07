@@ -90,7 +90,6 @@ def register(request):
 
 def profile(request):
     print(request.user.username)
-    inviteList = invites.objects.filter(userTo=request.user.username)
     print(request.user.is_authenticated)
     if not request.user.is_authenticated:
         return redirect('login')
@@ -98,15 +97,12 @@ def profile(request):
         form = CreateInvite(request.POST)
         if form.is_valid():
             invite = form.save()
-            if (len(list(SpotifyUser.objects.filter(user=invite.userTo)))==0):
-                form = CreateInvite()
-                return redirect('profile')
             invite.userFrom = request.user.username
             invite.save()
             return redirect('profile')
     else:
         form = CreateInvite()
-    inviteList = invites.objects.filter(userTo=request.user.username)
+    inviteList = list(invites.objects.filter(userTo=request.user.username))
     return render(request, 'profile.html', {'form' : form, 'usertoken' : getSpotifyUser(request.user.username).spotifytoken, 'inviteList' : inviteList})
 
 def select_date(request):
