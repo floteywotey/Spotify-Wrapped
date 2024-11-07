@@ -17,30 +17,46 @@ body {
     box-sizing: border-box;
 }
 
-.dark-header {
-    font-size: larger;
-    padding: 15px 20px;
-    position: sticky;
-    top: 0;
-    z-index: 2;
-    width: 100%;
+.container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
+    padding: 20px 100px;
+    justify-content: center;
     align-items: center;
 }
 
-.left, .right {
+.dark-header {
+    font-size: larger;
+    position: fixed;
+    z-index: 4;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.left {
     display: flex;
     gap: 40px;
+    justify-content: flex-start;
+    flex: 1 1 0;
+}
+
+.right {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1 1 0;
 }
 
 .dark-header a {
     text-decoration: none;
     color: white;
+    transition: 0.5s;
 }
 
 .dark-header a:hover {
+    text-decoration: none;
     color: #8b8df8;
+    letter-spacing: 0.1em;
 }
 
 .readings {
