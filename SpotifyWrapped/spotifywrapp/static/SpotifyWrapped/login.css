@@ -59,7 +59,6 @@ input {
     background: black;
     border-radius: 16px;
     border: 1px solid white;
-    margin-bottom: 10px;
     padding-left: 20px;
 }
 
@@ -68,17 +67,18 @@ input {
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     padding: 0;
 }
 
-
 input, select, textarea{
     color: white;
+    font-family: Sahitya, serif;
 }
 
 textarea:focus, input:focus {
     color: white;
+    font-family: Sahitya, serif;
 }
 
 .form-group button {
