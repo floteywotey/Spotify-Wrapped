@@ -12,7 +12,7 @@ body {
     font-family: Sahitya, serif;
 }
 
-.login-container {
+.signup-container {
     width: 400px;
     height: 630px;
     aspect-ratio: 2/3;
@@ -29,8 +29,8 @@ body {
     align-content: space-around;
 }
 
-input {
-    color:white;
+.signup-container p {
+    text-align: center;
 }
 
 .general-text {
@@ -51,6 +51,10 @@ input {
     margin-bottom: 10px;
 }
 
+form {
+    gap: 10px;
+}
+
 .form-group input {
     width: 100%;
     padding-top: 16px;
@@ -59,8 +63,14 @@ input {
     background: black;
     border-radius: 16px;
     border: 1px solid white;
-    margin-bottom: 10px;
     padding-left: 20px;
+}
+
+input:-webkit-autofill {
+    background-color: black !important;
+    -webkit-text-fill-color: white !important;
+    box-shadow: 0 0 0px 1000px black inset !important;
+    border-color: white;
 }
 
 .form-group label {
@@ -68,10 +78,49 @@ input {
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     padding: 0;
 }
 
+.text-box {
+    display: flex;
+    position: relative;
+}
+
+.requirements {
+    position: absolute;
+    left: 105%;
+    top: 0;
+    margin-left: 10px;
+    width: 200px;
+    visibility: hidden;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 12px;
+    z-index: 10;
+    list-style: none;
+}
+
+.requirements li::before {
+    content: "• ";
+    color: white;
+}
+
+
+.text-box input:focus + .requirements {
+    visibility: visible;
+}
+
+.valid {
+    color: green;
+}
+
+.invalid {
+    color: red;
+}
 
 input, select, textarea{
     color: white;
@@ -224,10 +273,6 @@ button:hover .star-6 {
 
 .fil0 {
   fill: #FFFDEF
-}
-
-.login-container p {
-    text-align: center;
 }
 
 .error-message {
