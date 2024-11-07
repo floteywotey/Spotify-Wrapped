@@ -46,7 +46,6 @@
         {% csrf_token %}
         <input type="hidden" id="fromUser" name="fromUser" value="{{ invite.userFrom }}">
             <input type="hidden" id="time" name="time" value="{{ invite.time }}">
-            <input type="hidden" id="invite" name="invite" value="{{ invite.id }}">
         <button class="search-button" type="submit">{{ invite.userFrom }}</button>
     </form>
     {% endfor %}
