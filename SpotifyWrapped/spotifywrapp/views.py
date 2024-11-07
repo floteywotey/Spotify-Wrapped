@@ -36,8 +36,6 @@ def readings(request):
 def home(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
-    if (list(SpotifyUser.objects.filter(user=request.user.username))[0].spotifytoken == ''):
-        spotify_authorize(request)
     recent = recentWraps(request.user.username)
     sortedArray = ['','','']
     if (recent):
@@ -91,6 +89,7 @@ def register(request):
     return render(request, 'register.html', {'form': form})
 
 def profile(request):
+    print(request.user.username)
     inviteList = invites.objects.filter(userTo=request.user.username)
     print(request.user.is_authenticated)
     if not request.user.is_authenticated:
@@ -101,10 +100,10 @@ def profile(request):
             invite = form.save()
             if (len(list(SpotifyUser.objects.filter(user=invite.userTo)))==0):
                 form = CreateInvite()
-                return render(request, 'profile.html', {'form': form, 'usertoken':
-                    list(SpotifyUser.objects.filter(user=request.user.username))[0].spotifytoken, 'inviteList' : inviteList})
+                return redirect('profile')
             invite.userFrom = request.user.username
             invite.save()
+            return redirect('profile')
     else:
         form = CreateInvite()
     inviteList = invites.objects.filter(userTo=request.user.username)
@@ -135,9 +134,51 @@ def duo_results(request):
         #invite = request.POST.get('invite', '')
         fromUser = request.POST.get('fromUser', '')
         toUser = request.user.username
-        wrapData1 = getSoloWrap(request, fromUser, time)
-        wrapData2 = getSoloWrap(request, toUser, time)
-        wrap = wraps.objects.create(wrap1=wrapData1, wrap2=wrapData2, duowrap={}, isDuo=True, user1=fromUser, user2=request.user.username)
+        wrapData1 = getSoloWrap(request, fromUser, time, 50)
+        wrapData2 = getSoloWrap(request, toUser, time, 50)
+
+        shared_artists = []
+        shared_genres = []
+        shared_tracks = []
+        shared_albums = []
+
+        for artist1 in wrapData1['top_artists']:
+            for artist2 in wrapData2['top_artists']:
+                if artist1 == artist2:
+                    shared_artists.append(artist1)
+
+        for genre1 in wrapData1['top_genres']:
+            for genre2 in wrapData2['top_genres']:
+                if genre1 == genre2:
+                    shared_genres.append(genre1)
+
+        for track1 in wrapData1['top_tracks']:
+            for track2 in wrapData2['top_tracks']:
+                if track1 == track2:
+                    shared_tracks.append(track1)
+
+        for album1 in wrapData1['top_albums']:
+            for album2 in wrapData2['top_albums']:
+                if album1 == album2:
+                    shared_albums.append(album1)
+
+        shared_danceability = (wrapData1['danceability'] + wrapData2['danceability'])/2
+        shared_popularity = (wrapData1['popularity'] + wrapData2['popularity'])/2
+        shared_energy = (wrapData1['energy'] + wrapData2['energy'])/2
+        shared_valence = (wrapData1['valence'] + wrapData2['valence'])/2
+
+        data = {
+            'top_artists': shared_artists,
+            'top_genres': shared_genres,
+            'top_tracks': shared_tracks,
+            'top_albums': shared_albums,
+            'danceability': shared_danceability,
+            'popularity': shared_popularity,
+            'energy': shared_energy,
+            'valence': shared_valence
+        }
+
+        wrap = wraps.objects.create(wrap1=wrapData1, wrap2=wrapData2, duowrap=data, isDuo=True, user1=fromUser, user2=request.user.username)
         wrap.save()
         redirect('duo_results')
     sortedArray = recentWraps(request.user.username)
@@ -150,8 +191,6 @@ def refreshToken(request, username):
     user = list(SpotifyUser.objects.filter(user=username))[0]
     spotifyToken = user.getspotifytoken()
     refresh = user.getrefreshtoken()
-    print(spotifyToken)
-    print('0')
     if not spotifyToken:
         spotify_authorize(request)
     else:
@@ -169,10 +208,6 @@ def refreshToken(request, username):
             if 'refresh_token' in tokens:
                 user.refreshtoken = tokens['refresh_token']
             user.save()
-            print(tokens['access_token'])
-            print('1')
-            print(user.spotifytoken)
-            print('2')
         else:
             print(f"Error refreshing token: {response.status_code}")
 
@@ -214,7 +249,7 @@ def recentWraps(username):
 def getSpotifyUser(username):
     return list(SpotifyUser.objects.filter(user=username))[0]
 
-def getSoloWrap(request, username, time):
+def getSoloWrap(request, username, time, limit=10):
     danceability = 0.0
     popularity = 0.0
     energy = 0.0
@@ -226,7 +261,7 @@ def getSoloWrap(request, username, time):
     if not token:
         spotify_authorize(request)
     # Get top artists and extract genres
-    top_artists = get_top_artists(request, token, time, username)
+    top_artists = get_top_artists(request, token, time, username, limit)
     genres = {}
     for artist in top_artists['items']:
         for genre in artist['genres']:
@@ -236,7 +271,7 @@ def getSoloWrap(request, username, time):
     user = list(SpotifyUser.objects.filter(user=username))[0]
     token = user.getspotifytoken()
     # Get top tracks and extract albums
-    top_tracks = get_top_tracks(request, token, time, username)
+    top_tracks = get_top_tracks(request, token, time, username, limit)
     albums = {}
     for track in top_tracks['items']:
         popularity += track['popularity']
@@ -257,10 +292,10 @@ def getSoloWrap(request, username, time):
         valence += item['valence']
         danceability += item['danceability']
         energy += item['energy']
-    danceability /= 10.0
-    popularity /= 10.0
-    energy /= 10.0
-    valence /= 10.0
+    danceability /= limit
+    popularity /= limit
+    energy /= limit
+    valence /= limit
 
     # Prepare data for response
     data = {
@@ -279,7 +314,6 @@ def getSoloWrap(request, username, time):
 
 # Redirect user for Spotify authorization
 def spotify_authorize(request):
-    print(request.user.is_authenticated)
     scope = 'user-top-read'
     auth_url = (
         'https://accounts.spotify.com/authorize?'
@@ -295,7 +329,6 @@ def spotify_unauthorize(request):
 
 def spotify_callback(request):
     code = request.GET.get('code')
-    print(request.user.is_authenticated)
     token_url = 'https://accounts.spotify.com/api/token'
     data = {
         'grant_type': 'authorization_code',
