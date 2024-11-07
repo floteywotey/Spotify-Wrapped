@@ -41,6 +41,7 @@ body {
 
 .general-text h1 {
     font-size: calc(1.7*(1vh + 1vw));
+    margin-top: 0;
     margin-bottom: 0;
     padding-bottom: 0;
 }
@@ -124,10 +125,12 @@ input:-webkit-autofill {
 
 input, select, textarea{
     color: white;
+    font-family: Sahitya, serif;
 }
 
 textarea:focus, input:focus {
     color: white;
+    font-family: Sahitya, serif;
 }
 
 .form-group button {

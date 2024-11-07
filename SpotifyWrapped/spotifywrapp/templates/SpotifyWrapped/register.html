@@ -22,7 +22,7 @@
         <div class="form-group">
             <label for="id_email">Email:</label>
             <div class="text-box">
-                <input type="email" name="email" id="id_email" value="{{ form.email.value|default_if_none:'' }}" required>
+                <input type="email" name="email" id="id_email" value="{{ form.email.value|default_if_none:'' }}">
                 <ul class="requirements">
                     <li>Please enter a valid email address.</li>
                 </ul>
@@ -39,7 +39,7 @@
             <label for="id_username">Username:</label>
             <div class="text-box">
                 <input type="text" name="username" id="id_username" value="{{ form.username.value|default_if_none:'' }}"
-                       maxlength="150" required>
+                       maxlength="150">
                 <ul class="requirements">
                     <li>150 characters or fewer.</li>
                     <li>Letters, digits, and @/./+/- only.</li>
@@ -56,7 +56,7 @@
         <div class="form-group">
             <label for="id_password1">Password:</label>
             <div class="text-box">
-                <input type="password" name="password1" id="id_password1" required>
+                <input type="password" name="password1" id="id_password1">
                 <ul class="requirements">
                     <li id="requirement-2">Your password must contain at least 8 characters.</li>
                     <li id="requirement-3">Your password can’t be entirely numeric.</li>
@@ -97,7 +97,7 @@
         <!-- Confirm Password Field -->
         <div class="form-group">
             <label for="id_password2">Confirm Password:</label>
-            <input type="password" name="password2" id="id_password2" required>
+            <input type="password" name="password2" id="id_password2">
             {% if form.password2.errors %}
                 <div class="error-message">
                     {{ form.password2.errors|join:", " }}
