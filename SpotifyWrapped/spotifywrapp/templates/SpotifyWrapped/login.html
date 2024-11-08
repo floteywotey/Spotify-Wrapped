@@ -16,7 +16,7 @@
     </div>
 
     <div class="form-container">
-        <form class="form-with-validation" action="{% url 'login' %}" method="post">
+        <form class="form-with-validation" action="{% url 'userlogin' %}" method="post">
             {% csrf_token %}
             <!-- Username field -->
             <div class="form-group {% if form.username.errors %}has-error{% endif %}">

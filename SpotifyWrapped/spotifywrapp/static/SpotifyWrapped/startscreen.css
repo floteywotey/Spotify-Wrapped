@@ -1,8 +1,5 @@
 /*custom fonts: Kaisei Tokumin, Kalnia, Sahitya*/
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
-* {
-    box-sizing: border-box;
-}
 
 body {
     background: black url("images/backgrounds/dark-mode-background-decorative.svg") no-repeat center center fixed;
@@ -29,17 +26,15 @@ body {
 h1 {
     color: white;
     font-size: 5vw;
-    font-family: Kaisei Tokumin, serif;
+    font-family: 'Kaisei Tokumin', serif;
     margin-top: 2.5em;
     margin-bottom: 20px;
 }
 
-
-/* start button */
 button {
     display: inline-flex;
     align-content: center;
-    font-family: Kalnia, serif;
+    font-family: 'Kalnia', serif;
     font-size: 1.5vw;
     padding: 1rem 1rem;
     color: black;
@@ -52,78 +47,115 @@ button {
     width: 20vw;
     height: 7vh;
     box-shadow: 0 0 0 darkgreen;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     cursor: pointer;
 }
 
-.start-button img {
-    padding: 0;
-    margin: 0;
-    height: 2rem;
-    width: 2rem;
-}
-
 button:hover {
-    -webkit-filter: invert(100%);
     filter: invert(100%);
     box-shadow: 0 0 25px darkgreen;
     background: transparent;
 }
 
-/* card animation */
+.hide-elements .welcome-container,
+.hide-elements .start-button,
+.hide-elements #card1,
+.hide-elements h1 {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
 .card-stack {
-	height: 400px;
-	width: 400px;
+    position: absolute;
+    top: 50%;
+    right: 10%;
+    transform: translateY(-50%);
+    height: 400px;
+    width: 400px;
+    perspective: 1000px;
 }
 
 .card {
     position: absolute;
-	margin: auto;
-    margin-right: 10vw;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-    background: url("images/card/default-card-back.svg");
-	background-size: 400px  630px;
-	height: 630px;
-	width: 400px;
-	border-radius: 5px;
-    -webkit-box-shadow: 0 0 5px 1px rgba(0, 0, 0, 1);
-	-moz-box-shadow: 0 0 5px 1px rgba(0, 0, 0, 1);
-	box-shadow: 0 0 5px 1px rgba(0, 0, 0, 1);
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("images/card/default-card-back.svg") no-repeat center center;
+    background-size: 400px 630px;
+    height: 630px;
+    width: 400px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 1);
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease-in-out;
 }
 
+/* Infinite animation for card 1 */
 #card1 {
-	z-index: 1;
-	animation: a 3s 3s infinite;
+    z-index: 1;
+    animation: card1Animation 3s infinite;
 }
 
+/* Infinite animation for card 2 */
 #card2 {
-	animation: b 3s 3s infinite;
+    z-index: 0;
+    animation: card2Animation 3s infinite;
 }
 
-@keyframes a {
-	0% {}
-	30% {
-		transform: translateX(600px) rotate(70deg) rotateY(80deg);
-	}
-
-	100% {
-		rotate(0deg);
-	}
+/* Keyframes for original animation (Card 1) */
+@keyframes card1Animation {
+    0% {}
+    30% {
+        transform: translateX(600px) rotate(70deg) rotateY(80deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
-@keyframes b {
-	0% {}
-	100% {
-		z-index: 2;
-	}
+/* Keyframes for original animation (Card 2) */
+@keyframes card2Animation {
+    0% {}
+    100% {
+        z-index: 2;
+    }
 }
-@keyframes c {
-	0% {transform: translateY(0px)}
-	50% {
-		transform: translateY(50px);
-	}
-	100% {transform: translateY(50px)}
+
+/* Transition and flip card 2 to center */
+.card.move-to-center {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateY(180deg);
+    z-index: 10;
+    width: 400px;
+    height: 630px;
+    transition: transform 0.6s ease-in-out;
+    background: black url("images/decorations/dark-mode-authorization-box.svg") no-repeat center center fixed;
+    background-size: contain;
+    box-shadow: 0 0 25px rebeccapurple;
+    border-radius: 12px;
+}
+
+/* Card front and back styling */
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card.move-to-center .card-back {
+    display: flex;
+}
+
+.card.move-to-center .card-front {
+    display: none;
 }

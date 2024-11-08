@@ -7,7 +7,7 @@ from . import views
 urlpatterns = [
     path("", views.startscreen, name='startscreen'),
     path("register/", views.register, name='register'),
-    path("login/", views.userlogin, name='login'),
+    path("login/", views.userlogin, name='userlogin'),
     path("logout/", views.logout_view, name='logout'),
     path("spotify-authorize/", views.spotify_authorize, name='spotify_authorize'),
     path("spotify-unauthorize/", views.spotify_unauthorize, name='spotify_unauthorize'),
