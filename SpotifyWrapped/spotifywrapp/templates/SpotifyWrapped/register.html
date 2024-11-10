@@ -1,18 +1,164 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{% static 'SpotifyWrapped/register.css' %}">
 </head>
 <body>
-    <h1> Create account here</h1>
 
-        <!-- Registration Form -->
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Register</button>
-        </form>
+<div class="signup-container">
+    <div class="general-text">
+        <h1>Enter the Stars</h1>
+        <p>Make an Account</p>
+    </div>
 
+    <form class="form-with-validation" action="{% url 'register' %}" method="post" autocomplete="off">
+        {% csrf_token %}
+
+        <!-- Email Field -->
+        <div class="form-group">
+            <label for="id_email">Email:</label>
+            <div class="text-box">
+                <input type="email" name="email" id="id_email" value="{{ form.email.value|default_if_none:'' }}">
+                <ul class="requirements">
+                    <li>Please enter a valid email address.</li>
+                </ul>
+            </div>
+            {% if form.email.errors %}
+                <div class="error-message">
+                    {{ form.email.errors|join:", " }}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Username Field -->
+        <div class="form-group">
+            <label for="id_username">Username:</label>
+            <div class="text-box">
+                <input type="text" name="username" id="id_username" value="{{ form.username.value|default_if_none:'' }}"
+                       maxlength="150">
+                <ul class="requirements">
+                    <li>150 characters or fewer.</li>
+                    <li>Letters, digits, and @/./+/- only.</li>
+                </ul>
+            </div>
+            {% if form.username.errors %}
+                <div class="error-message">
+                    {{ form.username.errors|join:", " }}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+            <label for="id_password1">Password:</label>
+            <div class="text-box">
+                <input type="password" name="password1" id="id_password1">
+                <ul class="requirements">
+                    <li id="requirement-2">Your password must contain at least 8 characters.</li>
+                    <li id="requirement-3">Your password can’t be entirely numeric.</li>
+                </ul>
+            </div>
+            {% if form.password1.errors %}
+                <div class="error-message">
+                    {{ form.password1.errors|join:", " }}
+                </div>
+            {% endif %}
+            <script>
+                // JavaScript for dynamic password validation
+                document.getElementById('id_password1').addEventListener('input', function (e) {
+                    const password = e.target.value;
+
+                    // Requirement 2: At least 8 characters
+                    if (password.length >= 8) {
+                        document.getElementById('requirement-2').classList.remove('invalid');
+                        document.getElementById('requirement-2').classList.add('valid');
+                    } else {
+                        document.getElementById('requirement-2').classList.remove('valid');
+                        document.getElementById('requirement-2').classList.add('invalid');
+                    }
+
+                    // Requirement 3: Cannot be entirely numeric
+                    if (/\D/.test(password)) { // Check if there is at least one non-numeric character
+                        document.getElementById('requirement-3').classList.remove('invalid');
+                        document.getElementById('requirement-3').classList.add('valid');
+                    } else {
+                        document.getElementById('requirement-3').classList.remove('valid');
+                        document.getElementById('requirement-3').classList.add('invalid');
+                    }
+                });
+            </script>
+        </div>
+
+
+        <!-- Confirm Password Field -->
+        <div class="form-group">
+            <label for="id_password2">Confirm Password:</label>
+            <input type="password" name="password2" id="id_password2">
+            {% if form.password2.errors %}
+                <div class="error-message">
+                    {{ form.password2.errors|join:", " }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <button>Sign Up
+                <div class="star-1">
+                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 784.11 815.53"
+                         style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                         version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><defs></defs>
+                        <g id="Layer_x0020_1"><metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                            <path d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                  class="fil0"></path></g></svg>
+                </div>
+                <div class="star-2">
+                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 784.11 815.53"
+                         style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                         version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><defs></defs>
+                        <g id="Layer_x0020_1"><metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                            <path d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                  class="fil0"></path></g></svg>
+                </div>
+                <div class="star-3">
+                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 784.11 815.53"
+                         style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                         version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><defs></defs>
+                        <g id="Layer_x0020_1"><metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                            <path d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                  class="fil0"></path></g></svg>
+                </div>
+                <div class="star-4">
+                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 784.11 815.53"
+                         style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                         version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><defs></defs>
+                        <g id="Layer_x0020_1"><metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                            <path d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                  class="fil0"></path></g></svg>
+                </div>
+                <div class="star-5">
+                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 784.11 815.53"
+                         style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                         version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><defs></defs>
+                        <g id="Layer_x0020_1"><metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                            <path d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                  class="fil0"></path></g></svg>
+                </div>
+                <div class="star-6">
+                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 784.11 815.53"
+                         style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                         version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><defs></defs>
+                        <g id="Layer_x0020_1"><metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                            <path d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                  class="fil0"></path></g></svg>
+                </div>
+            </button>
+        </div>
+        <p>Already Seen These Stars Before? <a href="{% url 'login' %}">Log In</a></p>
+    </form>
+</div>
 </body>
 </html>
