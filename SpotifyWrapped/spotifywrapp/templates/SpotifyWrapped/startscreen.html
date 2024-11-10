@@ -11,15 +11,67 @@
     <div class="welcome-container">
         <h1>Spotify Wrapped...<br>All year round</h1>
         <div class="start-button">
-            <button onclick="window.location.href='{% url 'login' %}'">
+            <button id="getReadingButton">
                 <img src="{% static 'SpotifyWrapped/images/icons/startscreen_icon.svg' %}" alt="star icon for start button">
                 Get a Reading
             </button>
         </div>
     </div>
-    <div class="card-stack">
-        <div id="card1" class="card"><span></span></div>
-        <div id="card2" class="card"><span></span></div>
-    </div>
-</body>
+
+   <div class="card-stack">
+        <div id="card1" class="card">
+            <div class="card-front">
+                <span></span>
+            </div>
+            <div class="card-back">
+                <div class="login-container">
+                    <h1>Log In</h1>
+                    <p>Log Into Your Account</p>
+                    <form action="{% url 'login' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_username">Username:</label>
+                            <input type="text" name="username" id="id_username" required>
+                            {% if form.username.errors %}
+                                <div class="error-message">{{ form.username.errors|join:", " }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_password">Password:</label>
+                            <input type="password" name="password" id="id_password" required>
+                            {% if form.password.errors %}
+                                <div class="error-message">{{ form.password.errors|join:", " }}</div>
+                            {% endif %}
+                        </div>
+                        <button type="submit">Log In</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="card2" class="card">
+            <span></span>
+        </div>
+        </div>
+            <script>
+                document.getElementById('getReadingButton').addEventListener('click', function () {
+                const welcomeContainer = document.querySelector('.welcome-container');
+                const card1 = document.getElementById('card1');
+
+                if (welcomeContainer) welcomeContainer.remove();
+                if (card1) card1.remove();
+
+                document.querySelectorAll('.card').forEach(card => {
+                    card.style.animationPlayState = 'paused';
+                });
+
+                const card2 = document.getElementById('card2');
+                card2.classList.add('move-to-center');
+
+                setTimeout(() => {
+                    window.location.href = "{% url 'login' %}";
+                }, 1000);
+            });
+        </script>
+    </body>
 </html>
