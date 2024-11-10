@@ -1,5 +1,6 @@
-/*custom fonts: Kaisei Tokumin, Kalnia, Sahitya*/
-@import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
+/*custom fonts: Kaisei Tokumin, Kalnia, Sahitya, Linden Hill*/
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Linden+Hill:ital@0;1&family=Sahitya:wght@400;700&display=swap');
+
 * {
     box-sizing: border-box;
 }
@@ -10,4 +11,93 @@ body {
     overflow: hidden;
     color: white;
     font-family: Sahitya, serif;
+    flex-direction: column;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    padding: 20px 100px;
+    justify-content: center;
+    align-items: center;
+}
+
+.dark-header {
+    font-size: larger;
+    position: fixed;
+    z-index: 4;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.left {
+    display: flex;
+    gap: 40px;
+    justify-content: flex-start;
+    flex: 1 1 0;
+}
+
+.right {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1 1 0;
+}
+
+.dark-header a {
+    text-decoration: none;
+    color: white;
+    transition: 0.5s;
+}
+
+.dark-header a:hover {
+    text-decoration: none;
+    color: #5b5df6;
+    letter-spacing: 0.1em;
+}
+
+.main-container {
+    position: relative;
+    justify-content: center;
+    align-content: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1 1 0;
+    padding-top: 100px;
+}
+
+.main-items {
+    padding: 20px;
+    margin: 0 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+    border-radius: 32px;
+    border: 1px white solid;
+    height: 80vh;
+}
+
+button {
+    padding: 10px;
+    font-size: 1vw;
+    border-radius: 16px;
+    border: 1px white solid;
+    background: transparent;
+    color: white;
+    font-family: Linden Hill, serif;
+    transition: 0.5s;
+}
+
+button:hover {
+    box-shadow: 0 0 25px rebeccapurple;
+    background: transparent;
+    letter-spacing: 0.1em;
+}
+
+.link {
+    height: 1vw;
+    width: 1vw;
 }
