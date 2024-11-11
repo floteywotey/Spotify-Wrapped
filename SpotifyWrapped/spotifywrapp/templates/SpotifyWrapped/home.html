@@ -23,6 +23,7 @@
 {#        </div>#}
         <div class="main-items">
             <svg id="orb" class="floating"></svg>
+{#            <svg id="star" class="floating"></svg>#}
             <a href="{% url 'select_date' %}">Create a Spotify Reading</a>
         </div>
 
@@ -34,8 +35,8 @@
                     <div class="card">
                         <svg viewBox="0 0 200 315" class="card-back"></svg>
                     <div class="card-front">{{ item.wrap1 }}</div>
+                    </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
     </div>

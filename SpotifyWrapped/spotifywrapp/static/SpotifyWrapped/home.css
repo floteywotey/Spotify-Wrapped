@@ -97,11 +97,26 @@
 
         }
         #orb {
-            background: url("images/decorations/homescreen-orb.svg") no-repeat;
-            width: 260px;
-            height: 260px;
+            background: url("images/decorations/homescreen-orb.svg") no-repeat center center;
+            -webkit-background-size: contain;
+            width: 270px;
+            height: 270px;
+            position: relative;
 
         }
+
+        #star {
+            background: url("images/orb/dark-star.svg") no-repeat center center;
+            -webkit-background-size: contain;
+            position: absolute;
+            transition: transform 0.3s ease;
+            transform-origin: 50% 50%;
+        }
+
+        #star:hover{
+            transform: scale(5.0);
+        }
+
         .floating {
             animation: float 3s ease-in-out infinite;
         }
