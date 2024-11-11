@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    goodbye and stuff
+    <form class="start" action="{% url 'startscreen' %}" method="post">
+        {% csrf_token %}
+        <button class="start-button" aria-label="start" title="start">Return</button>
+    </form>
+</body>
+</html>
