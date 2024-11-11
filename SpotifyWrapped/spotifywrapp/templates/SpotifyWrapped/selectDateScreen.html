@@ -1,8 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Spotify Tarot Reading</title>
+    <link rel="stylesheet" href="{% static 'SpotifyWrapped/selectDateScreen.css' %}">
 </head>
 <body>
     <form id="filter-form" method="POST" action="{% url 'solo_results' %}">
