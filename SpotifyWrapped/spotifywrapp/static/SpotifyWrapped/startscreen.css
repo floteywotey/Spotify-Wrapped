@@ -137,9 +137,7 @@ button:hover {
 
 .card.move-to-center {
     position: fixed;
-    top: calc(50% - 315px);
-    left: calc(50% - 200px);
-    transform: translateX(-140%) rotateY(180deg);
+    transform: translate(0,0) rotateY(180deg);
     z-index: 10;
     width: 400px;
     height: 630px;
