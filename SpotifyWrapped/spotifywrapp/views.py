@@ -262,7 +262,7 @@ def getSoloWrap(request, username, time, limit=10):
     artist_dict = []
     for artist in top_artists['items']:
         dict = {
-            'image' : artist['images'][0]['url'],
+            'image' : artist.get('images', [{'url':'None'}])[0].get('url','None'),
             'name' : artist['name'],
             'id' : artist['id'],
         }
@@ -281,7 +281,7 @@ def getSoloWrap(request, username, time, limit=10):
     for track in top_tracks['items']:
         dict = {
             'id' : track['id'],
-            'image' : track['album']['images'][0]['url'],
+            'image' : track['album'].get('images', [{'url':'None'}])[0].get('url','None'),
             'popularity' : track['popularity'],
         }
         track_dict.append(dict)
