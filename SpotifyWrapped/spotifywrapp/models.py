@@ -1,5 +1,5 @@
 from django.db import models
-#import uuid
+import uuid
 from django.contrib.auth.models import User
 # Create your models here.
 
@@ -39,7 +39,7 @@ class invites(models.Model):
         choices=choices
     )
     message = models.CharField(max_length=150)
-    #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
 class wraps(models.Model):
     wrap1 = models.JSONField()
