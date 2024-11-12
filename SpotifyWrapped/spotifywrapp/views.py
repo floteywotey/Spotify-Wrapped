@@ -65,9 +65,13 @@ def logout_view(request):
     return redirect('startscreen')
 
 def deleteQuestion(request):
+    if not request.user.is_authenticated:
+        return redirect('startscreen')
     return render(request, 'delete?.html', {})
 
 def deleteUser(request):
+    if not request.user.is_authenticated:
+        return redirect('startscreen')
     if request.method == 'POST':
         user = request.user
         for item in SpotifyUser.objects.filter(user=request.user.username):
@@ -107,9 +111,13 @@ def profile(request):
     return render(request, 'profile.html', {'form' : form, 'usertoken' : getSpotifyUser(request.user.username).spotifytoken, 'inviteList' : inviteList})
 
 def select_date(request):
+    if not request.user.is_authenticated:
+        return redirect('startscreen')
     return render(request, 'selectDateScreen.html')
 
 def results(request):
+    if not request.user.is_authenticated:
+        return redirect('startscreen')
     sortedArray = recentWraps(request.user.username)
     return render(request, 'results.html', context={'wrap': sortedArray[0]})
 
@@ -170,6 +178,10 @@ def duo_results(request):
             'top_genres': shared_genres,
             'top_tracks': shared_tracks,
             'top_albums': shared_albums,
+            'numSharedArtists': len(shared_artists),
+            'numSharedGenres': len(shared_genres),
+            'numSharedTracks': len(shared_tracks),
+            'numSharedAlbums': len(shared_albums),
             'danceability': shared_danceability,
             'popularity': shared_popularity,
             'energy': shared_energy,
@@ -313,22 +325,33 @@ def getSoloWrap(request, username, time, limit=10):
     popularity /= limit
     energy /= limit
     valence /= limit
-    sorted_popularity = sorted(track_dict, key=lambda x: x['popularity'], reverse=True)
-    sorted_valence = sorted(track_dict, key=lambda x: x['valence'], reverse=True)
-    sorted_energy = sorted(track_dict, key=lambda x: x['energy'], reverse=True)
-    sorted_danceability = sorted(track_dict, key=lambda x: x['danceability'], reverse=True)
+    top_popularity = sorted(track_dict, key=lambda x: x['popularity'], reverse=True)
+    top_valence = sorted(track_dict, key=lambda x: x['valence'], reverse=True)
+    top_energy = sorted(track_dict, key=lambda x: x['energy'], reverse=True)
+    top_danceability = sorted(track_dict, key=lambda x: x['danceability'], reverse=True)
+    bot_popularity = sorted(track_dict, key=lambda x: x['popularity'], reverse=False)
+    bot_valence = sorted(track_dict, key=lambda x: x['valence'], reverse=False)
+    bot_energy = sorted(track_dict, key=lambda x: x['energy'], reverse=False)
+    bot_danceability = sorted(track_dict, key=lambda x: x['danceability'], reverse=False)
     # Prepare data for response
     data = {
-        'top_artists': artist_dict[:5],
-        'top_genres': [genre[0] for genre in sorted_genres][:5],
-        'top_genre': [genre[0] for genre in sorted_genres][:1],
+        'top5artists': artist_dict[:5],
+        'top5genres': [genre[0] for genre in sorted_genres][:5],
+        'topgenre': [genre[0] for genre in sorted_genres][:1],
+        'top_artists': artist_dict,
+        'top_genres' : [genre[0] for genre in sorted_genres],
         'num_genres' : len(sorted_genres),
-        'top_tracks': track_dict[:5],
+        'top5tracks': track_dict[:5],
+        'top_tracks' : track_dict,
         'top_albums': [album[0] for album in sorted_albums],
-        'sorted_danceability' : sorted_danceability[:3],
-        'sorted_valence' : sorted_valence[:3],
-        'sorted_energy' : sorted_energy[:3],
-        'sorted_popularity' : sorted_popularity[:3],
+        'top3danceability' : top_danceability[:3],
+        'top3valence' : top_valence[:3],
+        'top3energy' : top_energy[:3],
+        'top3popularity' : top_popularity[:3],
+        'bot3danceability' : bot_danceability[:3],
+        'bot3valence' : bot_valence[:3],
+        'bot3energy' : bot_energy[:3],
+        'bot3popularity' : bot_popularity[:3],
         'danceability': danceability,
         'popularity': popularity,
         'energy': energy,
