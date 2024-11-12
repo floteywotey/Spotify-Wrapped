@@ -114,10 +114,27 @@ body {
 }
 
 #orb {
+    background: url("images/decorations/homescreen-orb.svg") no-repeat center center;
+    -webkit-background-size: contain;
+    width: 270px;
+    height: 270px;
+    position: relative;
+
+}
+
+#star {
+    background: url("images/orb/dark-star.svg") no-repeat center center;
+    -webkit-background-size: contain;
+    position: absolute;
+    transition: transform 0.3s ease;
+    transform-origin: 50% 50%;
+}
+
+#star:hover {
+    transform: scale(5.0)
     background: url("images/decorations/homescreen-orb.svg") no-repeat;
     width: 260px;
     height: 260px;
-
 }
 
 .floating {
@@ -176,13 +193,13 @@ body {
     width: 70%; /* Adjust this to fit the border padding */
     height: 70%; /* Keeps it square */
     transform-style: preserve-3d;
-    transition: all 0.5s ease;
+    transition: all 1s ease;
     position: absolute;
 }
 
 /* Flip the pane when hovered */
 .card-container:hover .card {
-    transform: rotateY(180deg);
+    transform: rotateY(180deg) rotate(-5deg);
 }
 
 .card-front, .card-back {
