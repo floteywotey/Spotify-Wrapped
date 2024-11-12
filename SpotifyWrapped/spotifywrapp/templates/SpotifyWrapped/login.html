@@ -10,13 +10,12 @@
 <body>
 
 <div class="login-container">
-    <div class="general-text">
+    <div class="general-text fade">
         <h1>Return to the Stars</h1>
         <p>Log Into Your Account</p>
     </div>
 
-
-    <div class="form-container">
+    <div class="form-container fade">
         <form class="form-with-validation" action="{% url 'login' %}" method="post" autocomplete="off">
             {% csrf_token %}
             <!-- Username field -->
@@ -99,9 +98,26 @@
             </div>
         </form>
 
-        <p>New to this side of the universe? <a href="/register">Sign Up</a></p>
+        <p>New to this side of the universe? <a id="signup-link" href="/register">Sign Up</a></p>
+        <script>
+            document.getElementById('signup-link').addEventListener('click', function () {
+                const welcomeContainer = document.querySelector('.fade');
+                if (welcomeContainer) {
+                    welcomeContainer.style.visibility = 'hidden';
+                    welcomeContainer.style.opacity = 0;
+                    setTimeout(() => welcomeContainer.remove(), 300); // Remove after fade-out
+                }
+            })
+        </script>
     </div>
 </div>
-
+<section>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</section>
 </body>
 </html>
