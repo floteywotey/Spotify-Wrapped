@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{% static 'SpotifyWrapped/selectDateScreen.css' %}">
 </head>
 <body>
+    <svg id="orb"></svg>
     <form id="filter-form" method="POST" action="{% url 'solo_results' %}">
         {% csrf_token %}
         <div class="filter-group">

@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
+    body {
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        background: black;
+        -webkit-background-size: cover;
+        color: white;
+    }
+
+    * {
+        margin: 0;
+    }
+
+    #orb {
+            background: url("images/orb/dark-orb.svg") no-repeat center center;
+            -webkit-background-size: contain;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+
+        }
