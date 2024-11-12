@@ -1,0 +1,191 @@
+/*custom fonts: Kaisei Tokumin, Kalnia, Sahitya, Linden Hill*/
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Linden+Hill:ital@0;1&family=Sahitya:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: black url("images/backgrounds/dark-mode-background-decorative.svg") no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
+    color: white;
+    font-family: Linden Hill, serif;
+}
+
+.main-items {
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+}
+
+h1 {
+    font-size: 10vh;
+    margin: 10px;
+}
+
+p {
+    font-size: 2vh;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+}
+
+button {
+    padding: 15px;
+    font-size: 1.3vw;
+    border-radius: 16px;
+    border: 1px white solid;
+    background: black;
+    color: white;
+    transition: 0.5s;
+    font-family: Linden Hill, serif;
+    position: relative;
+}
+
+.delete-button {
+    background: white;
+    color: black;
+}
+
+button:hover {
+    box-shadow: 0 0 25px #FFCA73;
+    letter-spacing: 0.1em;
+    background: transparent;
+    color: white;
+}
+
+.profile button:hover {
+    filter: invert(100%);
+    box-shadow: 0 0 25px #FFCA73;
+    letter-spacing: 0.1em;
+    background: black;
+    color: white;
+}
+
+/* Initial Star Styles */
+.star-1 {
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  width: 25px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #fffdef);
+  z-index: -5;
+  transition: all 1s cubic-bezier(0.05, 0.83, 0.43, 0.96);
+}
+
+.star-2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 15px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #fffdef);
+  z-index: -5;
+  transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
+}
+
+.star-3 {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+  width: 5px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #fffdef);
+  z-index: -5;
+  transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
+}
+
+.star-4 {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  width: 8px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #fffdef);
+  z-index: -5;
+  transition: all 0.8s cubic-bezier(0, 0.4, 0, 1.01);
+}
+
+.star-5 {
+  position: absolute;
+  top: 40%;
+  left: 55%;
+  width: 15px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #fffdef);
+  z-index: -5;
+  transition: all 0.6s cubic-bezier(0, 0.4, 0, 1.01);
+}
+
+.star-6 {
+  position: absolute;
+  top: 25%;
+  left: 55%;
+  width: 5px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #fffdef);
+  z-index: -5;
+  transition: all 0.8s ease;
+}
+
+/* Hover Effect - Stars Move Outwards */
+button:hover .star-1 {
+  top: -20%;
+  left: -10%;
+  filter: drop-shadow(0 0 10px #fffdef);
+  opacity: 1;
+  z-index: 2;
+}
+
+button:hover .star-2 {
+  top: 10%;
+  left: 120%;
+  filter: drop-shadow(0 0 10px #fffdef);
+  opacity: 1;
+  z-index: 2;
+}
+
+button:hover .star-3 {
+  top: 75%;
+  left: -15%;
+  filter: drop-shadow(0 0 10px #fffdef);
+  opacity: 1;
+  z-index: 2;
+}
+
+button:hover .star-4 {
+  top: 50%;
+  left: 110%;
+  filter: drop-shadow(0 0 10px #fffdef);
+  opacity: 1;
+  z-index: 2;
+}
+
+button:hover .star-5 {
+  top: -10%;
+  left: 90%;
+  filter: drop-shadow(0 0 10px #fffdef);
+  opacity: 1;
+  z-index: 2;
+}
+
+button:hover .star-6 {
+  top: -5%;
+  left: 20%;
+  filter: drop-shadow(0 0 10px #fffdef);
+  opacity: 1;
+  z-index: 2;
+}
+
+.fil0 {
+  fill: #FFFDEF
+}
