@@ -192,7 +192,7 @@ h1 {
 
 .search-button {
     padding: 5px;
-    max-width: 70%;
+    max-width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
