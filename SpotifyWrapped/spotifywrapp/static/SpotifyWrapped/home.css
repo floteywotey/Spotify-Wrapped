@@ -1,5 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
 
+.fade {
+    animation: fadeIn 1.5s;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -101,24 +114,10 @@ body {
 }
 
 #orb {
-    background: url("images/decorations/homescreen-orb.svg") no-repeat center center;
-    -webkit-background-size: contain;
-    width: 270px;
-    height: 270px;
-    position: relative;
+    background: url("images/decorations/homescreen-orb.svg") no-repeat;
+    width: 260px;
+    height: 260px;
 
-}
-
-#star {
-    background: url("images/orb/dark-star.svg") no-repeat center center;
-    -webkit-background-size: contain;
-    position: absolute;
-    transition: transform 0.3s ease;
-    transform-origin: 50% 50%;
-}
-
-#star:hover {
-    transform: scale(5.0);
 }
 
 .floating {
@@ -177,13 +176,13 @@ body {
     width: 70%; /* Adjust this to fit the border padding */
     height: 70%; /* Keeps it square */
     transform-style: preserve-3d;
-    transition: all 1s ease;
+    transition: all 0.5s ease;
     position: absolute;
 }
 
 /* Flip the pane when hovered */
 .card-container:hover .card {
-    transform: rotateY(180deg) rotate(-5deg);
+    transform: rotateY(180deg);
 }
 
 .card-front, .card-back {

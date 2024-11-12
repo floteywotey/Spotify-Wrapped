@@ -100,14 +100,14 @@ input:-webkit-autofill {
     left: 105%;
     top: 0;
     margin-left: 10px;
-    width: 200px;
+    width: 250px;
     visibility: hidden;
     background-color: black;
     color: white;
     padding: 10px;
     border: 1px solid white;
     border-radius: 5px;
-    font-size: 12px;
+    font-size: 15px;
     z-index: 10;
     list-style: none;
 }
@@ -287,8 +287,8 @@ button:hover .star-6 {
 
 .error-message {
     color: red;
-    font-size: 10px;
-    margin-bottom: 10px;
+    font-size: 13px;
+    margin-bottom: 5px;
 }
 
 a {
