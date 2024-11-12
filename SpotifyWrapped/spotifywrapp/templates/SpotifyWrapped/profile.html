@@ -1,54 +1,127 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Profile</title>
+    <link rel="stylesheet" href="{% static 'SpotifyWrapped/profile.css' %}">
 </head>
 <body>
-    {% if usertoken %}
-        <button onclick="window.location.href='{% url 'spotify_unauthorize' %}'">Unlink</button>
-    {% else %}
-        <button onclick="window.location.href='{% url 'spotify_authorize' %}'">Link</button>
-    {% endif %}
+<div class="dark-header container">
+    <div class="left">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'readings' %}">Past Readings</a>
+    </div>
+    <div class="right">
+        <a href="{% url 'profile' %}">Profile</a>
+    </div>
+</div>
 
-    <form class="logout" action="{% url 'logout' %}" method="post">
-        {% csrf_token %}
-        <button class="logout-button" aria-label="User Logout" title="User Logout">Logout</button>
-    </form>
+<div class="main-container">
+    <div class="main-items">
+        <div class="side1">
+            <div class="account-settings box">
+                <h1>Account Settings:</h1>
+                <div class="settings">
+                    <div class="button">
+                        {% if usertoken %}
+                            <button onclick="window.location.href='{% url 'spotify_unauthorize' %}'">
+                                <img class="link" src="{% static 'SpotifyWrapped/images/icons/external_link.svg' %}"
+                                     alt="external link icon">
+                                Unlink
+                            </button>
+                        {% else %}
+                            <button onclick="window.location.href='{% url 'spotify_authorize' %}'">
+                                <img class="link" src="{% static 'SpotifyWrapped/images/icons/external_link.svg' %}"
+                                     alt="external link icon">
+                                Link
+                            </button>
+                        {% endif %}
+                    </div>
 
-    <form class="delete" action="{% url 'delete?' %}" method="post">
-        {% csrf_token %}
-        <button class="delete-button" aria-label="User Delete" title="User Delete">Delete</button>
-    </form>
+                    <div class="button">
+                        <form class="logout" action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button class="logout-button" aria-label="User Logout" title="User Logout">Logout</button>
+                        </form>
+                    </div>
 
-    <form class="home" action="{% url 'home' %}" method="post">
-        {% csrf_token %}
-        <button class="home-button" aria-label="Home" title="Home">Home</button>
-    </form>
-    {% if usertoken %}
-        <form class="form-with-validation" action="{% url 'profile' %}" method="POST"
-              enctype="multipart/form-data">
-            {% csrf_token %}
-
-            <div class="form-group">
-                <label>Your invite:</label>
-                {{ form }}
+                    <div class="button">
+                        <form class="delete" action="{% url 'delete?' %}" method="post">
+                            {% csrf_token %}
+                            <button class="delete-button" aria-label="User Delete" title="User Delete">Delete Account
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
 
-            <div class="buttons">
-                <button type="button" class="cancel-button"><a href="{{ link }}">Cancel</a></button>
-                <button type="submit" class="form-submit">Send invite</button>
+            <div class="friends-list box">
+                <h1>Friends:</h1>
+                <div class="scroll-box">
+
+                </div>
             </div>
-        </form>
-    {% endif %}
-    {% for invite in inviteList %}
-        <form class="search" method="post" action="{% url 'duo_results' %}">
-        {% csrf_token %}
-        <input type="hidden" id="fromUser" name="fromUser" value="{{ invite.userFrom }}">
-            <input type="hidden" id="time" name="time" value="{{ invite.time }}">
-            <input type="hidden" id="id" name="id" value="{{ invite.id }}">
-        <button class="search-button" type="submit">{{ invite.userFrom }}</button>
-    </form>
-    {% endfor %}
+        </div>
+
+        <div class="side2">
+            <div class="duo-wrapped-inv">
+                <div class="form-inv">
+                    {% if usertoken %}
+                        <form class="form-with-validation" action="{% url 'profile' %}" method="POST"
+                              enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="all-forms box">
+                                <h1>Create a Duo-Wrapped Invite:</h1>
+                                <!-- User To Field -->
+                                <div class="form-group" id="userto">
+                                    <label for="id_userto">User To:</label>
+                                    {{ form.userTo }}
+                                </div>
+
+                                <!-- Time Field (Radio Buttons) -->
+                                <div class="form-group">
+                                    <label>Time:</label>
+                                    <div class="radio-group">
+                                        {{ form.time }}
+                                    </div>
+                                </div>
+
+                                <!-- Message Field -->
+                                <div class="form-group" id="message">
+                                    <label for="id_message">Message:</label>
+                                    {{ form.message }}
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="button" class="cancel-button"><a href="{{ link }}">Cancel</a></button>
+                                    <button type="submit" class="form-submit">Send invite</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="invites box">
+                <h1>Incoming Invites:</h1>
+                <div class="scroll-box">
+                    {% for invite in inviteList %}
+                        <form class="invites" method="post" action="{% url 'duo_results' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="fromUser" name="fromUser" value="{{ invite.userFrom }}">
+                            <input type="hidden" id="time" name="time" value="{{ invite.time }}">
+                            <input type="hidden" id="time" name="invite" value="{{ invite }}">
+                            <button class="search-button" type="submit">{{ invite.userFrom }}: ({{ invite.time }}) {{ invite.message }}</button>
+                        </form>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
