@@ -82,6 +82,10 @@ def deleteUser(request):
         for item in wraps.objects.filter(user2=request.user.username):
             item.user2 = ''
             item.save()
+        for item in invites.objects.filter(userTo=request.user.username):
+            item.delete()
+        for item in invites.objects.filter(userFrom=request.user.username):
+            item.delete()
         user.delete()
     return render(request, 'delete..html', {})
 
@@ -109,6 +113,8 @@ def profile(request):
         if form.is_valid():
             invite = form.save()
             invite.userFrom = request.user.username
+            if not SpotifyUser.objects.filter(user=invite.userTo).exists():
+                invite.delete()
             invite.save()
             return redirect('profile')
     else:
