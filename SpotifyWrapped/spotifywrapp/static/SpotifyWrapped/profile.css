@@ -5,6 +5,19 @@
     box-sizing: border-box;
 }
 
+.fade {
+    animation: fadeIn 1.5s;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 body {
     background: black url("images/backgrounds/dark-mode-background.svg") no-repeat center center fixed;
     background-size: cover;

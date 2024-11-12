@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{% static 'SpotifyWrapped/readings.css' %}">
 </head>
 <body>
-<div class="dark-header container">
+<div class="dark-header container fade">
     <div class="left">
         <a href="{% url 'home' %}">Home</a>
         <a href="{% url 'readings' %}">Past Readings</a>
@@ -16,7 +16,7 @@
         <a href="{% url 'profile' %}">Profile</a>
     </div>
 </div>
-<div class="readings container">
+<div class="readings container fade">
     <h2>Rediscover your Readings</h2>
     <div class="cards">
         {% for item in recent %}
