@@ -4,6 +4,15 @@
     box-sizing: border-box;
 }
 
+.fade {
+    animation: fadeIn 1.5s;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 body {
     background: black url("images/backgrounds/dark-mode-background-decorative.svg") no-repeat center center fixed;
     background-size: cover;
@@ -40,22 +49,21 @@ input {
 }
 
 .general-text h1 {
-    font-size: calc(1.7*(1vh + 1vw));
-    margin-bottom: 0;
+    font-size: calc(1.45*(1vh + 1vw));
+    margin: 0;
     padding-bottom: 0;
 }
 
 .general-text p {
-    font-size: calc(0.7*(1vh + 1vw));;
-    margin-top: 0;
-    margin-bottom: 10px;
+    font-size: calc(0.5*(1vh + 1vw));;
+    margin: 0;
 }
 
 .form-group input {
     width: 100%;
     padding-top: 16px;
     padding-bottom: 16px;
-    font-size: 13px;
+    font-size: 15px;
     background: black;
     border-radius: 16px;
     border: 1px solid white;
@@ -232,7 +240,7 @@ button:hover .star-6 {
 
 .error-message {
     color: red;
-    font-size: 13px;
+    font-size: 10px;
     margin-bottom: 10px;
 }
 

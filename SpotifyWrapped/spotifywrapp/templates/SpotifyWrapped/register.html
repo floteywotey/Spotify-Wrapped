@@ -10,12 +10,12 @@
 <body>
 
 <div class="signup-container">
-    <div class="general-text">
+    <div class="general-text fade">
         <h1>Enter the Stars</h1>
         <p>Make an Account</p>
     </div>
 
-    <form class="form-with-validation" action="{% url 'register' %}" method="post" autocomplete="off">
+    <form class="form-with-validation fade" action="{% url 'register' %}" method="post" autocomplete="off">
         {% csrf_token %}
 
         <!-- Email Field -->
