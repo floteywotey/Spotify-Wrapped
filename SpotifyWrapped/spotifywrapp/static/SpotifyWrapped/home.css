@@ -1,5 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
 
+.fade {
+    animation: fadeIn 1.5s;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -118,7 +131,10 @@ body {
 }
 
 #star:hover {
-    transform: scale(5.0);
+    transform: scale(5.0)
+    background: url("images/decorations/homescreen-orb.svg") no-repeat;
+    width: 260px;
+    height: 260px;
 }
 
 .floating {
