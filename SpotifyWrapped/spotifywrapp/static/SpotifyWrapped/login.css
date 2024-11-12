@@ -49,14 +49,15 @@ input {
 }
 
 .general-text h1 {
-    font-size: calc(1.45*(1vh + 1vw));
-    margin: 0;
+    font-size: calc(1.2*(1vh + 1vw));
+    margin-bottom: 0;
     padding-bottom: 0;
 }
 
 .general-text p {
-    font-size: calc(0.5*(1vh + 1vw));;
-    margin: 0;
+    font-size: calc(0.7*(1vh + 1vw));;
+    margin-top: 0;
+    margin-bottom: 10px;
 }
 
 .form-group input {
@@ -240,7 +241,7 @@ button:hover .star-6 {
 
 .error-message {
     color: red;
-    font-size: 10px;
+    font-size: 13px;
     margin-bottom: 10px;
 }
 

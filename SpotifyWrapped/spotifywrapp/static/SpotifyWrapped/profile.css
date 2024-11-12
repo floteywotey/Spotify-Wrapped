@@ -166,7 +166,7 @@ h1 {
     color: white;
 }
 
-#message textarea{
+#message textarea {
     padding: 5px 10px;
     display: flex;
     align-items: center;
