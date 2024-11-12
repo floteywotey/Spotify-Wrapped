@@ -123,7 +123,7 @@ body {
 }
 
 #star {
-    background: url("images/orb/dark-star.svg") no-repeat center center;
+    /*background: url("images/orb/dark-star.svg") no-repeat center center;*/
     -webkit-background-size: contain;
     position: absolute;
     transition: transform 0.3s ease;
@@ -131,7 +131,7 @@ body {
 }
 
 #star:hover {
-    transform: scale(5.0)
+    transform: scale(5.0);
     background: url("images/decorations/homescreen-orb.svg") no-repeat;
     width: 260px;
     height: 260px;
@@ -189,16 +189,18 @@ body {
     overflow: hidden; /* Ensures the card doesn't exceed the border */
 }
 
-.card {
+.main-card {
     width: 70%; /* Adjust this to fit the border padding */
     height: 70%; /* Keeps it square */
     transform-style: preserve-3d;
     transition: all 1s ease;
     position: absolute;
+    z-index: 2;
 }
 
 /* Flip the pane when hovered */
-.card-container:hover .card {
+
+.card-container:hover .main-card {
     transform: rotateY(180deg) rotate(-5deg);
 }
 
@@ -223,9 +225,29 @@ body {
     background-size: contain; /* Ensures image scales without distortion */
 }
 
+.fanned-card {
+    position: absolute;
+    width: 70%;
+    height: 70%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+    z-index: 1;
+}
 
+.card-container:hover .fanned-card:nth-child(2) {
+    transform: translateY(90%) rotate(-10deg) translateX(-10%);
+    transition: transform 0.5s ease-out;
+    transition-delay: 0.1s;
+}
 
+.card-container:hover .fanned-card:nth-child(3) {
+    transform: translateY(90%) rotate(0deg) translateX(-5%);
+    transition: transform 0.5s ease-out;
+    transition-delay: 0.15s;
+}
 
-
-
-
+.card-container:hover .fanned-card:nth-child(4) {
+    transform: translateY(90%) rotate(10deg) translateX(0%);
+    transition: transform 0.5s ease-out;
+    transition-delay: 0.2s;
+}
