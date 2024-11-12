@@ -37,12 +37,12 @@ def home(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
     recent = recentWraps(request.user.username)
-    sortedArray = ['','','']
+    sortedArray = []
     if (recent):
         count = 0
         for wrap in recent:
             if (count < 3):
-                sortedArray[count] = wrap
+                sortedArray.append(wrap)
                 count = count + 1
     return render(request, 'home.html', {'recent':sortedArray})
 
@@ -76,6 +76,12 @@ def deleteUser(request):
         user = request.user
         for item in SpotifyUser.objects.filter(user=request.user.username):
             item.delete()
+        for item in wraps.objects.filter(user1=request.user.username):
+            item.user1 = ''
+            item.save()
+        for item in wraps.objects.filter(user2=request.user.username):
+            item.user2 = ''
+            item.save()
         user.delete()
     return render(request, 'delete..html', {})
 
