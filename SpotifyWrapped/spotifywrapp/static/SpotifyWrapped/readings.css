@@ -1,5 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
 
+.fade {
+    animation: fadeIn 1.5s;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -17,30 +30,50 @@ body {
     box-sizing: border-box;
 }
 
-.dark-header {
-    font-size: larger;
-    padding: 15px 20px;
-    position: sticky;
-    top: 0;
-    z-index: 2;
-    width: 100%;
+.container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
+    padding: 20px 100px;
+    justify-content: center;
     align-items: center;
 }
 
-.left, .right {
+.dark-header {
+    font-size: larger;
+    position: fixed;
+    z-index: 4;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.left {
     display: flex;
     gap: 40px;
+    justify-content: flex-start;
+    flex: 1 1 0;
+}
+
+.right {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1 1 0;
 }
 
 .dark-header a {
     text-decoration: none;
     color: white;
+    transition: 0.5s;
 }
 
 .dark-header a:hover {
+    text-decoration: none;
     color: #8b8df8;
+    letter-spacing: 0.1em;
+}
+
+h1 {
+    font-size: 5vh;
 }
 
 .readings {
@@ -71,16 +104,19 @@ body {
     overflow: hidden;
 }
 
-.card {
-    width: 70%;
-    height: 70%;
+.main-card {
+    width: 70%; /* Adjust this to fit the border padding */
+    height: 70%; /* Keeps it square */
     transform-style: preserve-3d;
-    transition: all 0.5s ease;
+    transition: all 1s ease;
     position: absolute;
+    z-index: 2;
 }
 
-.card-container:hover .card {
-    transform: rotateY(180deg);
+/* Flip the pane when hovered */
+
+.card-container:hover .main-card {
+    transform: rotateY(180deg) rotate(-5deg);
 }
 
 .card-front, .card-back {
@@ -100,5 +136,32 @@ body {
 
 .card-back {
     background: url("images/card/default-card-back.svg") no-repeat center center;
-    background-size: contain;
+    background-size: contain; /* Ensures image scales without distortion */
+}
+
+.fanned-card {
+    position: absolute;
+    width: 70%;
+    height: 70%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+    z-index: 1;
+}
+
+.card-container:hover .fanned-card:nth-child(2) {
+    transform: translateY(90%) rotate(-10deg) translateX(-10%);
+    transition: transform 0.5s ease-out;
+    transition-delay: 0.1s;
+}
+
+.card-container:hover .fanned-card:nth-child(3) {
+    transform: translateY(90%) rotate(0deg) translateX(-5%);
+    transition: transform 0.5s ease-out;
+    transition-delay: 0.15s;
+}
+
+.card-container:hover .fanned-card:nth-child(4) {
+    transform: translateY(90%) rotate(10deg) translateX(0%);
+    transition: transform 0.5s ease-out;
+    transition-delay: 0.2s;
 }
