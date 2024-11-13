@@ -5,38 +5,58 @@
     <meta charset="UTF-8">
     <title>Spotify Tarot Reading</title>
     <link rel="stylesheet" href="{% static 'SpotifyWrapped/selectDateScreen.css' %}">
+    <script>
+      function checkRadioButton() {
+        const radioButtons = document.getElementsByName("time");
+        const button = document.getElementsByClassName("filter-button")[0];
+
+        // Loop through radio buttons to check if one is selected
+        for (let i = 0; i < radioButtons.length; i++) {
+          if (radioButtons[i].checked) {
+            console.log("worked");
+            button.style.display = "block"; // Show button when radio is selected
+            return;
+          }
+        }
+        button.style.display = "none"; // Hide button if none are selected
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const radioButtons = document.getElementsByName("time");
+
+        // Add the "change" event listener to each radio button
+        Array.from(radioButtons).forEach((radioButton) => {
+          radioButton.addEventListener("change", checkRadioButton);
+        });
+
+        // Initially hide the button
+        const button = document.getElementsByClassName("filter-button")[0];
+        if (button) {
+          button.style.display = "none";
+        }
+      });
+    </script>
 </head>
 <body>
+    <div class="main-container">
+    <h2>Read for Which Moon?</h2>
     <div class="orb-container">
         <svg viewBox="0 0 100 100" id="orb"></svg>
         <form id="filter-form" method="POST" action="{% url 'solo_results' %}">
             {% csrf_token %}
             <div class="filter-group">
-                <h5>How far back (Fix up as needed)</h5>
                 <div class="choices">
-                <input type="radio" id="longterm" name="time" value="long_term">
-                <label for="longterm">Long term</label><br>
-                <input type="radio" id="medterm" name="time" value="medium_term">
-                <label for="medterm">Medium term</label><br>
-                <input type="radio" id="shortterm" name="time" value="short_term">
-                <label for="shortterm">Short Term</label>
+                    <input type="radio" id="longterm" name="time" value="long_term">
+                    <label for="longterm">Full Moon</label><br>
+                    <input type="radio" id="medterm" name="time" value="medium_term">
+                    <label for="medterm">First Quarter</label><br>
+                    <input type="radio" id="shortterm" name="time" value="short_term">
+                    <label for="shortterm">New Moon</label>
                 </div>
             </div>
-                <button type="submit" class="filter-button">Read your past or something idk</button>
+            <button type="submit" class="filter-button" style="display: none;">Read your past or something idk</button>
         </form>
     </div>
+    </div>
 </body>
-<script>
-    function checkRadioButton() {
-        const radioButtons = document.getElementsByName("time");
-        const button = document.getElementsByClassName("filter-button");
-
-        for (let i = 0; i < radioButtons.length; i++) {
-            if (radioButtons[i].checked) {
-                button.style.display = "block";
-                break; // Exit the loop once a checked radio button is found
-            }
-        }
-    }
-</script>
 </html>
