@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{% static 'SpotifyWrapped/readings.css' %}">
 </head>
 <body>
-<div class="dark-header container fade">
+<div class="dark-header container">
     <div class="left">
         <a href="{% url 'home' %}">Home</a>
         <a href="{% url 'readings' %}">Past Readings</a>
@@ -17,15 +17,24 @@
     </div>
 </div>
 <div class="readings container fade">
-    <h2>Rediscover your Readings</h2>
+    <h1>Rediscover your Readings</h1>
     <div class="cards">
         {% for item in recent %}
-            <div class="card-container">
-                <div class="card">
-                    <svg viewBox="0 0 200 315" class="card-back"></svg>
-                    <div class="card-front">{{ item.wrap1 }}</div>
+                <div class="card-container">
+                    <div class="main-card">
+                        <svg viewBox="0 0 200 315" class="card-back"></svg>
+                        <div class="card-front">{{ item.wrap1 }}</div>
+                    </div>
+                    <div class="fanned-card">
+                        <svg viewBox="0 0 200 315" class="card-back"></svg>
+                    </div>
+                    <div class="fanned-card">
+                        <svg viewBox="0 0 200 315" class="card-back"></svg>
+                    </div>
+                    <div class="fanned-card">
+                        <svg viewBox="0 0 200 315" class="card-back"></svg>
+                    </div>
                 </div>
-            </div>
         {% endfor %}
     </div>
 </div>
