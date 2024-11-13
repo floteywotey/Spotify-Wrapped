@@ -46,7 +46,7 @@ h2 {
 
 /* Ensure #orb takes up the space you want it to */
 #orb {
-    background: url("images/orb/dark-orb.svg") no-repeat center center;
+    background: url("images/decorations/orb/dark-orb.svg") no-repeat center center;
     background-size: contain;
     z-index: 1;
     width: 50vw; /* Adjust size as needed */
