@@ -33,7 +33,7 @@
                 <div class="card-container">
                     <div class="main-card">
                         <svg viewBox="0 0 200 315" class="card-back"></svg>
-                        <div class="card-front">{{ item.wrap1 }}</div>
+                        <div class="card-front"></div>
                     </div>
                     <div class="fanned-card">
                         <svg viewBox="0 0 200 315" class="card-back"></svg>
@@ -49,11 +49,36 @@
         </div>
     </div>
 
-    <script>
-        const svgs = [
-            <svg src=""></svg>
+    <!--script>
+        const images = [
+            "{% static 'SpotifyWrapped/images/card/card_fronts_notext/reawakening-dark.svg' %}",
+            "{% static 'SpotifyWrapped/images/card/card_fronts_notext/reawakening-light.svg' %}",
+            "{% static 'SpotifyWrapped/images/card/card_fronts_notext/the-alchemist.svg' %}",
+            "{% static 'SpotifyWrapped/images/card/card_fronts_notext/the-bard.svg' %}",
+            "{% static 'SpotifyWrapped/images/card/card_fronts_notext/the-chariot.svg' %}",
+            "{% static 'SpotifyWrapped/images/card/card_fronts_notext/the-explorer.svg' %}",
+            "{% static 'SpotifyWrapped/images/card/card_fronts_notext/the-hermit.svg' %}",
+            "{% static 'SpotifyWrapped/images/card/card_fronts_notext/the-jester.svg' %}",
+            "{% static 'SpotifyWrapped/images/card/card_fronts_notext/the-lovers.svg' %}",
+            "{% static 'SpotifyWrapped/images/card/card_fronts_notext/the-moon.svg' %}",
+            "{% static 'SpotifyWrapped/images/card/card_fronts_notext/the-rogue.svg' %}",
+            "{% static 'SpotifyWrapped/images/card/card_fronts_notext/the-scholar.svg' %}",
+            "{% static 'SpotifyWrapped/images/card/card_fronts_notext/the-sun.svg' %}",
+            "{% static 'SpotifyWrapped/images/card/card_fronts_notext/the-wizard.svg' %}"
         ]
-    </script>
+
+        function insertRandomImages() {
+            const imageContainers = document.querySelectorAll('.card-front');
+
+            imageContainers.forEach(container => {
+                const randomImage = images[Math.floor(Math.random() * images.length)];
+                container.innerHTML = `<img src="${randomImage}" alt="Random Image" style="width:100%; height:auto;">`;
+            });
+        }
+
+        // Run the function when the page has loaded
+        document.addEventListener("DOMContentLoaded", insertRandomImages);
+    </script-->
 </div>
 
 </body>
