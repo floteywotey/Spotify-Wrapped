@@ -13,7 +13,7 @@
         <div class="start-button">
             <button id="getReadingButton">
                 <img src="{% static 'SpotifyWrapped/images/icons/startscreen_icon.svg' %}" alt="star icon for start button">
-                Get a Reading
+                <span>Get a Reading</span>
             </button>
         </div>
     </div>
@@ -56,22 +56,60 @@
             <script>
                 document.getElementById('getReadingButton').addEventListener('click', function () {
                 const welcomeContainer = document.querySelector('.welcome-container');
-                const card1 = document.getElementById('card1');
-
-                if (welcomeContainer) welcomeContainer.remove();
-                if (card1) card1.remove();
+                if (welcomeContainer) {
+                    welcomeContainer.style.visibility = 'hidden';
+                    welcomeContainer.style.opacity = 0;
+                    setTimeout(() => welcomeContainer.remove(), 300); // Remove after fade-out
+                }
 
                 document.querySelectorAll('.card').forEach(card => {
-                    card.style.animationPlayState = 'paused';
-                });
-
-                const card2 = document.getElementById('card2');
-                card2.classList.add('move-to-center');
-
-                setTimeout(() => {
-                    window.location.href = "{% url 'login' %}";
-                }, 1000);
+                if (card.id !== 'card2') {
+                    card.style.visibility = 'hidden';
+                    card.style.opacity = 0;
+                    setTimeout(() => card.remove(), 300); // Remove other cards after fade-out
+                }
             });
+
+            const card = document.getElementById('card2');
+
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const centerX = screenWidth / 2;
+            const centerY = screenHeight / 2;
+
+            const cardRect = card.getBoundingClientRect();
+            const cardWidth = card.offsetWidth;
+            const cardHeight = card.offsetHeight;
+
+            const translateX = centerX - (cardRect.left + cardWidth / 2);
+            const translateY = centerY - (cardRect.top + cardHeight / 2);
+
+            card.style.transition = 'transform 0.6s ease-in-out, opacity 0.3s';
+            card.style.transform = `translate(${translateX}px, ${translateY}px) rotateY(180deg)`;
+            card.classList.add('move-to-center');
+
+            window.addEventListener('resize', () => {
+                if (card.classList.contains('move-to-center')) {
+                    const updatedScreenWidth = window.innerWidth;
+                    const updatedScreenHeight = window.innerHeight;
+                    const updatedCenterX = updatedScreenWidth / 2;
+                    const updatedCenterY = updatedScreenHeight / 2;
+
+                    const updatedCardRect = card.getBoundingClientRect();
+                    const updatedTranslateX =
+                        updatedCenterX - (updatedCardRect.left + updatedCardRect.width / 2);
+                    const updatedTranslateY =
+                        updatedCenterY - (updatedCardRect.top + updatedCardRect.height / 2);
+
+            card.style.transform = `translate(${updatedTranslateX}px, ${updatedTranslateY}px) rotateY(180deg)`;
+        }
+    });
+
+        setTimeout(() => {
+            window.location.href = "{% url 'login' %}";
+        }, 1000);
+    });
+
         </script>
     </body>
 </html>

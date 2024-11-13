@@ -44,12 +44,12 @@ def home(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
     recent = recentWraps(request.user.username)
-    sortedArray = ['','','']
+    sortedArray = []
     if (recent):
         count = 0
         for wrap in recent:
             if (count < 3):
-                sortedArray[count] = wrap
+                sortedArray.append(wrap)
                 count = count + 1
     return render(request, 'home.html', {'recent':sortedArray})
 
@@ -72,12 +72,26 @@ def logout_view(request):
     return redirect('startscreen')
 
 def deleteQuestion(request):
+    if not request.user.is_authenticated:
+        return redirect('startscreen')
     return render(request, 'delete?.html', {})
 
 def deleteUser(request):
+    if not request.user.is_authenticated:
+        return redirect('startscreen')
     if request.method == 'POST':
         user = request.user
         for item in SpotifyUser.objects.filter(user=request.user.username):
+            item.delete()
+        for item in wraps.objects.filter(user1=request.user.username):
+            item.user1 = ''
+            item.save()
+        for item in wraps.objects.filter(user2=request.user.username):
+            item.user2 = ''
+            item.save()
+        for item in invites.objects.filter(userTo=request.user.username):
+            item.delete()
+        for item in invites.objects.filter(userFrom=request.user.username):
             item.delete()
         user.delete()
     return render(request, 'delete..html', {})
@@ -106,6 +120,8 @@ def profile(request):
         if form.is_valid():
             invite = form.save()
             invite.userFrom = request.user.username
+            if not SpotifyUser.objects.filter(user=invite.userTo).exists():
+                invite.delete()
             invite.save()
             return redirect('profile')
     else:
@@ -114,9 +130,13 @@ def profile(request):
     return render(request, 'profile.html', {'form' : form, 'usertoken' : getSpotifyUser(request.user.username).spotifytoken, 'inviteList' : inviteList})
 
 def select_date(request):
+    if not request.user.is_authenticated:
+        return redirect('startscreen')
     return render(request, 'selectDateScreen.html')
 
 def results(request):
+    if not request.user.is_authenticated:
+        return redirect('startscreen')
     sortedArray = recentWraps(request.user.username)
     return render(request, 'results.html', context={'wrap': sortedArray[0]})
 
@@ -177,6 +197,10 @@ def duo_results(request):
             'top_genres': shared_genres,
             'top_tracks': shared_tracks,
             'top_albums': shared_albums,
+            'numSharedArtists': len(shared_artists),
+            'numSharedGenres': len(shared_genres),
+            'numSharedTracks': len(shared_tracks),
+            'numSharedAlbums': len(shared_albums),
             'danceability': shared_danceability,
             'popularity': shared_popularity,
             'energy': shared_energy,
@@ -193,6 +217,7 @@ def getUserToken(username):
 
 def refreshToken(request, username):
     user = list(SpotifyUser.objects.filter(user=username))[0]
+    print('aaaaaa')
     spotifyToken = user.getspotifytoken()
     refresh = user.getrefreshtoken()
     if not spotifyToken:
@@ -231,7 +256,6 @@ def get_top_tracks(request, token, time, username, limit=10):
 def get_top_artists(request, token, time, username, limit=10):
     headers = {'Authorization': f'Bearer {token}'}
     params = {'limit': limit, 'time_range': time}
-
     response = requests.get('https://api.spotify.com/v1/me/top/artists', headers=headers, params=params)
     if response.status_code == 401:
         refreshToken(request, username)
@@ -268,8 +292,13 @@ def getSoloWrap(request, username, time, limit=10):
     top_artists = get_top_artists(request, token, time, username, limit)
     artist_dict = []
     for artist in top_artists['items']:
+        image = ''
+        if (len(artist.get('images')) == 0):
+            image = 'N/A'
+        else:
+            image = artist.get('images', [{'url': 'None'}])[0].get('url', 'None'),
         dict = {
-            'image' : artist.get('images', [{'url':'None'}])[0].get('url','None'),
+            'image' : image,
             'name' : artist['name'],
             'id' : artist['id'],
         }
@@ -320,22 +349,33 @@ def getSoloWrap(request, username, time, limit=10):
     popularity /= limit
     energy /= limit
     valence /= limit
-    sorted_popularity = sorted(track_dict, key=lambda x: x['popularity'], reverse=True)
-    sorted_valence = sorted(track_dict, key=lambda x: x['valence'], reverse=True)
-    sorted_energy = sorted(track_dict, key=lambda x: x['energy'], reverse=True)
-    sorted_danceability = sorted(track_dict, key=lambda x: x['danceability'], reverse=True)
+    top_popularity = sorted(track_dict, key=lambda x: x['popularity'], reverse=True)
+    top_valence = sorted(track_dict, key=lambda x: x['valence'], reverse=True)
+    top_energy = sorted(track_dict, key=lambda x: x['energy'], reverse=True)
+    top_danceability = sorted(track_dict, key=lambda x: x['danceability'], reverse=True)
+    bot_popularity = sorted(track_dict, key=lambda x: x['popularity'], reverse=False)
+    bot_valence = sorted(track_dict, key=lambda x: x['valence'], reverse=False)
+    bot_energy = sorted(track_dict, key=lambda x: x['energy'], reverse=False)
+    bot_danceability = sorted(track_dict, key=lambda x: x['danceability'], reverse=False)
     # Prepare data for response
     data = {
-        'top_artists': artist_dict[:5],
-        'top_genres': [genre[0] for genre in sorted_genres][:5],
-        'top_genre': [genre[0] for genre in sorted_genres][:1],
+        'top5artists': artist_dict[:5],
+        'top5genres': [genre[0] for genre in sorted_genres][:5],
+        'topgenre': [genre[0] for genre in sorted_genres][:1],
+        'top_artists': artist_dict,
+        'top_genres' : [genre[0] for genre in sorted_genres],
         'num_genres' : len(sorted_genres),
-        'top_tracks': track_dict[:5],
+        'top5tracks': track_dict[:5],
+        'top_tracks' : track_dict,
         'top_albums': [album[0] for album in sorted_albums],
-        'sorted_danceability' : sorted_danceability[:3],
-        'sorted_valence' : sorted_valence[:3],
-        'sorted_energy' : sorted_energy[:3],
-        'sorted_popularity' : sorted_popularity[:3],
+        'top3danceability' : top_danceability[:3],
+        'top3valence' : top_valence[:3],
+        'top3energy' : top_energy[:3],
+        'top3popularity' : top_popularity[:3],
+        'bot3danceability' : bot_danceability[:3],
+        'bot3valence' : bot_valence[:3],
+        'bot3energy' : bot_energy[:3],
+        'bot3popularity' : bot_popularity[:3],
         'danceability': danceability,
         'popularity': popularity,
         'energy': energy,

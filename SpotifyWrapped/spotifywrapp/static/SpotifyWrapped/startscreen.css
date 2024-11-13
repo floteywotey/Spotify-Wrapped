@@ -36,7 +36,7 @@ button {
     align-content: center;
     font-family: 'Kalnia', serif;
     font-size: 1.5vw;
-    padding: 1rem 1rem;
+    padding: 0.5rem 1rem;
     color: black;
     background: white;
     border: solid white;
@@ -48,13 +48,19 @@ button {
     height: 7vh;
     box-shadow: 0 0 0 darkgreen;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
+    transition: 0.5s;
 }
 
 button:hover {
     filter: invert(100%);
     box-shadow: 0 0 25px darkgreen;
     background: transparent;
+    letter-spacing: 0.5em;
+    width: 30vw;
+}
+
+button span {
+    padding-top: 5px;
 }
 
 .hide-elements .welcome-container,
@@ -137,9 +143,7 @@ button:hover {
 
 .card.move-to-center {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-142%) rotateY(180deg);
+    transform: translate(0,0) rotateY(180deg);
     z-index: 10;
     width: 400px;
     height: 630px;
