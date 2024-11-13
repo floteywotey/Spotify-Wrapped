@@ -29,7 +29,9 @@ body, .filter-button {
 h2 {
     padding-top: 50px;
     opacity: 0;
-    animation: appear 2s ease-out 2s forwards;
+    animation: appear 1s ease-in-out 2s forwards;
+    position: relative;
+    bottom: -50px;
 }
 
 .orb-container {
@@ -54,7 +56,7 @@ h2 {
     max-height: 500px;
     min-height: 400px;
     opacity: 0;
-    animation: fadeIn 7s;
+    animation: fadeIn 7s, changeColor 10s ease infinite;
     animation-fill-mode: forwards;
 }
 
@@ -71,6 +73,8 @@ h2 {
     z-index: 2; /* Ensure it appears above the orb */
     color: white;
     text-align: center;
+    opacity: 0;
+    animation: appear 2s ease forwards;
 }
 
 
@@ -83,7 +87,7 @@ h2 {
     opacity: 0;
     animation: appear 2s ease-out forwards;
 }
-.choices input:nth-child(1) { animation: appear 2s ease-out 8s forwards}
+.filter-group input:nth-child(1) { animation: appear 2s ease-out 8s forwards}
 .choices label:nth-child(2) { animation-delay: 8.5s }
 .choices input:nth-child(3) { animation-delay: 9s }
 .choices label:nth-child(4) { animation-delay: 9.5s }
@@ -95,7 +99,7 @@ h2 {
     top: 50%;
     text-decoration: none;
     font-size: x-large;
-    position: absolute;
+    position: relative;
     color: white;
     padding: 20px;
     border-radius: 32px;
@@ -120,13 +124,13 @@ h2 {
 
 @keyframes appear {
   0% {
-    /* Effect values */
     opacity: 0;
-    bottom: 100px;
+    bottom: -50px;
   }
+
     100% {
         opacity: 1;
-        bottom: 200px;
+        bottom: 0;
     }
 }
 
