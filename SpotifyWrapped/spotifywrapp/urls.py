@@ -21,4 +21,8 @@ urlpatterns = [
     path("profile/", views.profile, name='profile'),
     path("duo-results/", views.duo_results, name='duo_results'),
     path("results/", views.results, name='results'),
+    path('password-reset/', views.CustomPasswordResetView.as_view(), name='custom_password_reset'),
+    path('password-reset-done/', views.CustomPasswordResetDoneView.as_view(), name='custom_password_reset_done'),
+    path('password-reset-confirm/<uidb64>/<token>/', views.CustomPasswordResetConfirmView.as_view(), name='custom_password_reset_confirm'),
+    path('password-reset-complete/', views.CustomPasswordResetCompleteView.as_view(), name='custom_password_reset_complete'),
 ]
