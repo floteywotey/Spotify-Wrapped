@@ -210,6 +210,7 @@ def getUserToken(username):
 
 def refreshToken(request, username):
     user = list(SpotifyUser.objects.filter(user=username))[0]
+    print('aaaaaa')
     spotifyToken = user.getspotifytoken()
     refresh = user.getrefreshtoken()
     if not spotifyToken:
@@ -248,7 +249,6 @@ def get_top_tracks(request, token, time, username, limit=10):
 def get_top_artists(request, token, time, username, limit=10):
     headers = {'Authorization': f'Bearer {token}'}
     params = {'limit': limit, 'time_range': time}
-
     response = requests.get('https://api.spotify.com/v1/me/top/artists', headers=headers, params=params)
     if response.status_code == 401:
         refreshToken(request, username)
@@ -285,8 +285,13 @@ def getSoloWrap(request, username, time, limit=10):
     top_artists = get_top_artists(request, token, time, username, limit)
     artist_dict = []
     for artist in top_artists['items']:
+        image = ''
+        if (len(artist.get('images')) == 0):
+            image = 'N/A'
+        else:
+            image = artist.get('images', [{'url': 'None'}])[0].get('url', 'None'),
         dict = {
-            'image' : artist.get('images', [{'url':'None'}])[0].get('url','None'),
+            'image' : image,
             'name' : artist['name'],
             'id' : artist['id'],
         }
