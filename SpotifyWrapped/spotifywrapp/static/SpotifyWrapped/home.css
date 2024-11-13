@@ -4,6 +4,10 @@
     animation: fadeIn 1.5s;
 }
 
+.fade-longer {
+    animation: fadeIn 3s;
+}
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
@@ -110,31 +114,45 @@ body {
     justify-content: center;
     align-items: center;
     gap: 50px;
+    margin-top: 150px;
+}
 
+.orb-container {
+    position: relative;
+    width: 270px;
+    height: 270px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #orb {
-    background: url("images/decorations/homescreen-orb.svg") no-repeat center center;
-    -webkit-background-size: contain;
     width: 270px;
     height: 270px;
-    position: relative;
-
+    position: absolute;
 }
 
 #star {
-    /*background: url("images/orb/dark-star.svg") no-repeat center center;*/
-    -webkit-background-size: contain;
     position: absolute;
-    transition: transform 0.3s ease;
-    transform-origin: 50% 50%;
+    width: 150px;
+    height: 150px;
+    transition: transform 0.5s ease;
+    z-index: 10;
 }
 
-#star:hover {
-    transform: scale(5.0);
-    background: url("images/decorations/homescreen-orb.svg") no-repeat;
-    width: 260px;
-    height: 260px;
+#star.expand {
+    animation: expandStar 1.5s forwards ease-in;
+}
+
+@keyframes expandStar {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(100);
+        opacity: 1;
+    }
 }
 
 .floating {
@@ -156,13 +174,12 @@ body {
 .moon-ring-container {
     width: 600px;
     height: 600px;
-    position: relative;
+    position: absolute;
 }
 
 #moon-ring {
-    opacity: 30%;
-    filter: contrast(120%) brightness(300%);
-    box-shadow: 0 0 25px rebeccapurple;
+    opacity: 75%;
+    z-index: -10;
 }
 
 .readings {

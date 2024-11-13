@@ -19,12 +19,28 @@
 
 
 <div class="main container fade">
-    {#        <div class="moon-ring-container">#}
-    {#            <img src="{% static 'SpotifyWrapped/images/decorations/moonring.svg' %}" id="moon-ring" alt="Moonring" width="100%">#}
-    {#        </div>#}
     <div class="main-items">
-        <svg id="orb" class="floating"></svg>
-        <a href="{% url 'select_date' %}">Create a Spotify Reading</a>
+        <div class="orb-container fade-longer">
+            <img src="{% static 'SpotifyWrapped/images/decorations/orb/dark-orb.svg' %}" id="orb" class="floating">
+            <img src="{% static 'SpotifyWrapped/images/decorations/orb/dark-star.svg' %}" id="star" class="floating">
+            <div class="moon-ring-container">
+                <img src="{% static 'SpotifyWrapped/images/decorations/moonring.svg' %}" id="moon-ring" alt="Moonring"
+                     width="100%">
+            </div>
+        </div>
+        <a href="{% url 'select_date' %}" id="expand-link">Create a Spotify Reading</a>
+        <script>
+            document.getElementById("expand-link").addEventListener("click", function (event) {
+                event.preventDefault();
+                const star = document.getElementById("star");
+
+                star.classList.add("expand");
+
+                setTimeout(function () {
+                    window.location.href = "{% url 'select_date' %}";
+                }, 1000);
+            });
+        </script>
     </div>
 
     <div class="readings container">
@@ -35,6 +51,9 @@
                     <div class="main-card">
                         <svg viewBox="0 0 200 315" class="card-back"></svg>
                         <div class="card-front"></div>
+                    </div>
+                    <div class="fanned-card">
+                        <svg viewBox="0 0 200 315" class="card-back"></svg>
                     </div>
                     <div class="fanned-card">
                         <svg viewBox="0 0 200 315" class="card-back"></svg>
