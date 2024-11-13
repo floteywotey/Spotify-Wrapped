@@ -1,23 +1,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
-    body {
-        display: flex;
-        flex-direction: column;
-        box-sizing: border-box;
-        background: black;
-        -webkit-background-size: cover;
-        color: white;
-    }
+body {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background: black;
+    -webkit-background-size: cover;
+    color: white;
+    overflow: hidden;
+}
 
-    * {
-        margin: 0;
-    }
+* {
+    margin: 0;
+}
 
-    #orb {
-            background: url("images/orb/dark-orb.svg") no-repeat center center;
-            -webkit-background-size: contain;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
+.orb-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        }
+#orb {
+    background: url("images/orb/dark-orb.svg") no-repeat center center;
+    -webkit-background-size: contain;
+    max-width: 100%;
+    max-height: 100%;
+    width: calc(100vw/2); /* Make SVG take full width */
+    height: auto; /* Maintain aspect ratio */
+    padding-top: 100px;
+    position: relative;
+}
+
+.filter-group, .filter-button{
+    position: absolute;
+}
+
+.filter-button {
+    display: none;
+}

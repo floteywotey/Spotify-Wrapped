@@ -7,21 +7,36 @@
     <link rel="stylesheet" href="{% static 'SpotifyWrapped/selectDateScreen.css' %}">
 </head>
 <body>
-    <svg id="orb"></svg>
-    <form id="filter-form" method="POST" action="{% url 'solo_results' %}">
-        {% csrf_token %}
-        <div class="filter-group">
-            <h5>How far back (Fix up as needed)</h5>
-            <div class="choices">
+    <div class="orb-container">
+        <svg viewBox="0 0 100 100" id="orb"></svg>
+        <form id="filter-form" method="POST" action="{% url 'solo_results' %}">
+            {% csrf_token %}
+            <div class="filter-group">
+                <h5>How far back (Fix up as needed)</h5>
+                <div class="choices">
                 <input type="radio" id="longterm" name="time" value="long_term">
                 <label for="longterm">Long term</label><br>
                 <input type="radio" id="medterm" name="time" value="medium_term">
                 <label for="medterm">Medium term</label><br>
                 <input type="radio" id="shortterm" name="time" value="short_term">
                 <label for="shortterm">Short Term</label>
+                </div>
             </div>
-        </div>
-        <button type="submit" class="filter-button">Read your past or something idk</button>
-    </form>
+                <button type="submit" class="filter-button">Read your past or something idk</button>
+        </form>
+    </div>
 </body>
+<script>
+    function checkRadioButton() {
+        const radioButtons = document.getElementsByName("time");
+        const button = document.getElementsByClassName("filter-button");
+
+        for (let i = 0; i < radioButtons.length; i++) {
+            if (radioButtons[i].checked) {
+                button.style.display = "block";
+                break; // Exit the loop once a checked radio button is found
+            }
+        }
+    }
+</script>
 </html>
