@@ -3,6 +3,8 @@ import requests
 from .forms import CreateInvite
 from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from dotenv import load_dotenv
@@ -36,6 +38,7 @@ def readings(request):
 def home(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
+    print(list(get_user_model().objects.all())[0])
     recent = recentWraps(request.user.username)
     sortedArray = []
     if (recent):
@@ -113,6 +116,8 @@ def profile(request):
         if form.is_valid():
             invite = form.save()
             invite.userFrom = request.user.username
+            invite.fromSpotifyToken = SpotifyUser.objects.get(user=request.user.username).spotifytoken
+            invite.fromRefreshToken = SpotifyUser.objects.get(user=request.user.username).refreshtoken
             if not SpotifyUser.objects.filter(user=invite.userTo).exists():
                 invite.delete()
             invite.save()
@@ -120,11 +125,13 @@ def profile(request):
     else:
         form = CreateInvite()
     inviteList = list(invites.objects.filter(userTo=request.user.username))
-    return render(request, 'profile.html', {'form' : form, 'usertoken' : getSpotifyUser(request.user.username).spotifytoken, 'inviteList' : inviteList})
+    return render(request, 'profile.html', {'username' : request.user.username, 'form' : form, 'usertoken' : getSpotifyUser(request.user.username).spotifytoken, 'inviteList' : inviteList})
 
 def select_date(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
+    if SpotifyUser.objects.get(user=request.user.username).spotifytoken == '':
+        return redirect('spotify_authorize')
     return render(request, 'selectDateScreen.html')
 
 def results(request):
@@ -148,8 +155,11 @@ def duo_results(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
     if request.method == "POST":
+        if SpotifyUser.objects.get(user=request.user.username).spotifytoken == '':
+            return redirect('spotify_authorize_profile')
         time = request.POST.get('time', '')
         invite = request.POST.get('id', '')
+        print(invite)
         fromUser = request.POST.get('fromUser', '')
         toUser = request.user.username
         wrapData1 = getSoloWrap(request, fromUser, time, 50)
@@ -200,6 +210,7 @@ def duo_results(request):
             'valence': shared_valence
         }
         invites.objects.filter(id=invite).delete()
+
         wrap = wraps.objects.create(wrap1=wrapData1, wrap2=wrapData2, duowrap=data, isDuo=True, user1=fromUser, user2=request.user.username)
         wrap.save()
         return redirect('results')
@@ -278,9 +289,8 @@ def getSoloWrap(request, username, time, limit=10):
     songcsv = ''
     user =  list(SpotifyUser.objects.filter(user=username))[0]
     #try:
-    token = user.getspotifytoken() # Retrieve token from session
-    if not token:
-        spotify_authorize(request)
+    token = user.spotifytoken # Retrieve token from session
+
     # Get top artists and extract genres
     top_artists = get_top_artists(request, token, time, username, limit)
     artist_dict = []
@@ -310,6 +320,7 @@ def getSoloWrap(request, username, time, limit=10):
     for track in top_tracks['items']:
         dict = {
             'id' : track['id'],
+            'name' : track['name'],
             'image' : track['album'].get('images', [{'url':'None'}])[0].get('url','None'),
             'popularity' : track['popularity'],
         }
@@ -379,11 +390,12 @@ def getSoloWrap(request, username, time, limit=10):
         #return JsonResponse({'error': str(e)}, status=500)
 
 # Redirect user for Spotify authorization
-def spotify_authorize(request):
+def spotify_authorize_profile(request):
     scope = 'user-top-read'
+    URI = 'http://localhost:8000/spotify-callback-profile/'
     auth_url = (
         'https://accounts.spotify.com/authorize?'
-        f'client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URI}&scope={scope}&show_dialog=true'
+        f'client_id={CLIENT_ID}&response_type=code&redirect_uri={URI}&scope={scope}&show_dialog=true'
     )
     return redirect(auth_url)
 
@@ -393,7 +405,7 @@ def spotify_unauthorize(request):
         item.save()
     return redirect('profile')
 
-def spotify_callback(request):
+def spotify_callback_profile(request):
     code = request.GET.get('code')
     token_url = 'https://accounts.spotify.com/api/token'
     data = {
@@ -416,6 +428,45 @@ def spotify_callback(request):
                 item.save()
             # Redirect to the view that fetches user data
             return redirect('profile')
+        else:
+            # Handle missing access token in the response
+            return JsonResponse({'error': 'Access token not found in the response'}, status=500)
+    else:
+        # Handle the case where the request to Spotify's token endpoint failed
+        return JsonResponse({'error': 'Failed to get the access token from Spotify'}, status=response.status_code)
+
+def spotify_authorize_home(request):
+    scope = 'user-top-read'
+    URI = 'http://localhost:8000/spotify-callback-home/'
+    auth_url = (
+        'https://accounts.spotify.com/authorize?'
+        f'client_id={CLIENT_ID}&response_type=code&redirect_uri={URI}&scope={scope}&show_dialog=true'
+    )
+    return redirect(auth_url)
+
+def spotify_callback_home(request):
+    code = request.GET.get('code')
+    token_url = 'https://accounts.spotify.com/api/token'
+    data = {
+        'grant_type': 'authorization_code',
+        'code': code,
+        'redirect_uri': REDIRECT_URI,
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+    }
+    response = requests.post(token_url, data=data)
+    # Check if the request was successful
+    if response.status_code == 200:
+        token_info = response.json()  # Get the token information
+        # Ensure access token is present in the response
+        if 'access_token' in token_info:
+            # Store the access token in the session
+            for item in SpotifyUser.objects.filter(user=request.user.username):
+                item.spotifytoken = token_info['access_token']
+                item.refreshtoken = token_info['refresh_token']
+                item.save()
+            # Redirect to the view that fetches user data
+            return redirect('home')
         else:
             # Handle missing access token in the response
             return JsonResponse({'error': 'Access token not found in the response'}, status=500)
