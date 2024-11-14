@@ -1,54 +1,79 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Your Wrapped</title>
+    <link rel="stylesheet" href="{% static 'SpotifyWrapped/results.css' %}">
 </head>
 <body>
-    Top 5 artists <br>
-    {% for artist in wrap.wrap1.top5artists %}
-        <img src="{{ artist.image }}" width="100" height="100">
-        {{ artist }}
-        <br>
-    {% endfor %}
-    <br> Top 3 danceability <br>
-    {% for track in wrap.wrap1.top3danceability %}
-        <img src="{{ track.image }}" width="100" height="100">
-        {{ track }}
-        <br>
-    {% endfor %}
-    <br> Top 3 valence <br>
-    {% for track in wrap.wrap1.top3valence %}
-        <img src="{{ track.image }}" width="100" height="100">
-        {{ track }}
-        <br>
-    {% endfor %}
-    <br> Top 3 energy <br>
-    {% for track in wrap.wrap1.top3energy %}
-        <img src="{{ track.image }}" width="100" height="100">
-        {{ track }}
-        <br>
-    {% endfor %}
-    <br> Top 3 popularity <br>
-    {% for track in wrap.wrap1.top3popularity %}
-        <img src="{{ track.image }}" width="100" height="100">
-        {{ track }}
-        <br>
-    {% endfor %}
-    <br> Top 5 tracks <br>
-    {% for track in wrap.wrap1.top5tracks %}
-        <img src="{{ track.image }}" width="100" height="100">
-        {{ track }}
-        <br>
-    {% endfor %}
+<div class="cards">
+    <div class="card1" id="card"></div>
+    <div class="card2" id="card"></div>
+    <div class="card3" id="card"></div>
+    <div class="card4" id="card"></div>
+    <div class="card5" id="card"></div>
+    <div class="card6" id="card"></div>
+    <div class="card7" id="card"></div>
+    <div class="card8" id="card"></div>
+    <script>
+        document.querySelectorAll("#card").forEach(card => {
+            card.addEventListener("click", function () {
+                if (this.classList.contains("clicked")) {
+                    this.classList.remove("clicked");
+                } else {
+                    document.querySelectorAll("#card").forEach(c => c.classList.remove("clicked"));
+                    this.classList.add("clicked");
+                }
+            });
+        });
+    </script>
+</div>
+Top 5 artists <br>
+{% for artist in wrap.wrap1.top5artists %}
+    <img src="{{ artist.image }}" width="100" height="100">
+    {{ artist }}
+    <br>
+{% endfor %}
+<br> Top 3 danceability <br>
+{% for track in wrap.wrap1.top3danceability %}
+    <img src="{{ track.image }}" width="100" height="100">
+    {{ track }}
+    <br>
+{% endfor %}
+<br> Top 3 valence <br>
+{% for track in wrap.wrap1.top3valence %}
+    <img src="{{ track.image }}" width="100" height="100">
+    {{ track }}
+    <br>
+{% endfor %}
+<br> Top 3 energy <br>
+{% for track in wrap.wrap1.top3energy %}
+    <img src="{{ track.image }}" width="100" height="100">
+    {{ track }}
+    <br>
+{% endfor %}
+<br> Top 3 popularity <br>
+{% for track in wrap.wrap1.top3popularity %}
+    <img src="{{ track.image }}" width="100" height="100">
+    {{ track }}
+    <br>
+{% endfor %}
+<br> Top 5 tracks <br>
+{% for track in wrap.wrap1.top5tracks %}
+    <img src="{{ track.image }}" width="100" height="100">
+    {{ track }}
+    <br>
+{% endfor %}
 
-    <form class="home" action="{% url 'home' %}" method="post">
-        {% csrf_token %}
-        <button class="home-button" aria-label="Home" title="Home">Home</button>
-    </form>
-    {% if wrap.isDuo %}
-        {{ wrap.wrap2 }}
-        {{ wrap.duowrap }}
-    {% endif %}
+<form class="home" action="{% url 'home' %}" method="post">
+    {% csrf_token %}
+    <button class="home-button" aria-label="Home" title="Home">Home</button>
+</form>
+{% if wrap.isDuo %}
+    {{ wrap.wrap2 }}
+    {{ wrap.duowrap }}
+{% endif %}
 </body>
 </html>

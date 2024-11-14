@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
 
 .fade {
-    animation: fadeIn 1.5s;
+    animation: fadeIn 1s;
 }
 
 .fade-longer {
-    animation: fadeIn 3s;
+    animation: fadeIn 1.75s;
 }
 
 @keyframes fadeIn {
@@ -24,6 +24,7 @@ body {
     background: black url("images/backgrounds/dark-mode-background.svg") no-repeat center center fixed;
     -webkit-background-size: cover;
     color: white;
+    position: relative;
 }
 
 * {
@@ -142,6 +143,7 @@ body {
 
 #star.expand {
     animation: expandStar 1.5s forwards ease-in;
+    z-index: 10;
 }
 
 @keyframes expandStar {
@@ -258,13 +260,13 @@ body {
 }
 
 .card-container:hover .fanned-card:nth-child(3) {
-    transform: translateY(90%) rotate(0deg) translateX(-5%);
+    transform: translateY(90%) rotate(0deg) translateX(0%);
     transition: transform 0.5s ease-out;
     transition-delay: 0.15s;
 }
 
 .card-container:hover .fanned-card:nth-child(4) {
-    transform: translateY(90%) rotate(10deg) translateX(0%);
+    transform: translateY(90%) rotate(10deg) translateX(10%);
     transition: transform 0.5s ease-out;
     transition-delay: 0.2s;
 }

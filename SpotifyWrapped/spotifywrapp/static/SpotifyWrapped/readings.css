@@ -155,13 +155,13 @@ h1 {
 }
 
 .card-container:hover .fanned-card:nth-child(3) {
-    transform: translateY(90%) rotate(0deg) translateX(-5%);
+    transform: translateY(90%) rotate(0deg) translateX(0%);
     transition: transform 0.5s ease-out;
     transition-delay: 0.15s;
 }
 
 .card-container:hover .fanned-card:nth-child(4) {
-    transform: translateY(90%) rotate(10deg) translateX(0%);
+    transform: translateY(90%) rotate(10deg) translateX(10%);
     transition: transform 0.5s ease-out;
     transition-delay: 0.2s;
 }
