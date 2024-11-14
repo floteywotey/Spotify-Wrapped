@@ -4,11 +4,11 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class SpotifyUser(models.Model):
-    user = models.CharField(max_length=150)
-    spotifytoken = models.CharField(max_length=100)
-    refreshtoken = models.CharField(max_length=100)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    spotifytoken = models.CharField(max_length=100, blank=True, null=True)
+    refreshtoken = models.CharField(max_length=100, blank=True, null=True)
     def __str__(self):
-        return str(self.user)
+        return self.user.username
     def getspotifytoken(self):
         return self.spotifytoken
     def getrefreshtoken(self):

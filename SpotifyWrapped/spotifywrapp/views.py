@@ -57,13 +57,13 @@ def userlogin(request):
     if request.user.is_authenticated:
         return redirect('home')
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+        form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             auth_login(request, user)
             return redirect('home')
     else:
-        form = CustomUserCreationForm()
+        form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
 
 def logout_view(request):
@@ -101,7 +101,7 @@ def register(request):
     if request.user.is_authenticated:
         return redirect('home')
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
@@ -109,7 +109,7 @@ def register(request):
             spot.save()
             return redirect('home')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'register.html', {'form': form})
 
 def profile(request):
@@ -118,16 +118,18 @@ def profile(request):
     if request.method == 'POST':
         form = CreateInvite(request.POST)
         if form.is_valid():
-            invite = form.save()
+            invite = form.save(commit= False)
             invite.userFrom = request.user.username
             if not SpotifyUser.objects.filter(user=invite.userTo).exists():
                 invite.delete()
-            invite.save()
+            else:
+                invite.save()
             return redirect('profile')
     else:
         form = CreateInvite()
+    spotifytoken = request.user.spotifytoken if hasattr(request.user, 'SpotifyUser') else None
     inviteList = list(invites.objects.filter(userTo=request.user.username))
-    return render(request, 'profile.html', {'form' : form, 'usertoken' : getSpotifyUser(request.user.username).spotifytoken, 'inviteList' : inviteList})
+    return render(request, 'profile.html', {'form' : form, 'usertoken' : spotifytoken, 'inviteList' : inviteList})
 
 def select_date(request):
     if not request.user.is_authenticated:
@@ -416,11 +418,17 @@ def spotify_callback(request):
         token_info = response.json()  # Get the token information
         # Ensure access token is present in the response
         if 'access_token' in token_info:
-            # Store the access token in the session
-            for item in SpotifyUser.objects.filter(user=request.user.username):
-                item.spotifytoken = token_info['access_token']
-                item.refreshtoken = token_info['refresh_token']
-                item.save()
+            # Fetch the SpotifyUser instance for the logged-in user
+            try:
+                spotify_user = SpotifyUser.objects.get(user=request.user)
+                # Update the access and refresh tokens
+                spotify_user.spotifytoken = token_info['access_token']
+                spotify_user.refreshtoken = token_info['refresh_token']
+                spotify_user.save()
+            except SpotifyUser.DoesNotExist:
+                # Handle the case where there is no SpotifyUser instance for this user
+                return JsonResponse({'error': 'SpotifyUser instance does not exist for this user'}, status=500)
+
             # Redirect to the view that fetches user data
             return redirect('profile')
         else:
