@@ -131,7 +131,7 @@ def select_date(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
     if SpotifyUser.objects.get(user=request.user.username).spotifytoken == '':
-        return redirect('spotify_authorize')
+        return redirect('spotify_authorize_home')
     return render(request, 'selectDateScreen.html')
 
 def results(request):
@@ -225,7 +225,7 @@ def refreshToken(request, username):
     spotifyToken = user.getspotifytoken()
     refresh = user.getrefreshtoken()
     if not spotifyToken:
-        spotify_authorize(request)
+        return spotify_authorize_home(request)
     else:
         token_url = 'https://accounts.spotify.com/api/token'
         data = {
@@ -295,11 +295,10 @@ def getSoloWrap(request, username, time, limit=10):
     top_artists = get_top_artists(request, token, time, username, limit)
     artist_dict = []
     for artist in top_artists['items']:
-        image = ''
         if (len(artist.get('images')) == 0):
             image = 'N/A'
         else:
-            image = artist.get('images', [{'url': 'None'}])[0].get('url', 'None'),
+            image = artist.get('images', [{'url': 'None'}])[0].get('url', 'None')
         dict = {
             'image' : image,
             'name' : artist['name'],
@@ -411,7 +410,7 @@ def spotify_callback_profile(request):
     data = {
         'grant_type': 'authorization_code',
         'code': code,
-        'redirect_uri': REDIRECT_URI,
+        'redirect_uri': 'http://localhost:8000/spotify-callback-profile/',
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET,
     }
@@ -450,7 +449,7 @@ def spotify_callback_home(request):
     data = {
         'grant_type': 'authorization_code',
         'code': code,
-        'redirect_uri': REDIRECT_URI,
+        'redirect_uri': 'http://localhost:8000/spotify-callback-home/',
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET,
     }
