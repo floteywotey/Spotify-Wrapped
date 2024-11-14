@@ -59,56 +59,61 @@
                 if (welcomeContainer) {
                     welcomeContainer.style.visibility = 'hidden';
                     welcomeContainer.style.opacity = 0;
-                    setTimeout(() => welcomeContainer.remove(), 300); // Remove after fade-out
+                    setTimeout(() => welcomeContainer.remove(), 300);
                 }
 
                 document.querySelectorAll('.card').forEach(card => {
                 if (card.id !== 'card2') {
                     card.style.visibility = 'hidden';
                     card.style.opacity = 0;
-                    setTimeout(() => card.remove(), 300); // Remove other cards after fade-out
+                    setTimeout(() => card.remove(), 300);
                 }
             });
 
-            const card = document.getElementById('card2');
+                const card = document.getElementById('card2');
 
-            const screenWidth = window.innerWidth;
-            const screenHeight = window.innerHeight;
-            const centerX = screenWidth / 2;
-            const centerY = screenHeight / 2;
+                const screenWidth = window.innerWidth;
+                const screenHeight = window.innerHeight;
+                const centerX = screenWidth / 2;
+                const centerY = screenHeight / 2;
 
-            const cardRect = card.getBoundingClientRect();
-            const cardWidth = card.offsetWidth;
-            const cardHeight = card.offsetHeight;
+                const cardRect = card.getBoundingClientRect();
+                const cardWidth = card.offsetWidth;
+                const cardHeight = card.offsetHeight;
 
-            const translateX = centerX - (cardRect.left + cardWidth / 2);
-            const translateY = centerY - (cardRect.top + cardHeight / 2);
+                const translateX = centerX - (cardRect.left + cardWidth / 2);
+                const translateY = centerY - (cardRect.top + cardHeight / 2);
 
-            card.style.transition = 'transform 0.6s ease-in-out, opacity 0.3s';
-            card.style.transform = `translate(${translateX}px, ${translateY}px) rotateY(180deg)`;
-            card.classList.add('move-to-center');
+                card.style.transition = 'transform 0.6s ease-in-out, opacity 0.3s';
+                card.style.transform = `translate(${translateX}px, ${translateY}px) rotateY(180deg)`;
+                card.classList.add('move-to-center');
 
-            window.addEventListener('resize', () => {
-                if (card.classList.contains('move-to-center')) {
-                    const updatedScreenWidth = window.innerWidth;
-                    const updatedScreenHeight = window.innerHeight;
-                    const updatedCenterX = updatedScreenWidth / 2;
-                    const updatedCenterY = updatedScreenHeight / 2;
+                window.addEventListener('resize', () => {
+                    if (card.classList.contains('move-to-center')) {
+                        const updatedScreenWidth = window.innerWidth;
+                        const updatedScreenHeight = window.innerHeight;
+                        const updatedCenterX = updatedScreenWidth / 2;
+                        const updatedCenterY = updatedScreenHeight / 2;
 
-                    const updatedCardRect = card.getBoundingClientRect();
-                    const updatedTranslateX =
-                        updatedCenterX - (updatedCardRect.left + updatedCardRect.width / 2);
-                    const updatedTranslateY =
-                        updatedCenterY - (updatedCardRect.top + updatedCardRect.height / 2);
+                        const updatedCardRect = card.getBoundingClientRect();
+                        const updatedTranslateX =
+                            updatedCenterX - (updatedCardRect.left + updatedCardRect.width / 2);
+                        const updatedTranslateY =
+                            updatedCenterY - (updatedCardRect.top + updatedCardRect.height / 2);
 
-            card.style.transform = `translate(${updatedTranslateX}px, ${updatedTranslateY}px) rotateY(180deg)`;
-        }
-    });
+                        card.style.transform = `translate(${updatedTranslateX}px, ${updatedTranslateY}px) rotateY(180deg)`;
+                    }
+                });
 
-        setTimeout(() => {
-            window.location.href = "{% url 'login' %}";
-        }, 1000);
-    });
+            setTimeout(() => {
+                window.location.href = "{% url 'login' %}";
+            }, 1000);
+        });
+                window.addEventListener('pageshow', function (event) {
+                if (event.persisted || performance.navigation.type === 2) {
+                    window.location.reload();
+                }
+        });
 
         </script>
     </body>
