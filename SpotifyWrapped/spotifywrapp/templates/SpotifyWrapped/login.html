@@ -32,7 +32,7 @@
             </div>
 
             <!-- Password field -->
-            <div class="form-group {% if form.username.errors %}has-error{% endif %}">
+            <div class="form-group {% if form.password.errors %}has-error{% endif %}">
                 <label for="id_password">Password:</label>
                 <input type="password" name="password" id="id_password" class="form-control"
                        value="{{ form.password.value|default_if_none:'' }}">
@@ -41,6 +41,16 @@
                     <div class="error-message">
                         {{ form.password.errors|join:", " }}
                     </div>
+                {% endif %}
+            </div>
+
+            <div class="form=group">
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
                 {% endif %}
             </div>
 

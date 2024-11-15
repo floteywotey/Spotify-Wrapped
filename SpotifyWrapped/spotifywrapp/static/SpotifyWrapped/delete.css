@@ -48,6 +48,7 @@ button {
     transition: 0.5s;
     font-family: Linden Hill, serif;
     position: relative;
+    cursor: pointer;
 }
 
 .delete-button {
