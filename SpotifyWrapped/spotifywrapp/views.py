@@ -323,11 +323,17 @@ def getSoloWrap(request, username, time, limit=10):
     top_tracks = get_top_tracks(request, token, time, username, limit)
     track_dict = []
     for track in top_tracks['items']:
+        artists = ''
+        for artist in track['artists']:
+            artists += artist['name'] + ','
+        artists = artists[:-1]
+        print(artists)
         dict = {
             'id' : track['id'],
             'name' : track['name'],
             'image' : track['album'].get('images', [{'url':'None'}])[0].get('url','None'),
             'popularity' : track['popularity'],
+            'artists' : artists,
         }
         track_dict.append(dict)
     albums = {}
@@ -344,20 +350,23 @@ def getSoloWrap(request, username, time, limit=10):
     response = requests.get('https://api.spotify.com/v1/audio-features', headers=headers, params=params)
     if response.status_code != 200:
         raise Exception(f"Failed to fetch top tracks! Status code: {response.status_code}")
-    print(len(response.json()['audio_features']))
     for item in response.json()['audio_features']:
         for track in track_dict:
             if track['id'] == item['id']:
-                track['valence'] = item['valence']
-                track['energy'] = item['energy']
-                track['danceability'] = item['danceability']
-        valence += item['valence']
-        danceability += item['danceability']
-        energy += item['energy']
+                track['valence'] = item['valence'] * 100
+                track['energy'] = item['energy'] * 100
+                track['danceability'] = item['danceability'] * 100
+        valence += item['valence'] * 100
+        danceability += item['danceability'] * 100
+        energy += item['energy'] * 100
     danceability /= limit
     popularity /= limit
     energy /= limit
     valence /= limit
+    danceability = round(danceability, 2)
+    energy = round(energy, 2)
+    popularity = round(popularity, 2)
+    valence = round(valence, 2)
     top_popularity = sorted(track_dict, key=lambda x: x['popularity'], reverse=True)
     top_valence = sorted(track_dict, key=lambda x: x['valence'], reverse=True)
     top_energy = sorted(track_dict, key=lambda x: x['energy'], reverse=True)
@@ -366,6 +375,7 @@ def getSoloWrap(request, username, time, limit=10):
     bot_valence = sorted(track_dict, key=lambda x: x['valence'], reverse=False)
     bot_energy = sorted(track_dict, key=lambda x: x['energy'], reverse=False)
     bot_danceability = sorted(track_dict, key=lambda x: x['danceability'], reverse=False)
+    print(top_danceability)
     # Prepare data for response
     data = {
         'top5artists': artist_dict[:5],
