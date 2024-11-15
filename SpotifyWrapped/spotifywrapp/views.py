@@ -1,9 +1,9 @@
 import os
 import requests
-from .forms import CreateInvite
+from .forms import CreateInvite, SignUpForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login
-from django.contrib.auth.models import User
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth import get_user_model
 from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -11,8 +11,15 @@ from dotenv import load_dotenv
 from django.http import JsonResponse
 
 from .models import SpotifyUser, wraps, invites
-
-
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+from django.db.models.query_utils import Q
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+User._meta.get_field('email')._unique = True
 #loads environment variables from .env, so client id and secret client etc
 load_dotenv()
 
@@ -38,7 +45,6 @@ def readings(request):
 def home(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
-    print(list(get_user_model().objects.all())[0])
     recent = recentWraps(request.user.username)
     sortedArray = []
     if (recent):
@@ -97,7 +103,7 @@ def register(request):
     if request.user.is_authenticated:
         return redirect('home')
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
@@ -105,7 +111,7 @@ def register(request):
             spot.save()
             return redirect('home')
     else:
-        form = UserCreationForm()
+        form = SignUpForm()
     return render(request, 'register.html', {'form': form})
 
 def profile(request):
@@ -472,3 +478,32 @@ def spotify_callback_home(request):
     else:
         # Handle the case where the request to Spotify's token endpoint failed
         return JsonResponse({'error': 'Failed to get the access token from Spotify'}, status=response.status_code)
+
+def password_reset(request):
+    if request.method == 'POST':
+        password_form = PasswordResetForm(request.POST)
+        if password_form.is_valid():
+            data = password_form.cleaned_data['email']
+            user_email = User.objects.filter(Q(email=data))
+            if user_email.exists():
+                for user in user_email:
+                    subject = 'Password Request'
+                    email_template_name = 'password_message.txt'
+                    parameters = {
+                        'email':user.email,
+                        'username':user.username,
+                        'domain': '127.0.0.1:8000',
+                        'site_name': 'Spotify',
+                        'uid' : urlsafe_base64_encode(force_bytes(user.pk)),
+                        'token' : default_token_generator.make_token(user),
+                        'protocol': 'http',
+                    }
+                    email = render_to_string(email_template_name, parameters)
+                    send_mail(subject, email, 'spotifywrapped19@gmail.com', [user.email], fail_silently=False)
+                    return redirect('password_reset_done')
+    else:
+        password_form = PasswordResetForm()
+    context = {
+        'form': password_form,
+    }
+    return render(request, 'password_reset_form.html', context)
