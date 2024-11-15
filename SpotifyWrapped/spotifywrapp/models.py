@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class SpotifyUser(models.Model):
-
-
     user = models.CharField(max_length=150)
     spotifytoken = models.CharField(max_length=100)
     refreshtoken = models.CharField(max_length=100)
