@@ -149,5 +149,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'spotifywrapped19@gmail.com'  # Replace with your email address
-EMAIL_HOST_PASSWORD = 'pdrx qjoh fulj zvrg'  # Replace with your email password
+EMAIL_HOST_PASSWORD = 'ldti onmz wcpc mayu'  # Replace with your email password
 EMAIL_USE_SSL = False
