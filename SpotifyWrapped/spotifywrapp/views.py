@@ -397,7 +397,7 @@ def getSoloWrap(request, username, time, limit=10):
 # Redirect user for Spotify authorization
 def spotify_authorize_profile(request):
     scope = 'user-top-read'
-    URI = 'http://localhost:8000/spotify-callback-profile/'
+    URI = 'http://3.18.124.64/spotify-callback-profile/'
     auth_url = (
         'https://accounts.spotify.com/authorize?'
         f'client_id={CLIENT_ID}&response_type=code&redirect_uri={URI}&scope={scope}&show_dialog=true'
@@ -416,7 +416,7 @@ def spotify_callback_profile(request):
     data = {
         'grant_type': 'authorization_code',
         'code': code,
-        'redirect_uri': 'http://localhost:8000/spotify-callback-profile/',
+        'redirect_uri': 'http://3.18.124.64/spotify-callback-profile/',
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET,
     }
@@ -442,7 +442,7 @@ def spotify_callback_profile(request):
 
 def spotify_authorize_home(request):
     scope = 'user-top-read'
-    URI = 'http://localhost:8000/spotify-callback-home/'
+    URI = 'http://3.18.124.64/spotify-callback-home/'
     auth_url = (
         'https://accounts.spotify.com/authorize?'
         f'client_id={CLIENT_ID}&response_type=code&redirect_uri={URI}&scope={scope}&show_dialog=true'
@@ -455,7 +455,7 @@ def spotify_callback_home(request):
     data = {
         'grant_type': 'authorization_code',
         'code': code,
-        'redirect_uri': 'http://localhost:8000/spotify-callback-home/',
+        'redirect_uri': 'http://3.18.124.64/spotify-callback-home/',
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET,
     }
@@ -492,7 +492,7 @@ def password_reset(request):
                     parameters = {
                         'email':user.email,
                         'username':user.username,
-                        'domain': '127.0.0.1:8000',
+                        'domain': '3.18.124.64',
                         'site_name': 'Spotify',
                         'uid' : urlsafe_base64_encode(force_bytes(user.pk)),
                         'token' : default_token_generator.make_token(user),
