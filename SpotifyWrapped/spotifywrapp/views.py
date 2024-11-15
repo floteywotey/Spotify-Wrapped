@@ -375,7 +375,6 @@ def getSoloWrap(request, username, time, limit=10):
     bot_valence = sorted(track_dict, key=lambda x: x['valence'], reverse=False)
     bot_energy = sorted(track_dict, key=lambda x: x['energy'], reverse=False)
     bot_danceability = sorted(track_dict, key=lambda x: x['danceability'], reverse=False)
-    print(top_danceability)
     # Prepare data for response
     data = {
         'top5artists': artist_dict[:5],
