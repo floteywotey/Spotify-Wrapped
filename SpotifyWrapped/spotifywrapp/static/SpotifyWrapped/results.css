@@ -115,11 +115,14 @@ img {
     white-space: normal;
     line-height: 1.2em;
     max-height: 2.4em;
+    margin: 0;
 }
 
 .text h3 {
-    position: sticky;
+    position: relative;
     font-size: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .card1 {
@@ -239,6 +242,8 @@ img {
     white-space: normal;
     line-height: 1.2em;
     max-height: 2.4em;
+    align-content: center;
+    margin-top: 5px;
 }
 
 #back2 {
@@ -310,6 +315,8 @@ img {
     white-space: normal;
     line-height: 1.2em;
     max-height: 2.4em;
+    align-content: center;
+    margin-top: 5px;
 }
 
 #back3 {
