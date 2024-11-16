@@ -1,54 +1,487 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Your Wrapped</title>
+    <link rel="stylesheet" href="{% static 'SpotifyWrapped/results.css' %}">
 </head>
 <body>
-    Top 5 artists <br>
-    {% for artist in wrap.wrap1.top5artists %}
-        <img src="{{ artist.image }}" width="100" height="100">
-        {{ artist }}
-        <br>
-    {% endfor %}
-    <br> Top 3 danceability <br>
-    {% for track in wrap.wrap1.top3danceability %}
-        <img src="{{ track.image }}" width="100" height="100">
-        {{ track }}
-        <br>
-    {% endfor %}
-    <br> Top 3 valence <br>
-    {% for track in wrap.wrap1.top3valence %}
-        <img src="{{ track.image }}" width="100" height="100">
-        {{ track }}
-        <br>
-    {% endfor %}
-    <br> Top 3 energy <br>
-    {% for track in wrap.wrap1.top3energy %}
-        <img src="{{ track.image }}" width="100" height="100">
-        {{ track }}
-        <br>
-    {% endfor %}
-    <br> Top 3 popularity <br>
-    {% for track in wrap.wrap1.top3popularity %}
-        <img src="{{ track.image }}" width="100" height="100">
-        {{ track }}
-        <br>
-    {% endfor %}
-    <br> Top 5 tracks <br>
-    {% for track in wrap.wrap1.top5tracks %}
-        <img src="{{ track.image }}" width="100" height="100">
-        {{ track }}
-        <br>
-    {% endfor %}
-
+<div class="header">
     <form class="home" action="{% url 'home' %}" method="post">
         {% csrf_token %}
-        <button class="home-button" aria-label="Home" title="Home">Home</button>
+        <button class="home-button" aria-label="Home" title="Home">
+            <img src="{% static 'SpotifyWrapped/images/icons/close_presentation.svg' %}" height="30px" width="30px">
+        </button>
     </form>
-    {% if wrap.isDuo %}
-        {{ wrap.wrap2 }}
-        {{ wrap.duowrap }}
-    {% endif %}
+</div>
+<div class="cards">
+
+    <div class="card1" id="card">
+        <div class="card-back" id="back1"></div>
+        <div class="card-front" id="front1">
+            <div class="info fade">
+                <h1>Top Songs</h1>
+                {% for track in wrap.wrap1.top5tracks %}
+                    <div class="details">
+                        <img src="{{ track.image }}" height="33" width="33">
+                        <div class="bullet">
+                            <img class="fbullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px">
+                        </div>
+                        <div class="text">
+                            <h2>{{ track.name }}</h2>
+                            <h3>{{ track.artists }}</h3>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card2" id="card">
+        <div class="card-back" id="back2"></div>
+        <div class="card-front" id="front2">
+            <div class="info fade">
+                <h1>Top Artists</h1>
+                {% for artist in wrap.wrap1.top5artists %}
+                    <div class="details">
+                        <img src="{{ artist.image }}" width="33" height="33">
+                        <div class="bullet">
+                            <img class="fbullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px">
+                        </div>
+                        <div class="text">
+                            <h2>{{ artist.name }}</h2>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card3" id="card">
+        <div class="card-back" id="back3"></div>
+        <div class="card-front" id="front3">
+            <div class="info fade">
+                <h1>Top Genres</h1>
+                {% for genre in wrap.wrap1.top5genres %}
+                    <div class="details">
+                        <div class="bullet">
+                            <img class="fbullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px">
+                        </div>
+                        <div class="text">
+                            <h2>{{ genre }}</h2>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card4" id="card">
+        <div class="card-back" id="back4"></div>
+        <div class="card-front" id="front4">
+            <div class="info fade">
+                <div class="top">
+                    <p>In the vastness of our infinite galaxy, you decided to travel all throughout it with your limited
+                        time of life.</p>
+                </div>
+                <div class="bottom">
+                    <p>You listened to {{ wrap.wrap1.num_genres }} genres.<br>
+                        Look at you little explorer. Did you have fun?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card5" id="card">
+        <div class="card-back" id="back5"></div>
+        <div class="card-front" id="front5">
+            <div class="info fade varlow" id="info5-varlow">
+                <div class="scenario">
+                    <p>Your music drifts in cosmic dust, where a lone comet passes by, playing gentle and introspective
+                        rhythm filling your journey with a familiar and comforting emptiness. These tracks are for
+                        solitary star gazing as you float through universe.</p>
+                    <p>Your average danceability: {{ wrap.wrap1.danceability }}%.</p>
+                    {% for track in wrap.wrap1.bot3danceability %}
+                        <div class="details">
+                            <img src="{{ track.image }}" width="33" height="33">
+                            <div class="bullet">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                     width="10px">
+                            </div>
+                            <div class="text">
+                                <h2>{{ track.name }}</h2>
+                                <h3>{{ track.artists }}</h3>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="info fade varhigh" id="info5-varhigh">
+                <div class="scenario">
+                    <p>Your music bursts like supernovas, with each burst creating vibrant and groovy beats that
+                        make you lose yourself in a cosmic dance. These tracks are for playfully jumping around through
+                        different constellations and showing off your sparkle.</p>
+                    <p>Your average danceability: {{ wrap.wrap1.danceability }}%.</p>
+                </div>
+                {% for track in wrap.wrap1.top3danceability %}
+                    <div class="details">
+                        <img src="{{ track.image }}" width="33" height="33">
+                        <div class="bullet">
+                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                 width="10px">
+                        </div>
+                        <div class="text">
+                            <h2>{{ track.name }}</h2>
+                            <h3>{{ track.artists }}</h3>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <script>
+            const danceability = {{ wrap.wrap1.danceability }};
+
+            function addDanceabilityId() {
+                const element = document.getElementById('front5');
+
+                if (danceability < 50) {
+                    element.id = "front5-varlow";
+                } else {
+                    element.id = "front5-varhigh";
+                }
+            }
+
+            function setupDanceabilityInfo() {
+                const card = document.querySelector(".card5");
+                const lowInfo = document.getElementById("info5-varlow");
+                const highInfo = document.getElementById("info5-varhigh");
+
+                card.addEventListener("mouseenter", () => {
+                    if (danceability < 50) {
+                        lowInfo.style.display = "flex";
+                        highInfo.style.display = "none";
+                    } else {
+                        lowInfo.style.display = "none";
+                        highInfo.style.display = "flex";
+                    }
+                });
+
+                card.addEventListener("mouseleave", () => {
+                    lowInfo.style.display = "none";
+                    highInfo.style.display = "none";
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", addDanceabilityId);
+            document.addEventListener("DOMContentLoaded", setupDanceabilityInfo);
+        </script>
+    </div>
+
+    <div class="card6" id="card">
+        <div class="card-back" id="back6"></div>
+        <div class="card-front" id="front6">
+            <div class="info fade varlow" id="info6-varlow">
+                <div class="scenario">
+                    <p>Your music gently orbits at its own slow, deliberate pace, emitting a soft glow like distant
+                        stars, filling your space with a sense of peace. These tracks are for quiet moments, creating a
+                        reflective atmosphere that keeps you grounded amidst the stars.</p>
+                    <p>Your average energy: {{ wrap.wrap1.energy }}%.</p>
+                    {% for track in wrap.wrap1.bot3energy %}
+                        <div class="details">
+                            <img src="{{ track.image }}" width="33" height="33">
+                            <div class="bullet">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                     width="10px">
+                            </div>
+                            <div class="text">
+                                <h2>{{ track.name }}</h2>
+                                <h3>{{ track.artists }}</h3>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="info fade varhigh" id="info6-varhigh">
+                <div class="scenario">
+                    <p>Your music roars through space, pulsating with restless energy and fueling an unstoppable journey
+                        forward. These tracks are filled with cosmic adrenaline and vibrant determination, pushing you
+                        beyond the known universe.</p>
+                    <p>Your average energy: {{ wrap.wrap1.energy }}%.</p>
+                </div>
+                {% for track in wrap.wrap1.top3energy %}
+                    <div class="details">
+                        <img src="{{ track.image }}" width="33" height="33">
+                        <div class="bullet">
+                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                 width="10px">
+                        </div>
+                        <div class="text">
+                            <h2>{{ track.name }}</h2>
+                            <h3>{{ track.artists }}</h3>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <script>
+            const energy = {{ wrap.wrap1.energy }};
+
+            function addEnergyId() {
+                const element = document.getElementById('front6');
+
+                if (energy < 50) {
+                    element.id = "front6-varlow";
+                } else {
+                    element.id = "front6-varhigh";
+                }
+            }
+
+            function setupEnergyInfo() {
+                const card = document.querySelector(".card6");
+                const lowInfo = document.getElementById("info6-varlow");
+                const highInfo = document.getElementById("info6-varhigh");
+
+                card.addEventListener("mouseenter", () => {
+                    if (energy < 50) {
+                        lowInfo.style.display = "flex";
+                        highInfo.style.display = "none";
+                    } else {
+                        lowInfo.style.display = "none";
+                        highInfo.style.display = "flex";
+                    }
+                });
+
+                card.addEventListener("mouseleave", () => {
+                    lowInfo.style.display = "none";
+                    highInfo.style.display = "none";
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", addEnergyId);
+            document.addEventListener("DOMContentLoaded", setupEnergyInfo);
+
+        </script>
+    </div>
+
+    <div class="card7" id="card">
+        <div class="card-back" id="back7"></div>
+        <div class="card-front" id="front7">
+            <div class="info fade varlow" id="info7-varlow">
+                <div class="scenario">
+                    <p>Your music is a hidden nebula in uncharted territory, a secret only a few have wandered into.
+                        These tracks echo distantly in the quiet parts of the galaxy, a unique and quiet beauty valued
+                        only by those who appreciate the obscure.</p>
+                    <p>The popularity of your songs: {{ wrap.wrap1.popularity }}%.</p>
+                    {% for track in wrap.wrap1.bot3popularity %}
+                        <div class="details">
+                            <img src="{{ track.image }}" width="33" height="33">
+                            <div class="bullet">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                     width="10px">
+                            </div>
+                            <div class="text">
+                                <h2>{{ track.name }}</h2>
+                                <h3>{{ track.artists }}</h3>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="info fade varhigh" id="info7-varhigh">
+                <div class="scenario">
+                    <p>Your music is a beacon on a well charted star map, drawing all celestial galaxies into your
+                        orbit. These tracks left permanent tracks across space and time, transcending and enduring as
+                        constellations told about by generations.</p>
+                    <p>The popularity of your songs: {{ wrap.wrap1.popularity }}%.</p>
+                </div>
+                {% for track in wrap.wrap1.top3popularity %}
+                    <div class="details">
+                        <img src="{{ track.image }}" width="33" height="33">
+                        <div class="bullet">
+                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                 width="10px">
+                        </div>
+                        <div class="text">
+                            <h2>{{ track.name }}</h2>
+                            <h3>{{ track.artists }}</h3>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <script>
+            const popularity = {{ wrap.wrap1.popularity }};
+
+            function addPopularityId() {
+                const element = document.getElementById('front7');
+
+                if (popularity < 50) {
+                    element.id = "front7-varlow";
+                } else {
+                    element.id = "front7-varhigh";
+                }
+            }
+
+            function setupPopularityInfo() {
+                const card = document.querySelector(".card7");
+                const lowInfo = document.getElementById("info7-varlow");
+                const highInfo = document.getElementById("info7-varhigh");
+
+                card.addEventListener("mouseenter", () => {
+                    if (popularity < 50) {
+                        lowInfo.style.display = "flex";
+                        highInfo.style.display = "none";
+                    } else {
+                        lowInfo.style.display = "none";
+                        highInfo.style.display = "flex";
+                    }
+                });
+
+                card.addEventListener("mouseleave", () => {
+                    lowInfo.style.display = "none";
+                    highInfo.style.display = "none";
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", addPopularityId);
+            document.addEventListener("DOMContentLoaded", setupPopularityInfo);
+        </script>
+    </div>
+
+    <div class="card8" id="card">
+        <div class="card-back" id="back8"></div>
+        <div class="card-front" id="front8">
+            <div class="info fade varlow" id="info8-varlow">
+                <div class="scenario">
+                    <p>Your music drifts in the shadows, embracing the dark of side of each celestial body like the veil
+                        of night. These tracks are like a haunting echo, painting a soundscape of quiet allure and
+                        melancholy that helps you find companionship with the void.</p>
+                    <p>Your average positivity: {{ wrap.wrap1.valence }}%.</p>
+                    {% for track in wrap.wrap1.bot3valence %}
+                        <div class="details">
+                            <img src="{{ track.image }}" width="33" height="33">
+                            <div class="bullet">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                     width="10px">
+                            </div>
+                            <div class="text">
+                                <h2>{{ track.name }}</h2>
+                                <h3>{{ track.artists }}</h3>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="info fade varhigh" id="info8-varhigh">
+                <div class="scenario">
+                    <p>Your music blazes solar flares, erupting with a vibrant horizon of golden waves and illuminating
+                        the darkest corners with warmth. These tracks remind you of the beauty in everything, that even
+                        in dark space, light and joy can thrive.</p>
+                    <p>Your average positivity: {{ wrap.wrap1.valence }}%.</p>
+                </div>
+                {% for track in wrap.wrap1.top3valence %}
+                    <div class="details">
+                        <img src="{{ track.image }}" width="33" height="33">
+                        <div class="bullet">
+                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                 width="10px">
+                        </div>
+                        <div class="text">
+                            <h2>{{ track.name }}</h2>
+                            <h3>{{ track.artists }}</h3>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <script>
+            const valence = {{ wrap.wrap1.valence }};
+
+            function addValenceId() {
+                const element = document.getElementById('front8');
+
+                if (valence < 50) {
+                    element.id = "front8-varlow";
+                } else {
+                    element.id = "front8-varhigh";
+                }
+            }
+
+            function setupValenceInfo() {
+                const card = document.querySelector(".card8");
+                const lowInfo = document.getElementById("info8-varlow");
+                const highInfo = document.getElementById("info8-varhigh");
+
+                card.addEventListener("mouseenter", () => {
+                    if (valence < 50) {
+                        lowInfo.style.display = "flex";
+                        highInfo.style.display = "none";
+                    } else {
+                        lowInfo.style.display = "none";
+                        highInfo.style.display = "flex";
+                    }
+                });
+
+                card.addEventListener("mouseleave", () => {
+                    lowInfo.style.display = "none";
+                    highInfo.style.display = "none";
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", addValenceId);
+            document.addEventListener("DOMContentLoaded", setupValenceInfo);
+        </script>
+    </div>
+
+    <script>
+        document.querySelectorAll("#card").forEach(card => {
+            card.addEventListener("click", function () {
+                if (this.classList.contains("clicked")) {
+                    this.classList.remove("clicked");
+                } else {
+                    document.querySelectorAll("#card").forEach(c => c.classList.remove("clicked"));
+                    this.classList.add("clicked");
+                }
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const bulletImages = document.querySelectorAll('.fbullet-img');
+
+            bulletImages.forEach(function (bullet, index) {
+                const bulletImages = [
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet1.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet2.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet3.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet4.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet5.svg' %}"
+                ];
+
+                bullet.src = bulletImages[index % bulletImages.length];
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const bulletImages = document.querySelectorAll('.tbullet-img');
+
+            bulletImages.forEach(function (bullet, index) {
+                const bulletImages = [
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet1.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet2.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet3.svg' %}"
+                ];
+
+                bullet.src = bulletImages[index % bulletImages.length];
+            });
+        });
+    </script>
+</div>
+
+{% if wrap.isDuo %}
+    {{ wrap.wrap2 }}
+    {{ wrap.duowrap }}
+{% endif %}
 </body>
 </html>

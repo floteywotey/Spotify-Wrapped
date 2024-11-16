@@ -106,12 +106,13 @@ body {
 
 .settings {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
 }
 
 button {
     padding: 10px;
+    width: 150px;
     font-size: 1vw;
     border-radius: 16px;
     border: 1px white solid;
@@ -119,10 +120,12 @@ button {
     color: white;
     font-family: Linden Hill, serif;
     transition: 0.5s;
+    cursor: pointer;
 }
 
 button:hover {
     box-shadow: 0 0 25px rebeccapurple;
+    width: 160px;
     background: transparent;
     letter-spacing: 0.1em;
 }
@@ -162,6 +165,13 @@ h1 {
     margin: 0;
     padding-bottom: 10px;
     font-family: "Kaisei Tokumin", serif;
+}
+
+.account-settings h1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 #userto textarea{
@@ -210,6 +220,7 @@ h1 {
     overflow: hidden;
     text-overflow: ellipsis;
     background: black;
+    cursor: pointer;
 }
 
 .search-button:hover {

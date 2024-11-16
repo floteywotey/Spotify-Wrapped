@@ -143,3 +143,11 @@ STATIC_ROOT = BASE_DIR / 'static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'spotifywrapped19@gmail.com'  # Replace with your email address
+EMAIL_HOST_PASSWORD = 'ldti onmz wcpc mayu'  # Replace with your email password
+EMAIL_USE_SSL = False

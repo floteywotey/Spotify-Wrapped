@@ -66,7 +66,7 @@
         </div>
     </div>
 
-    <!--script>
+    <script>
         const images = [
             "{% static 'SpotifyWrapped/images/card/card_fronts_notext/reawakening-dark.svg' %}",
             "{% static 'SpotifyWrapped/images/card/card_fronts_notext/reawakening-light.svg' %}",
@@ -95,7 +95,13 @@
 
         // Run the function when the page has loaded
         document.addEventListener("DOMContentLoaded", insertRandomImages);
-    </script-->
+
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted || performance.navigation.type === 2) {
+                window.location.reload();
+            }
+        });
+    </script>
 </div>
 
 </body>
