@@ -108,6 +108,7 @@ input[type="radio"] {
 
 .filter-group label:hover, .filter-group input:checked {
     color: yellow;
+    cursor: pointer;
 }
 
 /*Filter Button Section*/
