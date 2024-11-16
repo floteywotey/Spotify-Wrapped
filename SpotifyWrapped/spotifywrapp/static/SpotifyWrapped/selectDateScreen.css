@@ -68,6 +68,7 @@ h2 {
     position: absolute;
     top: 50%;
     left: 50%;
+    gap: 30px;
     transform: translate(-50%, -50%); /* Center the group within the orb */
     z-index: 2; /* Ensure it appears above the orb */
     color: white;
@@ -84,6 +85,7 @@ input[type="radio"] {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: #001D4A;
     gap: 10px;
     opacity: 0;
     border-radius: 50%;
@@ -104,10 +106,32 @@ input[type="radio"] {
 .filter-group label img{
     width: 2vw;
     min-width: 30px;
+    filter: brightness(10%);
 }
 
-.filter-group label:hover, .filter-group input:checked {
-    color: yellow;
+/* Base label styling */
+label {
+    cursor: pointer;
+    color: white;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Change label color on hover */
+label:hover {
+    transform: scale(1.1);
+    color: white;
+}
+
+/* Style the label when the radio button is selected */
+input[type="radio"]:checked + label {
+    color: white;
+    font-weight: bold; /* Optional for emphasis */
+    transform: scale(1.1); /* Optional: slightly larger for emphasis */
+}
+
+input[type="radio"]:checked + img {
+    filter: brightness(100%);
+    transform: scale(1.1); /* Optional: slightly larger for emphasis */
 }
 
 /*Filter Button Section*/
@@ -123,7 +147,7 @@ input[type="radio"] {
     border: 1px solid rgba(255,255,255,0.5);
     backdrop-filter: blur(5px);
     transition: 0.75s;
-    top: 150px;
+    top: 15vh;
     opacity: 0;
 }
 
@@ -131,6 +155,7 @@ input[type="radio"] {
     box-shadow: 0 0 30px #b67bed;
     color: #b67bed;
     letter-spacing: 0.1em;
+    cursor: pointer;
 }
 
 /* Animations */
