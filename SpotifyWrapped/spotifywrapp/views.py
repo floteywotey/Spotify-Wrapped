@@ -289,7 +289,7 @@ def getSoloWrap(request, username, time, limit=10):
         if (len(artist.get('images')) == 0):
             image = 'N/A'
         else:
-            image = artist.get('images', [{'url': 'None'}])[0].get('url', 'None'),
+            image = artist.get('images', [{'url': 'None'}])[0].get('url', 'None')
         dict = {
             'image' : image,
             'name' : artist['name'],
