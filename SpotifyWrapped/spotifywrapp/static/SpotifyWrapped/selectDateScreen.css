@@ -21,92 +21,110 @@ body, .filter-button {
 .main-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: flex-start;
+    padding-top: 50px;
     height: 100vh; /* Full viewport height for vertical centering */
     width: 100vw; /* Full viewport width */
 }
 h2 {
-    padding-top: 50px;
     opacity: 0;
     animation: appear 1s ease-in-out 2s forwards;
     position: relative;
-    bottom: -50px;
+    bottom: -20px;
 }
 
+/* Orb Section */
 .orb-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+}
+.orb {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    position: relative; /* Ensures child elements are positioned within it */
-    height: calc(100vh*(3/4));
-    width: calc(100vw*(3/4));
 }
-
 /* Ensure #orb takes up the space you want it to */
 #orb {
-    background: url("images/decorations/orb/dark-orb.svg") no-repeat center center;
-    background-size: contain;
     z-index: 1;
-    width: 50vw; /* Adjust size as needed */
-    max-width: 500px;
-    min-width: 400px;
-    height: 50vw; /* Maintain square shape */
-    max-height: 500px;
-    min-height: 400px;
+    position: relative;
+    top: 10px;
+    width: 450px;
+    height: 450px;
     opacity: 0;
-    animation: fadeIn 7s, changeColor 10s ease infinite;
+    animation: fadeIn 7s, changeColor 7s ease infinite;
     animation-fill-mode: forwards;
 }
 
-/* Center the filter-group within the orb */
+/* Radio Button Section */
 .filter-group {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 45%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); /* Center the group within the orb */
     z-index: 2; /* Ensure it appears above the orb */
     color: white;
     text-align: center;
-    opacity: 0;
-    animation: appear 2s ease forwards;
 }
 
+input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
 
-/* Center the radio buttons within the choices */
-.choices {
+.choices label {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center each radio button horizontally */
-    gap: 10px; /* Space between radio options */
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
     opacity: 0;
-    animation: appear 2s ease-out forwards;
+    border-radius: 50%;
+    transition: 0.5s;
+    animation: appear .2s 3s ease forwards;
 }
-.filter-group input:nth-child(1) { animation: appear 2s ease-out 8s forwards}
-.choices label:nth-child(2) { animation-delay: 8.5s }
-.choices input:nth-child(3) { animation-delay: 9s }
-.choices label:nth-child(4) { animation-delay: 9.5s }
-.choices input:nth-child(5) { animation-delay: 10s }
-.choices label:nth-child(6) { animation-delay: 10.5s }
 
+.choices:nth-child(1) {
+    animation-delay: 5s;
+}
+.choices:nth-child(2) {
+    animation-delay: 6s;
+}
+.choices:nth-child(3) {
+    animation-delay: 8s;
+}
+
+.filter-group label img{
+    width: 2vw;
+    min-width: 30px;
+}
+
+.filter-group label:hover, .filter-group input:checked {
+    color: yellow;
+}
+
+/*Filter Button Section*/
 .filter-button {
-    z-index: 3; /* Ensure it’s on top */
-    top: 50%;
+    z-index: 4; /* Ensure it’s on top */
     text-decoration: none;
-    font-size: x-large;
     position: relative;
+    font-size: x-large;
     color: white;
-    padding: 20px;
-    border-radius: 32px;
+    padding: 20px 50px;
+    border-radius: 45px;
     background: none;
     border: 1px solid rgba(255,255,255,0.5);
     backdrop-filter: blur(5px);
-    transition: 0.5s;
+    transition: 0.75s;
+    top: 150px;
+    opacity: 0;
 }
 
 .filter-button:hover {
@@ -115,7 +133,7 @@ h2 {
     letter-spacing: 0.1em;
 }
 
-
+/* Animations */
 @keyframes fadeIn {
     0% { opacity: 0; }
     75%{opacity: 1}
@@ -125,7 +143,7 @@ h2 {
 @keyframes appear {
   0% {
     opacity: 0;
-    bottom: -50px;
+    bottom: -20px;
   }
 
     100% {
