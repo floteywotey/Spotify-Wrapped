@@ -68,15 +68,16 @@ h2 {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
+    gap: 30px;
+    transform: translate(-50%, -50%); /* Center the group within the orb */
+    z-index: 2; /* Ensure it appears above the orb */
     color: white;
     text-align: center;
 }
 
 input[type="radio"] {
-    position: absolute;
-    opacity: 0; /* Hidden, styled by label */
+  position: absolute;
+  opacity: 0;
 }
 
 .choices label {
@@ -84,44 +85,54 @@ input[type="radio"] {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: #001D4A;
     gap: 10px;
     opacity: 0;
-    transform: translateY(20px); /* Slight downward position initially */
-    animation: appear 0.5s ease-out forwards; /* Fade-in and upward animation */
+    border-radius: 50%;
+    transition: 0.5s;
+    animation: appear .2s 3s ease forwards;
 }
 
-/* Sequential Animation for Radio Buttons */
 .choices:nth-child(1) {
-    animation-delay: 3s; /* First button appears after 3 seconds */
+    animation-delay: 5s;
 }
-
 .choices:nth-child(2) {
-    animation-delay: 4s; /* Second button appears after 4 seconds */
+    animation-delay: 6s;
 }
-
 .choices:nth-child(3) {
-    animation-delay: 5s; /* Third button appears after 5 seconds */
+    animation-delay: 8s;
 }
 
-.filter-group label:hover, .filter-group input:checked + label {
-    color: yellow;
+.filter-group label img{
+    width: 2vw;
+    min-width: 30px;
+    filter: brightness(10%);
+}
+
+/* Base label styling */
+label {
     cursor: pointer;
-    transform: scale(1.1); /* Slight scale effect on hover or active */
-    transition: transform 0.3s ease-in-out;
+    color: white;
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
-/* Keyframes */
-@keyframes appear {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Change label color on hover */
+label:hover {
+    transform: scale(1.1);
+    color: white;
 }
 
+/* Style the label when the radio button is selected */
+input[type="radio"]:checked + label {
+    color: white;
+    font-weight: bold; /* Optional for emphasis */
+    transform: scale(1.1); /* Optional: slightly larger for emphasis */
+}
+
+input[type="radio"]:checked + img {
+    filter: brightness(100%);
+    transform: scale(1.1); /* Optional: slightly larger for emphasis */
+}
 
 /*Filter Button Section*/
 .filter-button {
@@ -136,7 +147,7 @@ input[type="radio"] {
     border: 1px solid rgba(255,255,255,0.5);
     backdrop-filter: blur(5px);
     transition: 0.75s;
-    top: 150px;
+    top: 15vh;
     opacity: 0;
 }
 
