@@ -68,15 +68,15 @@ h2 {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Center the group within the orb */
-    z-index: 2; /* Ensure it appears above the orb */
+    transform: translate(-50%, -50%);
+    z-index: 2;
     color: white;
     text-align: center;
 }
 
 input[type="radio"] {
-  position: absolute;
-  opacity: 0;
+    position: absolute;
+    opacity: 0; /* Hidden, styled by label */
 }
 
 .choices label {
@@ -86,30 +86,42 @@ input[type="radio"] {
     align-items: center;
     gap: 10px;
     opacity: 0;
-    border-radius: 50%;
-    transition: 0.5s;
-    animation: appear .2s 3s ease forwards;
+    transform: translateY(20px); /* Slight downward position initially */
+    animation: appear 0.5s ease-out forwards; /* Fade-in and upward animation */
 }
 
+/* Sequential Animation for Radio Buttons */
 .choices:nth-child(1) {
-    animation-delay: 5s;
+    animation-delay: 3s; /* First button appears after 3 seconds */
 }
+
 .choices:nth-child(2) {
-    animation-delay: 6s;
+    animation-delay: 4s; /* Second button appears after 4 seconds */
 }
+
 .choices:nth-child(3) {
-    animation-delay: 8s;
+    animation-delay: 5s; /* Third button appears after 5 seconds */
 }
 
-.filter-group label img{
-    width: 2vw;
-    min-width: 30px;
-}
-
-.filter-group label:hover, .filter-group input:checked {
+.filter-group label:hover, .filter-group input:checked + label {
     color: yellow;
     cursor: pointer;
+    transform: scale(1.1); /* Slight scale effect on hover or active */
+    transition: transform 0.3s ease-in-out;
 }
+
+/* Keyframes */
+@keyframes appear {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 
 /*Filter Button Section*/
 .filter-button {
@@ -132,6 +144,7 @@ input[type="radio"] {
     box-shadow: 0 0 30px #b67bed;
     color: #b67bed;
     letter-spacing: 0.1em;
+    cursor: pointer;
 }
 
 /* Animations */
