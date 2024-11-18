@@ -1,0 +1,41 @@
+
+.card-container {
+    position: relative;
+    width: 250px;
+    height: 400px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    background: url("images/card/default-card-back.svg") no-repeat center center;
+    background-size: cover;
+    border-radius: 10px;
+    position: absolute;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+#card1 {
+    z-index: 3;
+    transform: translateY(0px);
+}
+
+#card2 {
+    z-index: 2;
+    transform: translateY(15px);
+}
+
+#card3 {
+    z-index: 1;
+    transform: translateY(30px);
+}
+
+.card.animate {
+    transform: translateX(200px) rotate(10deg);
+    opacity: 1;
+}
