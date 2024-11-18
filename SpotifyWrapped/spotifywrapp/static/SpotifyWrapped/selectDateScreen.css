@@ -1,192 +1,188 @@
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
+/* General Resets */
+/* General Resets */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
 body {
     display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    background: black;
     justify-content: center;
     align-items: center;
-    flex: 1 1 0;
-    -webkit-background-size: cover;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    background: black;
     color: white;
-}
-body, .filter-button {
     font-family: 'Kaisei Tokumin', 'Kalnia', 'Sahitya', sans-serif;
 }
 
-* {
-    margin: 0;
-}
-
+/* Main Container */
 .main-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding-top: 50px;
-    height: 100vh; /* Full viewport height for vertical centering */
-    width: 100vw; /* Full viewport width */
-}
-h2 {
-    opacity: 0;
-    animation: appear 1s ease-in-out 2s forwards;
-    position: relative;
-    bottom: -20px;
-}
-
-/* Orb Section */
-.orb-container {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    gap: 30px;
-}
-.orb {
-    display: flex;
     justify-content: center;
     align-items: center;
+    width: 100vw;
+    height: 100vh;
+    padding: 2rem; /* Add padding for breathing space */
 }
-/* Ensure #orb takes up the space you want it to */
-#orb {
-    z-index: 1;
+
+/* Orb Styling */
+.orb-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.orb {
     position: relative;
-    top: 10px;
-    width: 450px;
-    height: 450px;
-    opacity: 0;
+    width: 40vw;
+    height: 40vw;
+    max-width: 450px;
+    max-height: 450px;
+}
+
+#orb {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
     animation: fadeIn 7s, changeColor 7s ease infinite;
     animation-fill-mode: forwards;
 }
 
-/* Radio Button Section */
+/* Filter Group */
 .filter-group {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     position: absolute;
     top: 50%;
     left: 50%;
-    gap: 30px;
-    transform: translate(-50%, -50%); /* Center the group within the orb */
-    z-index: 2; /* Ensure it appears above the orb */
-    color: white;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
     text-align: center;
+    z-index: 2;
+    color: white;
 }
 
-input[type="radio"] {
-  position: absolute;
-  opacity: 0;
+/* Radio Button Choices */
+.choices {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .choices label {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #001D4A;
-    gap: 10px;
-    opacity: 0;
-    border-radius: 50%;
-    transition: 0.5s;
-    animation: appear .2s 3s ease forwards;
-}
-
-.choices:nth-child(1) {
-    animation-delay: 5s;
-}
-.choices:nth-child(2) {
-    animation-delay: 6s;
-}
-.choices:nth-child(3) {
-    animation-delay: 8s;
-}
-
-.filter-group label img{
-    width: 2vw;
-    min-width: 30px;
-    filter: brightness(10%);
-}
-
-/* Base label styling */
-label {
-    cursor: pointer;
-    color: white;
+    font-size: 1rem;
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
-/* Change label color on hover */
 label:hover {
     transform: scale(1.1);
-    color: white;
+    color: #b67bed;
 }
 
-/* Style the label when the radio button is selected */
 input[type="radio"]:checked + label {
-    color: white;
-    font-weight: bold; /* Optional for emphasis */
-    transform: scale(1.1); /* Optional: slightly larger for emphasis */
+    font-weight: bold;
+    transform: scale(1.1);
+    color: #b67bed;
 }
 
-input[type="radio"]:checked + img {
+/* Images in Choices */
+.filter-group label img {
+    width: 8vw;
+    min-width: 30px;
+    max-width: 80px;
+    filter: brightness(50%);
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+input[type="radio"]:checked + label img {
     filter: brightness(100%);
-    transform: scale(1.1); /* Optional: slightly larger for emphasis */
+    transform: scale(1.1);
 }
 
-/*Filter Button Section*/
+/* Filter Button */
 .filter-button {
-    z-index: 4; /* Ensure it’s on top */
-    text-decoration: none;
-    position: relative;
-    font-size: x-large;
+    padding: 1rem 2rem;
+    font-size: 1.25rem;
     color: white;
-    padding: 20px 50px;
-    border-radius: 45px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50px;
     background: none;
-    border: 1px solid rgba(255,255,255,0.5);
     backdrop-filter: blur(5px);
-    transition: 0.75s;
-    top: 15vh;
+    transition: 0.3s ease;
+    cursor: pointer;
     opacity: 0;
+    pointer-events: none;
 }
 
 .filter-button:hover {
-    box-shadow: 0 0 30px #b67bed;
     color: #b67bed;
-    letter-spacing: 0.1em;
-    cursor: pointer;
+    border-color: #b67bed;
+    box-shadow: 0 0 20px #b67bed;
+}
+
+input[type="radio"]:checked ~ .filter-button {
+    opacity: 1;
+    pointer-events: all;
 }
 
 /* Animations */
 @keyframes fadeIn {
     0% { opacity: 0; }
-    75%{opacity: 1}
     100% { opacity: 1; }
 }
 
-@keyframes appear {
-  0% {
-    opacity: 0;
-    bottom: -20px;
-  }
-
-    100% {
-        opacity: 1;
-        bottom: 0;
+@keyframes changeColor {
+    0%, 100% {
+        filter: hue-rotate(20deg);
+    }
+    50% {
+        filter: hue-rotate(0deg);
+        backdrop-filter: blur(10px);
     }
 }
 
-@keyframes changeColor {
-    0%,100% {
-    /* Effect values */
-    filter: hue-rotate(20deg);
-  }
-  50% {
-    filter: hue-rotate(0deg);
-      backdrop-filter: blur(20px);
-  }
-    25%, 75% {
-        filter: hue-rotate(10deg);
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .orb {
+        width: 60vw;
+        height: 60vw;
+    }
+
+    .filter-group {
+        gap: 1.5rem;
+    }
+
+    .choices label {
+        font-size: 0.9rem;
+    }
+
+    .filter-button {
+        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .orb {
+        width: 80vw;
+        height: 80vw;
+    }
+
+    .choices label {
+        font-size: 0.8rem;
+    }
+
+    .filter-button {
+        font-size: 0.9rem;
     }
 }
