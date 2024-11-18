@@ -53,6 +53,8 @@ class wraps(models.Model):
     user1 = models.CharField(max_length=150)
     user2 = models.CharField(max_length=150)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    imageNum = models.IntegerField()
+    image = models.CharField(max_length=150)
     def getdate(self):
         return self.date
 
