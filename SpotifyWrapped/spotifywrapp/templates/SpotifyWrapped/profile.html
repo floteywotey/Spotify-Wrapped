@@ -25,6 +25,13 @@
                 <h1>Account Settings: {{ username }}</h1>
                 <div class="settings">
                     <div class="button">
+                        <label class="switch">
+                            <input id="themeToggle" type="checkbox" {% if user.profile.theme_preference == "dark" %}checked{% endif %}>
+                            <span class="slider round"></span>
+                        </label>
+                        <p>Enable Dark Mode</p>
+                    </div>
+                    <div class="button">
                         {% if usertoken %}
                             <button onclick="window.location.href='{% url 'spotify_unauthorize' %}'">
                                 <img class="link" src="{% static 'SpotifyWrapped/images/icons/external_link.svg' %}"
