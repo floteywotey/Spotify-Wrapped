@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
 /* General Resets */
 /* General Resets */
+/* General Resets */
 * {
     margin: 0;
     padding: 0;
@@ -24,11 +25,19 @@ body {
 .main-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 100vw;
     height: 100vh;
     padding: 2rem; /* Add padding for breathing space */
+    padding-top: 5rem;
+}
+
+h2 {
+    opacity: 0;
+    animation: appear 1s ease-in-out 2s forwards;
+    position: relative;
+    bottom: -20px;
 }
 
 /* Orb Styling */
@@ -52,82 +61,104 @@ body {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    animation: fadeIn 7s, changeColor 7s ease infinite;
+    animation: fadeIn 5s, changeColor 7s ease infinite;
     animation-fill-mode: forwards;
 }
 
 /* Filter Group */
 .filter-group {
     position: absolute;
-    top: 50%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    gap: 5rem;
     text-align: center;
     z-index: 2;
-    color: white;
 }
 
+.radio-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
 /* Radio Button Choices */
 .choices {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
+    opacity: 0;
+    animation: appear 1s ease-in-out 4s forwards;
 }
 
 .choices label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 1rem;
+    color: black;
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
 label:hover {
     transform: scale(1.1);
-    color: #b67bed;
+    color: white;
+}
+
+input[type="radio"] {
+  opacity: 0;
 }
 
 input[type="radio"]:checked + label {
     font-weight: bold;
     transform: scale(1.1);
-    color: #b67bed;
+    color: white;
 }
 
 /* Images in Choices */
-.filter-group label img {
-    width: 8vw;
-    min-width: 30px;
+.radio-buttons label img {
+    width: 3vw;
+    min-width: 10px;
     max-width: 80px;
-    filter: brightness(50%);
+    filter: brightness(0%);
     transition: filter 0.3s ease, transform 0.3s ease;
 }
 
-input[type="radio"]:checked + label img {
+input[type="radio"]:hover + label img, input[type="radio"]:checked + label img {
     filter: brightness(100%);
     transform: scale(1.1);
 }
 
 /* Filter Button */
 .filter-button {
-    padding: 1rem 2rem;
-    font-size: 1.25rem;
+   display: inline-block; /* Allows the button to size dynamically based on content */
+    text-decoration: none;
+    font-family: 'Kaisei Tokumin', 'Kalnia', 'Sahitya', sans-serif;
+    font-size: 1.4rem;
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 50px;
+    padding: 15px 20px; /* Adjust padding for comfortable spacing */
+    border-radius: 45px;
     background: none;
+    border: 1px solid rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(5px);
-    transition: 0.3s ease;
-    cursor: pointer;
+    transition: 0.5s;
     opacity: 0;
-    pointer-events: none;
+    margin-top: 1rem;
+    cursor: pointer;
+    text-align: center; /* Center-aligns text within the button */
+    white-space: nowrap; /* Prevents text wrapping */
 }
 
 .filter-button:hover {
     color: #b67bed;
     border-color: #b67bed;
+    letter-spacing: 0.1em;
     box-shadow: 0 0 20px #b67bed;
+
 }
 
 input[type="radio"]:checked ~ .filter-button {
@@ -139,6 +170,18 @@ input[type="radio"]:checked ~ .filter-button {
 @keyframes fadeIn {
     0% { opacity: 0; }
     100% { opacity: 1; }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    bottom: -20px;
+  }
+
+    100% {
+        opacity: 1;
+        bottom: 0;
+    }
 }
 
 @keyframes changeColor {
