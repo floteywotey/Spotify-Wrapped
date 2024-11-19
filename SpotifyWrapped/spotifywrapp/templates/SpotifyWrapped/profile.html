@@ -22,7 +22,7 @@
     <div class="main-items">
         <div class="side1">
             <div class="account-settings box">
-                <h1>Account Settings:</h1>
+                <h1>Account Settings: {{ username }}</h1>
                 <div class="settings">
                     <div class="button">
                         {% if usertoken %}
@@ -32,7 +32,7 @@
                                 Unlink
                             </button>
                         {% else %}
-                            <button onclick="window.location.href='{% url 'spotify_authorize' %}'">
+                            <button onclick="window.location.href='{% url 'spotify_authorize_profile' %}'">
                                 <img class="link" src="{% static 'SpotifyWrapped/images/icons/external_link.svg' %}"
                                      alt="external link icon">
                                 Link
@@ -96,8 +96,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button type="button" class="cancel-button"><a href="{{ link }}">Cancel</a></button>
-                                    <button type="submit" class="form-submit">Send invite</button>
+                                    <button type="button" class="invite-button"><a href="{{ link }}">Cancel</a></button>
+                                    <button type="submit" class="invite-button">Send invite</button>
                                 </div>
                             </div>
 
@@ -114,7 +114,7 @@
                             {% csrf_token %}
                             <input type="hidden" id="fromUser" name="fromUser" value="{{ invite.userFrom }}">
                             <input type="hidden" id="time" name="time" value="{{ invite.time }}">
-                            <input type="hidden" id="time" name="invite" value="{{ invite }}">
+                            <input type="hidden" id="id" name="id" value="{{ invite.id }}">
                             <button class="search-button" type="submit">{{ invite.userFrom }}: ({{ invite.time }}) {{ invite.message }}</button>
                         </form>
                     {% endfor %}

@@ -1,131 +1,181 @@
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
+/* General Resets */
+/* General Resets */
+/* General Resets */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
 body {
     display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    background: black;
     justify-content: center;
     align-items: center;
-    flex: 1 1 0;
-    -webkit-background-size: cover;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    background: black;
     color: white;
-}
-body, .filter-button {
     font-family: 'Kaisei Tokumin', 'Kalnia', 'Sahitya', sans-serif;
 }
 
-* {
-    margin: 0;
-}
-
+/* Main Container */
 .main-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    height: 100vh; /* Full viewport height for vertical centering */
-    width: 100vw; /* Full viewport width */
+    width: 100vw;
+    height: 100vh;
+    padding: 2rem; /* Add padding for breathing space */
+    padding-top: 5rem;
 }
+
 h2 {
-    padding-top: 50px;
     opacity: 0;
     animation: appear 1s ease-in-out 2s forwards;
     position: relative;
-    bottom: -50px;
+    bottom: -20px;
 }
 
+/* Orb Styling */
 .orb-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    position: relative; /* Ensures child elements are positioned within it */
-    height: calc(100vh*(3/4));
-    width: calc(100vw*(3/4));
+    gap: 1.5rem;
 }
 
-/* Ensure #orb takes up the space you want it to */
+.orb {
+    position: relative;
+    width: 40vw;
+    height: 40vw;
+    max-width: 450px;
+    max-height: 450px;
+}
+
 #orb {
-    background: url("images/decorations/orb/dark-orb.svg") no-repeat center center;
-    background-size: contain;
-    z-index: 1;
-    width: 50vw; /* Adjust size as needed */
-    max-width: 500px;
-    min-width: 400px;
-    height: 50vw; /* Maintain square shape */
-    max-height: 500px;
-    min-height: 400px;
-    opacity: 0;
-    animation: fadeIn 7s, changeColor 10s ease infinite;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    animation: fadeIn 5s, changeColor 7s ease infinite;
     animation-fill-mode: forwards;
 }
 
-/* Center the filter-group within the orb */
+/* Filter Group */
 .filter-group {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Center the group within the orb */
-    z-index: 2; /* Ensure it appears above the orb */
-    color: white;
+    gap: 5rem;
     text-align: center;
-    opacity: 0;
-    animation: appear 2s ease forwards;
+    z-index: 2;
 }
 
-
-/* Center the radio buttons within the choices */
+.radio-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+/* Radio Button Choices */
 .choices {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center each radio button horizontally */
-    gap: 10px; /* Space between radio options */
+    align-items: center;
+    gap: 0.5rem;
     opacity: 0;
-    animation: appear 2s ease-out forwards;
+    animation: appear 1s ease-in-out 4s forwards;
 }
-.filter-group input:nth-child(1) { animation: appear 2s ease-out 8s forwards}
-.choices label:nth-child(2) { animation-delay: 8.5s }
-.choices input:nth-child(3) { animation-delay: 9s }
-.choices label:nth-child(4) { animation-delay: 9.5s }
-.choices input:nth-child(5) { animation-delay: 10s }
-.choices label:nth-child(6) { animation-delay: 10.5s }
 
-.filter-button {
-    z-index: 3; /* Ensure it’s on top */
-    top: 50%;
-    text-decoration: none;
-    font-size: x-large;
-    position: relative;
+.choices label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    color: black;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+label:hover {
+    transform: scale(1.1);
     color: white;
-    padding: 20px;
-    border-radius: 32px;
+}
+
+input[type="radio"] {
+  opacity: 0;
+}
+
+input[type="radio"]:checked + label {
+    font-weight: bold;
+    transform: scale(1.1);
+    color: white;
+}
+
+/* Images in Choices */
+.radio-buttons label img {
+    width: 3vw;
+    min-width: 10px;
+    max-width: 80px;
+    filter: brightness(0%);
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+input[type="radio"]:hover + label img, input[type="radio"]:checked + label img {
+    filter: brightness(100%);
+    transform: scale(1.1);
+}
+
+/* Filter Button */
+.filter-button {
+   display: inline-block; /* Allows the button to size dynamically based on content */
+    text-decoration: none;
+    font-family: 'Kaisei Tokumin', 'Kalnia', 'Sahitya', sans-serif;
+    font-size: 1.4rem;
+    color: white;
+    padding: 15px 20px; /* Adjust padding for comfortable spacing */
+    border-radius: 45px;
     background: none;
-    border: 1px solid rgba(255,255,255,0.5);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(5px);
     transition: 0.5s;
+    opacity: 0;
+    margin-top: 1rem;
+    cursor: pointer;
+    text-align: center; /* Center-aligns text within the button */
+    white-space: nowrap; /* Prevents text wrapping */
 }
 
 .filter-button:hover {
-    box-shadow: 0 0 30px #b67bed;
     color: #b67bed;
+    border-color: #b67bed;
     letter-spacing: 0.1em;
+    box-shadow: 0 0 20px #b67bed;
+
 }
 
+input[type="radio"]:checked ~ .filter-button {
+    opacity: 1;
+    pointer-events: all;
+}
 
+/* Animations */
 @keyframes fadeIn {
     0% { opacity: 0; }
-    75%{opacity: 1}
     100% { opacity: 1; }
 }
 
 @keyframes appear {
   0% {
     opacity: 0;
-    bottom: -50px;
+    bottom: -20px;
   }
 
     100% {
@@ -135,15 +185,47 @@ h2 {
 }
 
 @keyframes changeColor {
-    0%,100% {
-    /* Effect values */
-    filter: hue-rotate(20deg);
-  }
-  50% {
-    filter: hue-rotate(0deg);
-      backdrop-filter: blur(20px);
-  }
-    25%, 75% {
-        filter: hue-rotate(10deg);
+    0%, 100% {
+        filter: hue-rotate(20deg);
+    }
+    50% {
+        filter: hue-rotate(0deg);
+        backdrop-filter: blur(10px);
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .orb {
+        width: 60vw;
+        height: 60vw;
+    }
+
+    .filter-group {
+        gap: 1.5rem;
+    }
+
+    .choices label {
+        font-size: 0.9rem;
+    }
+
+    .filter-button {
+        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .orb {
+        width: 80vw;
+        height: 80vw;
+    }
+
+    .choices label {
+        font-size: 0.8rem;
+    }
+
+    .filter-button {
+        font-size: 0.9rem;
     }
 }

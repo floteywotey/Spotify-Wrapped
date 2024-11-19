@@ -1,23 +1,34 @@
 import os
+from random import randint
+
 import requests
-from .forms import CreateInvite
+from .forms import CreateInvite, SignUpForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.auth import get_user_model
 from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from dotenv import load_dotenv
 from django.http import JsonResponse
 
 from .models import SpotifyUser, wraps, invites
-
-
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+from django.db.models.query_utils import Q
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+User._meta.get_field('email')._unique = True
 #loads environment variables from .env, so client id and secret client etc
 load_dotenv()
 
 CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
 CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
-REDIRECT_URI = os.getenv("SPOTIFY_REDIRECT_URI")
-
+REDIRECT_URI_HOME = os.getenv("SPOTIFY_REDIRECT_URI_HOME")
+REDIRECT_URI_PROFILE = os.getenv("SPOTIFY_REDIRECT_URI_PROFILE")
 
 #Spotify Token URL
 AUTH_URL = 'https://accounts.spotify.com/api/token'
@@ -31,6 +42,16 @@ def startscreen(request):
 def readings(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
+    if request.method == 'POST':
+        identity = request.POST.get('id', '')
+        print(identity)
+        wrap = wraps.objects.get(id=identity)
+        print(wrap)
+        if (wrap.user1 == request.user.username):
+            wrap.user1 = ''
+        if (wrap.user2 == request.user.username):
+            wrap.user2 = ''
+        wrap.save()
     return render(request, 'readings.html', {"recent" : recentWraps(request.user.username)})
 
 def home(request):
@@ -94,7 +115,7 @@ def register(request):
     if request.user.is_authenticated:
         return redirect('home')
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
@@ -102,7 +123,7 @@ def register(request):
             spot.save()
             return redirect('home')
     else:
-        form = UserCreationForm()
+        form = SignUpForm()
     return render(request, 'register.html', {'form': form})
 
 def profile(request):
@@ -113,6 +134,8 @@ def profile(request):
         if form.is_valid():
             invite = form.save()
             invite.userFrom = request.user.username
+            invite.fromSpotifyToken = SpotifyUser.objects.get(user=request.user.username).spotifytoken
+            invite.fromRefreshToken = SpotifyUser.objects.get(user=request.user.username).refreshtoken
             if not SpotifyUser.objects.filter(user=invite.userTo).exists():
                 invite.delete()
             invite.save()
@@ -120,11 +143,13 @@ def profile(request):
     else:
         form = CreateInvite()
     inviteList = list(invites.objects.filter(userTo=request.user.username))
-    return render(request, 'profile.html', {'form' : form, 'usertoken' : getSpotifyUser(request.user.username).spotifytoken, 'inviteList' : inviteList})
+    return render(request, 'profile.html', {'username' : request.user.username, 'form' : form, 'usertoken' : getSpotifyUser(request.user.username).spotifytoken, 'inviteList' : inviteList})
 
 def select_date(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
+    if SpotifyUser.objects.get(user=request.user.username).spotifytoken == '':
+        return redirect('spotify_authorize_home')
     return render(request, 'selectDateScreen.html')
 
 def results(request):
@@ -133,13 +158,25 @@ def results(request):
     sortedArray = recentWraps(request.user.username)
     return render(request, 'results.html', context={'wrap': sortedArray[0]})
 
+def post_results(request):
+    if not request.user.is_authenticated:
+        return redirect('startscreen')
+    identity = request.POST.get('id', '')
+    wrap = wraps.objects.get(id=identity)
+    return render(request, 'results.html', context={'wrap': wrap})
+
 def solo_results(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
     if request.method == "POST":
         time = request.POST.get('time', '')
         data = getSoloWrap(request, request.user.username, time, 50)
-        wrap = wraps.objects.create(wrap1=data, wrap2={}, duowrap={}, isDuo=False, user1=request.user.username)
+
+        randInt = randint(0,13)
+        if (len(recentWraps(request.user.username)) > 0):
+            while (randInt == recentWraps(request.user.username)[0].imageNum):
+                randInt = randint(0,13)
+        wrap = wraps.objects.create(wrap1=data, wrap2={}, duowrap={}, isDuo=False, user1=request.user.username, imageNum = randInt, image = imageList[randInt])
         wrap.save()
         return redirect('results')
     return redirect('results')
@@ -148,8 +185,11 @@ def duo_results(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
     if request.method == "POST":
+        if SpotifyUser.objects.get(user=request.user.username).spotifytoken == '':
+            return redirect('spotify_authorize_profile')
         time = request.POST.get('time', '')
         invite = request.POST.get('id', '')
+        print(invite)
         fromUser = request.POST.get('fromUser', '')
         toUser = request.user.username
         wrapData1 = getSoloWrap(request, fromUser, time, 50)
@@ -200,7 +240,17 @@ def duo_results(request):
             'valence': shared_valence
         }
         invites.objects.filter(id=invite).delete()
-        wrap = wraps.objects.create(wrap1=wrapData1, wrap2=wrapData2, duowrap=data, isDuo=True, user1=fromUser, user2=request.user.username)
+        randInt = randint(0, 13)
+        if (len(recentWraps(fromUser)) > 0 and len(recentWraps(toUser)) > 0):
+            while (randInt == recentWraps(fromUser)[0].imageNum or randInt == recentWraps(toUser)[0].imageNum):
+                randInt = randint(0, 13)
+        elif (len(recentWraps(fromUser)) > 0):
+            while (randInt == recentWraps(fromUser)[0].imageNum):
+                randInt = randint(0, 13)
+        elif (len(recentWraps(toUser)) > 0):
+            while (randInt == recentWraps(toUser)[0].imageNum):
+                randInt = randint(0, 13)
+        wrap = wraps.objects.create(wrap1=wrapData1, wrap2=wrapData2, duowrap=data, isDuo=True, user1=fromUser, user2=request.user.username, imageNum = randInt, image = imageList[randInt])
         wrap.save()
         return redirect('results')
     return redirect('results')
@@ -214,7 +264,7 @@ def refreshToken(request, username):
     spotifyToken = user.getspotifytoken()
     refresh = user.getrefreshtoken()
     if not spotifyToken:
-        spotify_authorize(request)
+        return spotify_authorize_home(request)
     else:
         token_url = 'https://accounts.spotify.com/api/token'
         data = {
@@ -278,14 +328,12 @@ def getSoloWrap(request, username, time, limit=10):
     songcsv = ''
     user =  list(SpotifyUser.objects.filter(user=username))[0]
     #try:
-    token = user.getspotifytoken() # Retrieve token from session
-    if not token:
-        spotify_authorize(request)
+    token = user.spotifytoken # Retrieve token from session
+
     # Get top artists and extract genres
     top_artists = get_top_artists(request, token, time, username, limit)
     artist_dict = []
     for artist in top_artists['items']:
-        image = ''
         if (len(artist.get('images')) == 0):
             image = 'N/A'
         else:
@@ -308,10 +356,17 @@ def getSoloWrap(request, username, time, limit=10):
     top_tracks = get_top_tracks(request, token, time, username, limit)
     track_dict = []
     for track in top_tracks['items']:
+        artists = ''
+        for artist in track['artists']:
+            artists += artist['name'] + ','
+        artists = artists[:-1]
+        print(artists)
         dict = {
             'id' : track['id'],
+            'name' : track['name'],
             'image' : track['album'].get('images', [{'url':'None'}])[0].get('url','None'),
             'popularity' : track['popularity'],
+            'artists' : artists,
         }
         track_dict.append(dict)
     albums = {}
@@ -328,20 +383,23 @@ def getSoloWrap(request, username, time, limit=10):
     response = requests.get('https://api.spotify.com/v1/audio-features', headers=headers, params=params)
     if response.status_code != 200:
         raise Exception(f"Failed to fetch top tracks! Status code: {response.status_code}")
-    print(len(response.json()['audio_features']))
     for item in response.json()['audio_features']:
         for track in track_dict:
             if track['id'] == item['id']:
-                track['valence'] = item['valence']
-                track['energy'] = item['energy']
-                track['danceability'] = item['danceability']
-        valence += item['valence']
-        danceability += item['danceability']
-        energy += item['energy']
+                track['valence'] = item['valence'] * 100
+                track['energy'] = item['energy'] * 100
+                track['danceability'] = item['danceability'] * 100
+        valence += item['valence'] * 100
+        danceability += item['danceability'] * 100
+        energy += item['energy'] * 100
     danceability /= limit
     popularity /= limit
     energy /= limit
     valence /= limit
+    danceability = round(danceability, 2)
+    energy = round(energy, 2)
+    popularity = round(popularity, 2)
+    valence = round(valence, 2)
     top_popularity = sorted(track_dict, key=lambda x: x['popularity'], reverse=True)
     top_valence = sorted(track_dict, key=lambda x: x['valence'], reverse=True)
     top_energy = sorted(track_dict, key=lambda x: x['energy'], reverse=True)
@@ -379,11 +437,12 @@ def getSoloWrap(request, username, time, limit=10):
         #return JsonResponse({'error': str(e)}, status=500)
 
 # Redirect user for Spotify authorization
-def spotify_authorize(request):
+def spotify_authorize_profile(request):
     scope = 'user-top-read'
+    URI = REDIRECT_URI_PROFILE
     auth_url = (
         'https://accounts.spotify.com/authorize?'
-        f'client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URI}&scope={scope}&show_dialog=true'
+        f'client_id={CLIENT_ID}&response_type=code&redirect_uri={URI}&scope={scope}&show_dialog=true'
     )
     return redirect(auth_url)
 
@@ -393,13 +452,13 @@ def spotify_unauthorize(request):
         item.save()
     return redirect('profile')
 
-def spotify_callback(request):
+def spotify_callback_profile(request):
     code = request.GET.get('code')
     token_url = 'https://accounts.spotify.com/api/token'
     data = {
         'grant_type': 'authorization_code',
         'code': code,
-        'redirect_uri': REDIRECT_URI,
+        'redirect_uri': REDIRECT_URI_PROFILE,
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET,
     }
@@ -422,3 +481,88 @@ def spotify_callback(request):
     else:
         # Handle the case where the request to Spotify's token endpoint failed
         return JsonResponse({'error': 'Failed to get the access token from Spotify'}, status=response.status_code)
+
+def spotify_authorize_home(request):
+    scope = 'user-top-read'
+    URI = REDIRECT_URI_HOME
+    auth_url = (
+        'https://accounts.spotify.com/authorize?'
+        f'client_id={CLIENT_ID}&response_type=code&redirect_uri={URI}&scope={scope}&show_dialog=true'
+    )
+    return redirect(auth_url)
+
+def spotify_callback_home(request):
+    code = request.GET.get('code')
+    token_url = 'https://accounts.spotify.com/api/token'
+    data = {
+        'grant_type': 'authorization_code',
+        'code': code,
+        'redirect_uri': REDIRECT_URI_HOME,
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+    }
+    response = requests.post(token_url, data=data)
+    # Check if the request was successful
+    if response.status_code == 200:
+        token_info = response.json()  # Get the token information
+        # Ensure access token is present in the response
+        if 'access_token' in token_info:
+            # Store the access token in the session
+            for item in SpotifyUser.objects.filter(user=request.user.username):
+                item.spotifytoken = token_info['access_token']
+                item.refreshtoken = token_info['refresh_token']
+                item.save()
+            # Redirect to the view that fetches user data
+            return redirect('home')
+        else:
+            # Handle missing access token in the response
+            return JsonResponse({'error': 'Access token not found in the response'}, status=500)
+    else:
+        # Handle the case where the request to Spotify's token endpoint failed
+        return JsonResponse({'error': 'Failed to get the access token from Spotify'}, status=response.status_code)
+
+def password_reset(request):
+    if request.method == 'POST':
+        password_form = PasswordResetForm(request.POST)
+        if password_form.is_valid():
+            data = password_form.cleaned_data['email']
+            user_email = User.objects.filter(Q(email=data))
+            if user_email.exists():
+                for user in user_email:
+                    subject = 'Password Request'
+                    email_template_name = 'password_message.txt'
+                    parameters = {
+                        'email':user.email,
+                        'username':user.username,
+                        'domain': '127.0.0.1:8000',
+                        'site_name': 'Spotify',
+                        'uid' : urlsafe_base64_encode(force_bytes(user.pk)),
+                        'token' : default_token_generator.make_token(user),
+                        'protocol': 'http',
+                    }
+                    email = render_to_string(email_template_name, parameters)
+                    send_mail(subject, email, 'spotifywrapped19@gmail.com', [user.email], fail_silently=False)
+                    return redirect('password_reset_done')
+    else:
+        password_form = PasswordResetForm()
+    context = {
+        'form': password_form,
+    }
+    return render(request, 'password_reset_form.html', context)
+
+imageList = [
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/reawakening-dark.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/reawakening-light.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-alchemist.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-bard.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-chariot.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-explorer.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-hermit.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-jester.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-lovers.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-moon.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-rogue.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-scholar.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-sun.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-wizard.svg'
+]

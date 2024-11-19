@@ -1,7 +1,21 @@
 from django import forms
 from . import models
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+User._meta.get_field('email')._unique = True
+class SignUpForm(UserCreationForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+
+    def __init__(self, *args, **kwargs):
+        super(SignUpForm, self).__init__(*args, **kwargs)
+
+        for fieldname in ['username', 'email', 'password1', 'password2']:
+            self.fields[fieldname].help_text = None
+
 
 class CreateInvite(forms.ModelForm):
 

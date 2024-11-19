@@ -6,57 +6,76 @@
     <title>Spotify Tarot Reading</title>
     <link rel="stylesheet" href="{% static 'SpotifyWrapped/selectDateScreen.css' %}">
     <script>
-      function checkRadioButton() {
-        const radioButtons = document.getElementsByName("time");
-        const button = document.getElementsByClassName("filter-button")[0];
+        function checkRadioButton() {
+            const radioButtons = document.getElementsByName("time");
+            const button = document.getElementsByClassName("filter-button")[0];
 
-        // Loop through radio buttons to check if one is selected
-        for (let i = 0; i < radioButtons.length; i++) {
-          if (radioButtons[i].checked) {
-            console.log("worked");
-            button.style.display = "block"; // Show button when radio is selected
-            return;
-          }
+            // Loop through radio buttons to check if one is selected
+            for (let i = 0; i < radioButtons.length; i++) {
+                if (radioButtons[i].checked) {
+                    button.style.opacity = "1"; // Show button when radio is selected
+                    return;
+                }
+            }
+            button.style.opacity = "0"; // Hide button if none are selected
         }
-        button.style.display = "none"; // Hide button if none are selected
-      }
 
-      document.addEventListener("DOMContentLoaded", () => {
-        const radioButtons = document.getElementsByName("time");
+        document.addEventListener("DOMContentLoaded", () => {
+            const radioButtons = document.getElementsByName("time");
 
-        // Add the "change" event listener to each radio button
-        Array.from(radioButtons).forEach((radioButton) => {
-          radioButton.addEventListener("change", checkRadioButton);
+            // Add the "change" event listener to each radio button
+            Array.from(radioButtons).forEach((radioButton) => {
+                radioButton.addEventListener("change", checkRadioButton);
+            });
+
+            // Initially hide the button
+            const button = document.getElementsByClassName("filter-button")[0];
+            if (button) {
+                button.style.opacity = "0";
+            }
         });
-
-        // Initially hide the button
-        const button = document.getElementsByClassName("filter-button")[0];
-        if (button) {
-          button.style.display = "none";
-        }
-      });
     </script>
 </head>
 <body>
-    <div class="main-container">
-    <h2>Read Under Which Moon?</h2>
+<div class="main-container">
     <div class="orb-container">
-        <svg viewBox="0 0 100 100" id="orb"></svg>
-        <form id="filter-form" method="POST" action="{% url 'solo_results' %}">
-            {% csrf_token %}
-            <div class="filter-group">
-                <div class="choices">
-                    <input type="radio" id="longterm" name="time" value="long_term">
-                    <label for="longterm">Full Moon</label><br>
-                    <input type="radio" id="medterm" name="time" value="medium_term">
-                    <label for="medterm">First Quarter</label><br>
-                    <input type="radio" id="shortterm" name="time" value="short_term">
-                    <label for="shortterm">New Moon</label>
+        <h2>How far back shall we see?</h2>
+        <div class="orb">
+            <img src="{% static 'SpotifyWrapped/images/decorations/orb/dark-orb.svg' %}" id="orb" alt="orb">
+            <form id="filter-form" method="POST" action="{% url 'solo_results' %}">
+                {% csrf_token %}
+                <div class="filter-group">
+                    <div class="radio-buttons">
+                    <div class="choices">
+                        <input type="radio" id="longterm" name="time" value="long_term">
+                        <label for="longterm" class="long">
+                            Full Cycle
+                            <img src="{% static 'SpotifyWrapped/images/decorations/orb/full-moon.svg' %}"
+                                 id="full_cycle" alt="full moon">
+                        </label>
+                    </div>
+                    <div class="choices">
+                        <input type="radio" id="medterm" name="time" value="medium_term">
+                        <label for="medterm" class="med">
+                            Half Cycle
+                            <img src="{% static 'SpotifyWrapped/images/decorations/orb/half-moon.svg' %}"
+                                 id="half_cycle" alt="half moon">
+                        </label>
+                    </div>
+                    <div class="choices">
+                        <input type="radio" id="shortterm" name="time" value="short_term">
+                        <label for="shortterm" class="short">
+                            Quarter Cycle
+                            <img src="{% static 'SpotifyWrapped/images/decorations/orb/quarter-moon.svg' %}"
+                                 id="quarter_cycle" alt="quarter moon">
+                        </label>
+                    </div>
+                    </div>
+                    <button type="submit" class="filter-button">Begin Your Reading</button>
                 </div>
-            </div>
-            <button type="submit" class="filter-button" style="display: none;">Read your past or something idk</button>
-        </form>
+            </form>
+        </div>
     </div>
-    </div>
+</div>
 </body>
 </html>
