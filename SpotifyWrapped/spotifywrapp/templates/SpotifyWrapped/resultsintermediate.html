@@ -24,7 +24,17 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
     const cards = document.querySelectorAll(".card");
-    const container = document.querySelector(".card-container");
+    const fadeOverlay = document.getElementById("fadeOverlay");
+    const finalPositions = [
+            { x: -300, y: -150, rotate: -15 },
+            { x: -150, y: -150, rotate: -10 },
+            { x: 0, y: -150, rotate: -5 },
+            { x: 150, y: -150, rotate: 0 },
+            { x: -300, y: 100, rotate: 5 },
+            { x: -150, y: 100, rotate: 10 },
+            { x: 0, y: 100, rotate: 15 },
+            { x: 150, y: 100, rotate: 20 },
+        ];
 
     const shuffleCards = () => {
             cards.forEach((card) => {
@@ -41,14 +51,32 @@
             });
         };
 
+    const layoutCards = () => {
+            cards.forEach((card, index) => {
+                const { x, y, rotate } = finalPositions[index];
+                card.style.transform = `translate(${x}px, ${y}px) rotate(${rotate}deg)`;
+            });
+        };
+
     setTimeout(() => {
             shuffleCards();
 
             setTimeout(() => {
                 resetCards();
+
+                setTimeout(() => {
+                    layoutCards();
+
+                    setTimeout(() => {
+                        fadeOverlay.classList.add("visible");
+                        setTimeout(() => {
+                            window.location.href = "{% url 'results' %}";
+                        }, 1000);
+                    }, 2000);
+                }, 2000);
             }, 2000);
         }, 1000);
-});
+    });
 
 </script>
 
