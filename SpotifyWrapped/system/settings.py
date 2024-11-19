@@ -21,6 +21,7 @@ load_dotenv()
 SPOTIFY_CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
 SPOTIFY_CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
 SPOTIFY_REDIRECT_URI = os.getenv('SPOTIFY_REDIRECT_URI')
+EMAIL_KEY = os.getenv("EMAIL_KEY")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -149,5 +150,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'spotifywrapped19@gmail.com'  # Replace with your email address
-EMAIL_HOST_PASSWORD = 'ldti onmz wcpc mayu'  # Replace with your email password
+EMAIL_HOST_PASSWORD = EMAIL_KEY  # Replace with your email password
 EMAIL_USE_SSL = False
