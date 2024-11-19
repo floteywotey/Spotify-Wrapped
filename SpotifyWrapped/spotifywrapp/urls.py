@@ -23,6 +23,7 @@ urlpatterns = [
     path("profile/", views.profile, name='profile'),
     path("duo-results/", views.duo_results, name='duo_results'),
     path("results/", views.results, name='results'),
+    path("post-results/", views.results, name='post_results'),
     path('password_reset/', views.password_reset, name='password_reset'),
     path('password_reset_done/',
          auth_view.PasswordResetDoneView.as_view(template_name='password_reset_done.html'),

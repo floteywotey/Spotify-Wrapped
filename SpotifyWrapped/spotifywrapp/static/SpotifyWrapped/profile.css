@@ -125,7 +125,6 @@ button {
 
 button:hover {
     box-shadow: 0 0 25px rebeccapurple;
-    width: 160px;
     background: transparent;
     letter-spacing: 0.1em;
 }
@@ -228,4 +227,28 @@ h1 {
     border: 3px solid rebeccapurple;
     letter-spacing: normal;
     background: black;
+}
+
+.invite-button {
+    padding: 10px;
+    width: 125px;
+    font-size: 1vw;
+    border-radius: 16px;
+    border: 1px white solid;
+    background: transparent;
+    color: white;
+    font-family: Linden Hill, serif;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.invite-button:hover {
+    box-shadow: 0 0 25px rebeccapurple;
+    background: transparent;
+    letter-spacing: 0.1em;
+}
+
+.invite-button a {
+    text-decoration: none;
+    color: white;
 }
