@@ -155,6 +155,13 @@ def select_date(request):
         return redirect('spotify_authorize_home')
     return render(request, 'selectDateScreen.html')
 
+def resultsintermediate(request):
+    if request.method == "POST":
+        time_range = request.POST.get('time', '')
+        request.session['time_range'] = time_range
+        return render(request, 'SpotifyWrapped/resultsIntermediate.html')
+    return redirect('select_date')
+
 def results(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
