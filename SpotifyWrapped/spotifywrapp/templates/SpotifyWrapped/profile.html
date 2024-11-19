@@ -60,7 +60,9 @@
             <div class="friends-list box">
                 <h1>Friends:</h1>
                 <div class="scroll-box">
-
+                    {% for friend in friendList %}
+                        {{ friend.user2 }}
+                    {% endfor %}
                 </div>
             </div>
         </div>
