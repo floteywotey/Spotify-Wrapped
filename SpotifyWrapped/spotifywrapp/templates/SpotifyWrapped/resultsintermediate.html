@@ -14,25 +14,42 @@
     <div class="card" id="card1"></div>
     <div class="card" id="card2"></div>
     <div class="card" id="card3"></div>
+    <div class="card" id="card4"></div>
+    <div class="card" id="card5"></div>
+    <div class="card" id="card6"></div>
+    <div class="card" id="card7"></div>
+    <div class="card" id="card8"></div>
 </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const cardContainer = document.querySelector(".card-container");
-        cardContainer.classList.add("visible");
+    const cards = document.querySelectorAll(".card");
+    const container = document.querySelector(".card-container");
 
-        setTimeout(() => {
-            cards.forEach((card, index) => {
-                setTimeout(() => {
-                    card.classList.add("animate");
-                }, index * 300);
+    const shuffleCards = () => {
+            cards.forEach((card) => {
+                const randomX = Math.random() * 200 - 100;
+                const randomY = Math.random() * 50 - 25;
+                const randomRotate = Math.random() * 30 - 15;
+                card.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotate}deg)`;
             });
-        }, 1500);
+        };
 
-        /**setTimeout(() => {
-            window.location.href = "{% url 'results' %}";
-        }, 2000);
-    });**/
+    const resetCards = () => {
+            cards.forEach((card, index) => {
+                card.style.transform = `translateY(${15 * index}px) rotate(0deg)`;
+            });
+        };
+
+    setTimeout(() => {
+            shuffleCards();
+
+            setTimeout(() => {
+                resetCards();
+            }, 2000);
+        }, 1000);
+});
+
 </script>
 
 </body>
