@@ -183,7 +183,7 @@ img {
     text-align: center;
     position: fixed;
     top: calc(10vh - 7.5vh);
-    left: calc(22vw - 5vw);
+    left: calc(21vw - 5vw);
     width: 133px;
     height: 210px;
     margin-top: 5px;
@@ -257,7 +257,7 @@ img {
     text-align: center;
     position: fixed;
     top: calc(10vh - 7.5vh);
-    left: calc(33vw - 5vw);
+    left: calc(32vw - 5vw);
     width: 133px;
     height: 210px;
     margin-top: 5px;
