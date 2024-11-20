@@ -12,7 +12,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from dotenv import load_dotenv
 from django.http import JsonResponse
 
-from .models import SpotifyUser, wraps, invites
+from .models import SpotifyUser, wraps, invites, Friends
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from django.contrib.auth.forms import PasswordResetForm
@@ -136,14 +136,17 @@ def profile(request):
             invite.userFrom = request.user.username
             invite.fromSpotifyToken = SpotifyUser.objects.get(user=request.user.username).spotifytoken
             invite.fromRefreshToken = SpotifyUser.objects.get(user=request.user.username).refreshtoken
-            if not SpotifyUser.objects.filter(user=invite.userTo).exists():
-                invite.delete()
             invite.save()
+            if len(list(SpotifyUser.objects.filter(user=invite.userTo))) == 0:
+                invite.delete()
             return redirect('profile')
     else:
         form = CreateInvite()
     inviteList = list(invites.objects.filter(userTo=request.user.username))
-    return render(request, 'profile.html', {'username' : request.user.username, 'form' : form, 'usertoken' : getSpotifyUser(request.user.username).spotifytoken, 'inviteList' : inviteList})
+    friendList = list(Friends.objects.filter(user1=request.user.username))
+    return render(request, 'profile.html', {'username' : request.user.username, 'form' : form,
+                            'usertoken' : getSpotifyUser(request.user.username).spotifytoken, 'inviteList' : inviteList,
+                                             'friendList' : friendList})
 
 def select_date(request):
     if not request.user.is_authenticated:
@@ -151,6 +154,13 @@ def select_date(request):
     if SpotifyUser.objects.get(user=request.user.username).spotifytoken == '':
         return redirect('spotify_authorize_home')
     return render(request, 'selectDateScreen.html')
+
+def resultsintermediate(request):
+    if request.method == "POST":
+        time_range = request.POST.get('time', '')
+        request.session['time_range'] = time_range
+        return render(request, 'SpotifyWrapped/resultsintermediate.html')
+    return redirect('select_date')
 
 def results(request):
     if not request.user.is_authenticated:
@@ -194,6 +204,10 @@ def duo_results(request):
         toUser = request.user.username
         wrapData1 = getSoloWrap(request, fromUser, time, 50)
         wrapData2 = getSoloWrap(request, toUser, time, 50)
+        friend = Friends.objects.create(user1=fromUser, user2=toUser)
+        friend.save()
+        friend = Friends.objects.create(user1=toUser, user2=fromUser)
+        friend.save()
 
         shared_artists = []
         shared_genres = []
