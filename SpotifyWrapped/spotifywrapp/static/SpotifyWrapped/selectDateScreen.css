@@ -91,7 +91,7 @@ h2 {
     align-items: center;
     gap: 0.5rem;
     opacity: 0;
-    animation: appear 1s ease-in-out 4s forwards;
+    animation: appear 1s ease-in-out 2.7s forwards;
 }
 
 .choices label {
