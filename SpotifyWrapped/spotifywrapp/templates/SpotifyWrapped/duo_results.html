@@ -1,0 +1,106 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Wrapped</title>
+    <link rel="stylesheet" href="{% static 'SpotifyWrapped/duo_results.css' %}">
+</head>
+<body>
+<div class="header">
+    <form class="home" action="{% url 'home' %}" method="post">
+        {% csrf_token %}
+        <button class="home-button" aria-label="Home" title="Home">
+            <img src="{% static 'SpotifyWrapped/images/icons/close_presentation.svg' %}" height="30px" width="30px">
+        </button>
+    </form>
+</div>
+<div class="cards">
+
+    <div class="card1" id="card">
+        <div class="card-back" id="back1"></div>
+        <div class="card-front" id="front1">
+            <div class="info1">
+                <h1>Top Songs</h1>
+                {% for track in wrap.duowrap.top_tracks|slice:":5" %}
+                    <div class="details">
+                        <img src="{{ track.image }}" height="33" width="33">
+                        <div class="bullet">
+                            <img class="fbullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px">
+                        </div>
+                        <div class="text">
+                            <h2>{{ track.name }}</h2>
+                            <h3>{{ track.artists }}</h3>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="info2">
+                <h1>Top Songs</h1>
+                {% for track in wrap.duowrap.top_tracks|slice:":5" %}
+                    <div class="details">
+                        <img src="{{ track.image }}" height="33" width="33">
+                        <div class="bullet">
+                            <img class="fbullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px">
+                        </div>
+                        <div class="text">
+                            <h2>{{ track.name }}</h2>
+                            <h3>{{ track.artists }}</h3>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+    </div>
+    <script>
+        document.querySelectorAll("#card").forEach(card => {
+            card.addEventListener("click", function () {
+                if (this.classList.contains("clicked")) {
+                    this.classList.remove("clicked");
+                } else {
+                    document.querySelectorAll("#card").forEach(c => c.classList.remove("clicked"));
+                    this.classList.add("clicked");
+                }
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const bulletImages = document.querySelectorAll('.fbullet-img');
+
+            bulletImages.forEach(function (bullet, index) {
+                const bulletImages = [
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet1.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet2.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet3.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet4.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet5.svg' %}"
+                ];
+
+                bullet.src = bulletImages[index % bulletImages.length];
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const bulletImages = document.querySelectorAll('.tbullet-img');
+
+            bulletImages.forEach(function (bullet, index) {
+                const bulletImages = [
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet1.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet2.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet3.svg' %}"
+                ];
+
+                bullet.src = bulletImages[index % bulletImages.length];
+            });
+        });
+    </script>
+</div>
+
+{% if wrap.isDuo %}
+    {{ wrap.wrap2 }}
+    {{ wrap.duowrap }}
+{% endif %}
+</body>
+</html>

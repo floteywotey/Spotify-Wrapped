@@ -21,7 +21,7 @@ urlpatterns = [
     path("delete/", views.deleteUser, name='delete'),
     path("delete?/", views.deleteQuestion, name='delete?'),
     path("profile/", views.profile, name='profile'),
-    path("duo-results/", views.duo_results, name='duo_results'),
+    path("duo-results/", views.duo_wrap, name='duo_wrap'),
     path("results/", views.results, name='results'),
     path('password_reset/', views.password_reset, name='password_reset'),
     path('password_reset_done/',

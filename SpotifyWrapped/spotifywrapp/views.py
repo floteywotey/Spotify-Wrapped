@@ -157,6 +157,12 @@ def solo_results(request):
         return redirect('results')
     return redirect('results')
 
+def duo_wrap(request):
+    if not request.user.is_authenticated:
+        return redirect('startscreen')
+    sortedArray = recentWraps(request.user.username)
+    return render(request, 'duo_results.html', context={'wrap': sortedArray[0]})
+
 def duo_results(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
@@ -219,8 +225,8 @@ def duo_results(request):
 
         wrap = wraps.objects.create(wrap1=wrapData1, wrap2=wrapData2, duowrap=data, isDuo=True, user1=fromUser, user2=request.user.username)
         wrap.save()
-        return redirect('results')
-    return redirect('results')
+        return redirect('duo_wrap')
+    return redirect('duo_wrap')
 
 def getUserToken(username):
     return getSpotifyUser(username).getspotifytoken()
