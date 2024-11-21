@@ -156,18 +156,16 @@ def select_date(request):
     return render(request, 'selectDateScreen.html')
 
 def resultsintermediate(request):
-    if request.method == "POST":
-        time_range = request.POST.get('time', '')
-        request.session['time_range'] = time_range
-        return render(request, 'SpotifyWrapped/resultsintermediate.html')
-    return redirect('select_date')
+    return render(request, 'resultsintermediate.html')
 
 def results(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
     sortedArray = recentWraps(request.user.username)
-    return render(request, 'results.html', context={'wrap': sortedArray[0]})
-
+    if (len(sortedArray) > 0):
+        return render(request, 'results.html', context={'wrap': sortedArray[0]})
+    else:
+        return render(request, 'results.html', {})
 def post_results(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
@@ -188,8 +186,8 @@ def solo_results(request):
                 randInt = randint(0,13)
         wrap = wraps.objects.create(wrap1=data, wrap2={}, duowrap={}, isDuo=False, user1=request.user.username, imageNum = randInt, image = imageList[randInt])
         wrap.save()
-        return redirect('results')
-    return redirect('results')
+        return redirect('resultsintermediate')
+    return redirect('resultsintermediate')
 
 def duo_results(request):
     if not request.user.is_authenticated:

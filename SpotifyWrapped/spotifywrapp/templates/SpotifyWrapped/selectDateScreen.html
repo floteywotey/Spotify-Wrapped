@@ -42,7 +42,7 @@
         <h2>How far back shall we see?</h2>
         <div class="orb">
             <img src="{% static 'SpotifyWrapped/images/decorations/orb/dark-orb.svg' %}" id="orb" alt="orb">
-            <form id="filter-form" method="POST" action="{% url 'resultsintermediate' %}">
+            <form id="filter-form" method="POST" action="{% url 'solo_results' %}">
                 {% csrf_token %}
                 <div class="filter-group">
                     <div class="radio-buttons">
