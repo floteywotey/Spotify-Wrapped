@@ -48,6 +48,13 @@
                     </div>
 
                     <div class="button">
+                        <form class="reset" action="{% url 'password_reset' %}" method="post">
+                            {% csrf_token %}
+                            <button class="password-reset" aria-label="User Delete" title="User Delete">Reset Password</button>
+                        </form>
+                    </div>
+
+                    <div class="button">
                         <form class="delete" action="{% url 'delete?' %}" method="post">
                             {% csrf_token %}
                             <button class="delete-button" aria-label="User Delete" title="User Delete">Delete Account
@@ -97,7 +104,7 @@
                                 <!-- Message Field -->
                                 <div class="form-group" id="message">
                                     <label for="id_message">Message:
-                                    <p id="charCount">0 / 150</p>
+                                        <p id="charCount">0 / 150</p>
                                     </label>
                                     {{ form.message }}
                                     <script>
