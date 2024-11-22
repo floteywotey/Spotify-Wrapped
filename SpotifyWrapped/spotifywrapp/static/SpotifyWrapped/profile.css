@@ -134,8 +134,8 @@ button:hover {
 }
 
 .friends-list .scroll-box {
-    width: 90%;
-    height: 80%;
+    width: 100%;
+    height: 67%;
     border-radius: 12px;
     border: 1px white solid;
     overflow: auto;
@@ -170,8 +170,8 @@ button:hover {
 }
 
 .invites-box .scroll-box {
-    width: 90%;
-    height: 75%;
+    width: 95%;
+    height: 55%;
     border-radius: 12px;
     border: 1px white solid;
     overflow: auto;
