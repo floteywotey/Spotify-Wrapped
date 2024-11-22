@@ -72,10 +72,29 @@
                     </div>
                     </div>
                     <button type="submit" class="filter-button">Begin Your Reading</button>
+
                 </div>
             </form>
         </div>
     </div>
 </div>
+<div id="fade-overlay"></div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("filter-form");
+        const fadeOverlay = document.getElementById("fade-overlay");
+
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            fadeOverlay.classList.add("visible");
+
+            setTimeout(() => {
+                form.submit();
+            }, 1000);
+        });
+    });
+</script>
 </body>
 </html>

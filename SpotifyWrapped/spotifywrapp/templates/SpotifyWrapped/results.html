@@ -12,12 +12,12 @@
     <form class="home" action="{% url 'home' %}" method="post">
         {% csrf_token %}
         <button class="home-button" aria-label="Home" title="Home">
-            <img src="{% static 'SpotifyWrapped/images/icons/close_presentation.svg' %}" height="30px" width="30px">
+            <span class="close-icon"></span>
         </button>
     </form>
 </div>
-<div class="cards">
 
+<div class="cards">
     <div class="card1" id="card">
         <div class="card-back" id="back1"></div>
         <div class="card-front" id="front1">
@@ -436,16 +436,46 @@
     </div>
 
     <script>
-        document.querySelectorAll("#card").forEach(card => {
-            card.addEventListener("click", function () {
-                if (this.classList.contains("clicked")) {
-                    this.classList.remove("clicked");
+        document.addEventListener("DOMContentLoaded", function () {
+            const cards = document.querySelectorAll("#card");
+            const summaryButtonContainer = document.querySelector(".summary-button-container");
+            let lastFlippedCard = null; // Track the last flipped card
+
+            function checkAllClicked() {
+                // Check if all cards have the 'flipped' class
+                const allClicked = Array.from(cards).every(card => card.classList.contains("flipped"));
+                if (allClicked) {
+                    summaryButtonContainer.style.display = "block"; // Show the button
+                    summaryButtonContainer.style.zIndex = "10";
                 } else {
-                    document.querySelectorAll("#card").forEach(c => c.classList.remove("clicked"));
-                    this.classList.add("clicked");
+                    summaryButtonContainer.style.zIndex = "-1"; // Move the button behind the cards
                 }
+            }
+
+            cards.forEach(card => {
+                card.addEventListener("click", function () {
+                    // If a card is already flipped, un-flip it
+                    if (lastFlippedCard && lastFlippedCard !== this) {
+                        lastFlippedCard.classList.remove("clicked");
+                    }
+
+                    // Flip the current card
+                    this.classList.toggle("clicked");
+
+                    // If the card is flipped, mark it as 'flipped'
+                    if (this.classList.contains("clicked")) {
+                        this.classList.add("flipped");
+                    }
+
+                    // Update the last flipped card
+                    lastFlippedCard = this.classList.contains("clicked") ? this : null;
+
+                    // Check if all cards are clicked to show the button
+                    checkAllClicked();
+                });
             });
         });
+
 
         document.addEventListener("DOMContentLoaded", function () {
             const bulletImages = document.querySelectorAll('.fbullet-img');
@@ -479,9 +509,12 @@
     </script>
 </div>
 
-{% if wrap.isDuo %}
-    {{ wrap.wrap2 }}
-    {{ wrap.duowrap }}
-{% endif %}
+<div class="others">
+    <div class="fade-text">Choose your first card</div>
+
+    <div class="summary-button-container">
+        <a href="" class="summary-button">View Summary</a>
+    </div>
+</div>
 </body>
 </html>

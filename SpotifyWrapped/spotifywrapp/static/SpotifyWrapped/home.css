@@ -208,6 +208,7 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden; /* Ensures the card doesn't exceed the border */
+    transition: 0.5s ease;
 }
 
 .main-card {
@@ -217,6 +218,11 @@ body {
     transition: all 1s ease;
     position: absolute;
     z-index: 2;
+}
+
+.card-container:hover {
+    transform: scale(110%);
+    box-shadow: 0 0 30px rebeccapurple;
 }
 
 /* Flip the pane when hovered */
@@ -238,11 +244,60 @@ body {
     background: white;
     color: black;
     transform: rotateY(180deg);
+    border-radius: 4px;
+}
+
+.card-front img {
+    width: 100%;
+    height: 103%;
+}
+
+.card-text-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.card-text-overlay p {
+    color: black;
+    font-family: 'Sahitya', serif;
+    font-size: 14px;
+    text-align: center;
+    margin: 0;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.top-text {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: black;
+    font-family: 'Sahitya', serif;
+    text-align: center;
+}
+
+.bottom-text {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    color: black;
+    font-family: 'Sahitya', serif;
+    text-align: center;
 }
 
 .card-back {
     background: url("images/card/default-card-back.svg") no-repeat center center;
-    background-size: contain; /* Ensures image scales without distortion */
+    background-size: contain;
 }
 
 .fanned-card {

@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Spotify Tarot Reading</title>
@@ -20,7 +21,15 @@
     <h1>Rediscover your Readings</h1>
     <div class="cards">
         {% for item in recent %}
-                <div class="card-container">
+            <script>
+                // When the user clicks on <div>, open the popup
+                function myFunction() {
+                  var popup = document.getElementById("myPopup");
+                  popup.classList.toggle("show");
+                }
+            </script>
+                <div class="card-container" onclick="myFunction()">
+
                     <div class="main-card">
                         <svg viewBox="0 0 200 315" class="card-back"></svg>
                         <div class="card-front">{{ item.wrap1 }}</div>
@@ -34,7 +43,22 @@
                     <div class="fanned-card">
                         <svg viewBox="0 0 200 315" class="card-back"></svg>
                     </div>
+                    <div class="popup">
+                    <span class="popuptext" id="myPopup"> hi
+                        <form class="invites" method="post" action="{% url 'readings' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="id" name="id" value="{{ item.id }}">
+                            <button class="search-button" type="submit">Delete</button>
+                        </form>
+                        <form class="invites" method="post" action="{% url 'post_results' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="id" name="id" value="{{ item.id }}">
+                            <button class="search-button" type="submit">Display</button>
+                        </form>
+                    </span>
+                    </div>
                 </div>
+
         {% endfor %}
     </div>
 </div>
