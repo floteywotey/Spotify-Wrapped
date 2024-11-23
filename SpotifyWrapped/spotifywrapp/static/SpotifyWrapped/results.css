@@ -730,10 +730,9 @@ img {
     }
 }
 
-
 .summary-button-container {
     display: none;
-    position: absolute;
+    position: fixed;
     top: 70%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -747,6 +746,7 @@ img {
     border: 1px white solid;
     text-decoration: none;
     transition: 0.5s;
+    position: relative; /* For orbiting elements to be positioned correctly */
 }
 
 .summary-button:hover {
@@ -755,5 +755,3 @@ img {
     color: #8b8df8;
     letter-spacing: 0.1em;
 }
-
-
