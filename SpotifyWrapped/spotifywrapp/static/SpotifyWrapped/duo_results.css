@@ -144,7 +144,7 @@ img {
 }
 
 .card1.clicked {
-    transform: scale(3) rotatey(180deg) rotatex(0deg) rotatez(0deg) translatex(-13vw) translatey(13.75vh);
+    transform: scale(3) rotatey(180deg) rotatex(0deg) rotatez(0deg) translatex(-6vw) translatey(13.75vh);
     transition: .6s;
 }
 

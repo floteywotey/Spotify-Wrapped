@@ -23,7 +23,7 @@
         <div class="card-front" id="front1">
             <div class="info1">
                 <h1>Top Songs</h1>
-                {% for track in wrap.duowrap.top_tracks|slice:":5" %}
+                {% for track in wrap.wrap1.top_5tracks %}
                     <div class="details">
                         <img src="{{ track.image }}" height="33" width="33">
                         <div class="bullet">
