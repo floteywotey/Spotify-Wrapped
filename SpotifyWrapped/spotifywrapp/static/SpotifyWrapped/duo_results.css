@@ -37,6 +37,7 @@ body {
 /* Basic styles for the card container */
 #card-container {
   position: relative;
+  top: 10vh;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -44,10 +45,10 @@ body {
   align-items: center;
 }
 
-/* Base card styles */
+/* Base styles for card animations */
 .card {
-  width: 200px;
-  height: 300px;
+  width: 300px;
+  height: 500px;
   background-color: #3498db;
   color: white;
   display: flex;
@@ -56,7 +57,71 @@ body {
   border-radius: 10px;
   position: absolute;
   opacity: 1;
-  transition: transform 1s ease-in-out, opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease, transform 1.5s ease;
+}
+
+/* Split card animation (left and right) */
+@keyframes splitLeft {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateX(0); /* Start at center */
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateX(-300px); /* Move left */
+  }
+}
+
+@keyframes splitRight {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateX(0); /* Start at center */
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateX(300px); /* Move right */
+  }
+}
+
+/* Apply the split animations to the left and right cards */
+.split-left {
+  animation: splitLeft 1s forwards;
+}
+
+.split-right {
+  animation: splitRight 1s forwards;
+}
+
+/* Recombine card animations for left and right */
+@keyframes recombineLeft {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateX(-300px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateX(0);
+  }
+}
+
+@keyframes recombineRight {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateX(300px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateX(0);
+  }
+}
+
+/* Apply recombine animations */
+.recombine-left {
+  animation: recombineLeft 1.5s forwards;
+}
+
+.recombine-right {
+  animation: recombineRight 1.5s forwards;
 }
 
 /* Styling for split cards */
@@ -68,84 +133,11 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.split-card.info1 {
-  background-color: #e74c3c;
-  animation: splitLeft 1s ease-out forwards;
+.split-card.show {
+  opacity: 1;
 }
 
-.split-card.info2 {
-  background-color: #f39c12;
-  animation: splitRight 1s ease-out forwards;
-}
-
-/* Animation to move cards apart */
-@keyframes splitLeft {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateX(0);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateX(-300px);
-  }
-}
-
-@keyframes splitRight {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateX(0);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateX(300px);
-  }
-}
-
-/* Keyframe for recombining cards with smoother transition */
-@keyframes recombineCards {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateX(-300px);
-  }
-  30% {
-    opacity: 0.7;
-    transform: translate(-50%, -50%) translateX(-150px);
-  }
-  50% {
-    opacity: 0.5;
-    transform: translate(-50%, -50%) translateX(0);
-  }
-  70% {
-    opacity: 0.7;
-    transform: translate(-50%, -50%) translateX(150px);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateX(0);
-  }
-}
-
-/* Ensure original card is part of the animation */
 #card {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: opacity 1.5s ease;
-  z-index: 2;
-}
-
-.recombine {
-  animation: recombineCards 1.5s cubic-bezier(0.42, 0, 0.58, 1) forwards;
-  opacity: 1; /* Ensure full opacity */
-}
-
-/* Style for split cards */
-.split-card {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity 1.5s ease;
+  opacity: 1;
+  transition: opacity 1s ease;
 }

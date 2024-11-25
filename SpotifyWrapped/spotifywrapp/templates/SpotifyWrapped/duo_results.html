@@ -25,12 +25,17 @@
        document.addEventListener("DOMContentLoaded", () => {
   const originalCard = document.getElementById("card");
   const container = document.getElementById("card-container");
+  let isAnimating = false; // Flag to track if animation is in progress
 
   originalCard.addEventListener("click", () => {
-    // Hide the original card for the split animation
-    originalCard.style.opacity = "0";
+    if (isAnimating) return; // If animation is running, ignore click
 
-    // Create the two split cards
+    isAnimating = true; // Set flag to true to prevent rapid clicks
+
+    // Step 1: Animate the original card to split into left and right cards
+    originalCard.style.opacity = "0"; // Hide the original card during animation
+
+    // Create and add the split cards
     const card1 = document.createElement("div");
     card1.classList.add("card", "split-card", "info1");
     card1.textContent = "Info 1";
@@ -39,30 +44,39 @@
     card2.classList.add("card", "split-card", "info2");
     card2.textContent = "Info 2";
 
-    // Add them to the container
+    // Add split cards to container
     container.appendChild(card1);
     container.appendChild(card2);
 
-    // Initial split animation delay
+    // Step 2: Make the cards appear with a delay for smooth effect
     setTimeout(() => {
-      card1.style.opacity = "1";
-      card2.style.opacity = "1";
-    }, 50); // Make sure the cards appear after creation
+      card1.classList.add("show");
+      card2.classList.add("show");
+    }, 50); // Small delay to ensure the cards are added to DOM
 
-    // Recombine the cards after a delay
+    // Step 3: Apply the split animation (left and right) to the cards
     setTimeout(() => {
-      card1.classList.add("recombine");
-      card2.classList.add("recombine");
+      card1.classList.add("split-left");
+      card2.classList.add("split-right");
 
-      // After recombination, remove the split cards and show the original card again
+      // After the split, recombine the cards
       setTimeout(() => {
-        card1.remove();
-        card2.remove();
-        originalCard.style.opacity = "1"; // Show the original card again
-      }, 1000); // Match the recombine animation duration
-    }, 3000); // Delay before recombination starts
+        // Apply recombine animations
+        card1.classList.add("recombine-left");
+        card2.classList.add("recombine-right");
+
+        // After recombination, remove the split cards and show the original card again
+        setTimeout(() => {
+          card1.remove(); // Remove left card
+          card2.remove(); // Remove right card
+          originalCard.style.opacity = "1"; // Show the original card again
+          isAnimating = false; // Reset the flag, allow new click
+        }, 1500); // Wait for recombine animation to finish
+      }, 1000); // Wait a moment after split before starting recombine
+    }, 1000); // Wait before starting the split animation
   });
 });
+
     </script>
 </body>
 </html>
