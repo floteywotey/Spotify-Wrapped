@@ -1,6 +1,5 @@
 import os
 from random import randint
-
 import requests
 from .forms import CreateInvite, SignUpForm
 from django.shortcuts import render, redirect
@@ -11,7 +10,8 @@ from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from dotenv import load_dotenv
 from django.http import JsonResponse
-
+import logging
+logger = logging.getLogger(__name__)
 from .models import SpotifyUser, wraps, invites, Friends
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
@@ -21,6 +21,7 @@ from django.template.loader import render_to_string
 from django.db.models.query_utils import Q
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
+import json
 User._meta.get_field('email')._unique = True
 #loads environment variables from .env, so client id and secret client etc
 load_dotenv()
@@ -119,7 +120,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            spot = SpotifyUser.objects.create(user=user.username, spotifytoken="", refreshtoken='')
+            spot = SpotifyUser.objects.create(user=user.username, spotifytoken="", refreshtoken='', theme_preference= 'dark')
             spot.save()
             return redirect('home')
     else:
@@ -145,9 +146,10 @@ def profile(request):
         form = CreateInvite()
     inviteList = list(invites.objects.filter(userTo=request.user.username))
     friendList = list(Friends.objects.filter(user1=request.user.username))
+    spotify_user = getSpotifyUser(request.user.username)
     return render(request, 'profile.html', {'username' : request.user.username, 'form' : form,
                             'usertoken' : getSpotifyUser(request.user.username).spotifytoken, 'inviteList' : inviteList,
-                                             'friendList' : friendList})
+                                             'friendList' : friendList, 'spotify_user' : spotify_user})
 
 def select_date(request):
     if not request.user.is_authenticated:
@@ -471,7 +473,7 @@ def spotify_callback_profile(request):
     data = {
         'grant_type': 'authorization_code',
         'code': code,
-        'redirect_uri': REDIRECT_URI_PROFILE,
+        'redirect_uri': os.getenv("REDIRECT_URI_PROFILE"),
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET,
     }
@@ -562,6 +564,24 @@ def password_reset(request):
         'form': password_form,
     }
     return render(request, 'password_reset_form.html', context)
+
+def update_theme_preference(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            theme_preference = data.get("theme_preference")
+            if not request.user.is_authenticated:
+                return redirect('startscreen')
+            # Update the current user's theme preference
+            spotify_user = getSpotifyUser(request.user.username)
+            if theme_preference in ['light', 'dark']:
+                spotify_user.set_theme_preference(theme_preference)
+                return JsonResponse({"success": True})
+            else:
+                return JsonResponse({"success": False, "error": "Invalid theme preference"})
+        except Exception as e:
+            return JsonResponse({"success": False, "error": str(e)})
+    return JsonResponse({"success": False, "error": "Invalid request method"})
 
 imageList = [
             '/static/SpotifyWrapped/images/card/card_fronts_notext/reawakening-dark.svg',

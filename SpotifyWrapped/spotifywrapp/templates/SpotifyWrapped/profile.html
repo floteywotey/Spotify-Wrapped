@@ -7,7 +7,7 @@
     <title>Profile</title>
     <link rel="stylesheet" href="{% static 'SpotifyWrapped/profile.css' %}">
 </head>
-<body class="{% if user.profile.theme_preference == 'light' %}light-mode{% endif %}">
+<body class="{% if theme_preference == 'light' %}light-mode{% endif %}">
 <div class="dark-header container">
     <div class="left">
         <a href="{% url 'home' %}">Home</a>
@@ -26,10 +26,17 @@
                 <div class="settings">
                     <div class="button">
                         <label class="switch">
-                            <input id="themeToggle" type="checkbox" {% if user.profile.theme_preference == "dark" %}checked{% endif %}>
+                            <input
+                                id="themeToggle"
+                                type="checkbox"
+                                {% if theme_preference == "light" %}checked{% endif %}
+                                onchange="toggleThemePreference()"
+                            >
                             <span class="slider round"></span>
                         </label>
-                        <p>Enable Dark Mode</p>
+                        <p id="themeText">
+                            {% if theme_preference == "light" %}Switch to Dark Mode{% else %}Enable Light Mode{% endif %}
+                        </p>
                     </div>
                     <div class="button">
                         {% if usertoken %}
@@ -168,7 +175,33 @@
     </div>
 </div>
 
-<!--- JavaScript stuff for dark light mode --->
-<script src="{% static 'SpotifyWrapped/js/themeToggle.js' %}"></script>
+<script>
+    function toggleThemePreference() {
+        const isChecked = document.getElementById('themeToggle').checked;
+        const newPreference = isChecked ? 'light' : 'dark'; // Checked = light, Unchecked = dark
+
+        document.body.classList.toggle('light-mode', newPreference === 'light');
+        // Send an AJAX request to update theme preference
+        fetch("{% url 'update_theme_preference' %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: JSON.stringify({ theme_preference: newPreference })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update the UI text dynamically
+                document.getElementById('themeText').textContent =
+                    newPreference === 'light' ? "Switch to Dark Mode" : "Enable Light Mode";
+            } else {
+                alert("Failed to update theme preference.");
+            }
+        })
+        .catch(error => console.error("Error updating theme preference:", error));
+    }
+</script>
 </body>
 </html>

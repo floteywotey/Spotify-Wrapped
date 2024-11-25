@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Sahitya:wght@400;700&display=swap');
-@import url("spotifywrapp/static/SpotifyWrapped/global.css");
 
 .fade {
     animation: fadeIn 1s;
@@ -22,9 +21,9 @@ body {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    background: black var(--background-image) no-repeat center center fixed;
+    background: black url("images/backgrounds/dark-mode-background.svg") no-repeat center center fixed;
     -webkit-background-size: cover;
-    color: var(--text-color);
+    color: white;
     position: relative;
 }
 
@@ -406,4 +405,88 @@ button:hover {
 
 .close-btn:hover {
     color: #8b8df8;
+}
+
+/* Light mode general styles */
+body.light-mode {
+    background: white url("images/backgrounds/light-mode-background.svg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    color: black;
+}
+
+/* Light mode transitions */
+body.light-mode, body.light-mode * {
+    transition: background 0.5s, color 0.5s, box-shadow 0.5s;
+}
+
+/* Header settings */
+body.light-mode .dark-header a {
+    color: black;
+}
+
+body.light-mode .dark-header a:hover {
+    color: #5b5df6;
+}
+
+/* Card styles */
+body.light-mode .card-container {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 15px #aaa;
+}
+
+body.light-mode .card-container:hover {
+    box-shadow: 0 0 20px lightblue;
+}
+
+
+/* Card text overlays */
+body.light-mode .card-text-overlay p {
+    color: black;
+}
+
+/* Buttons */
+body.light-mode button {
+    border: 1px solid black;
+    background: white;
+    color: black;
+}
+
+body.light-mode button:hover {
+    border: 1px solid lightblue;
+    box-shadow: 0 0 50px lightblue;
+}
+
+/* Popup styling */
+body.light-mode .popup-container {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+body.light-mode .popup-content {
+    background: white url("images/decorations/pop-up.svg") no-repeat center center fixed;
+    color: black;
+}
+
+body.light-mode .popup-content .close-btn {
+    color: black;
+}
+
+body.light-mode .popup-content .close-btn:hover {
+    color: #5b5df6;
+}
+
+/* Display panels */
+body.light-mode .display {
+    background: white;
+    color: black;
+}
+
+/* Light mode scrollbar */
+body.light-mode ::-webkit-scrollbar {
+    background: #f0f0f0;
+    width: 10px;
+}
+
+body.light-mode ::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border-radius: 10px;
 }
