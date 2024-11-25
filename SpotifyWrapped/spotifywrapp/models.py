@@ -7,6 +7,11 @@ class SpotifyUser(models.Model):
     user = models.CharField(max_length=150)
     spotifytoken = models.CharField(max_length=100)
     refreshtoken = models.CharField(max_length=100)
+    theme_preference = models.CharField(
+        max_length=10,
+        choices=[("light", "Light"), ("dark", "Dark")],
+        default="dark"
+    )
 
     def __str__(self):
         return str(self.user)
@@ -14,6 +19,12 @@ class SpotifyUser(models.Model):
         return self.spotifytoken
     def getrefreshtoken(self):
         return self.refreshtoken
+    def get_theme_preference(self):
+        return self.theme_preference
+    def set_theme_preference(self, theme):
+        if theme in ["light", "dark"]:
+            self.theme_preference = theme
+            self.save()
 
 class Friends(models.Model):
     user1 = models.CharField(max_length=150)

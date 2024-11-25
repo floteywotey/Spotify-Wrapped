@@ -126,6 +126,7 @@ def register(request):
         form = SignUpForm()
     return render(request, 'register.html', {'form': form})
 
+
 def profile(request):
     if not request.user.is_authenticated:
         return redirect('login')

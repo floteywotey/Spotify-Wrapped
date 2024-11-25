@@ -7,7 +7,7 @@
     <title>Profile</title>
     <link rel="stylesheet" href="{% static 'SpotifyWrapped/profile.css' %}">
 </head>
-<body>
+<body class="{% if user.profile.theme_preference == 'light' %}light-mode{% endif %}">
 <div class="dark-header container">
     <div class="left">
         <a href="{% url 'home' %}">Home</a>
@@ -167,5 +167,8 @@
         </div>
     </div>
 </div>
+
+<!--- JavaScript stuff for dark light mode --->
+<script src="{% static 'SpotifyWrapped/js/themeToggle.js' %}"></script>
 </body>
 </html>
