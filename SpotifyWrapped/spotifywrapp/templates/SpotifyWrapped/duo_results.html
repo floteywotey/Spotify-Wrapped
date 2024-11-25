@@ -17,90 +17,52 @@
     </form>
 </div>
 <div class="cards">
-
-    <div class="card1" id="card">
-        <div class="card-back" id="back1"></div>
-        <div class="card-front" id="front1">
-            <div class="info1">
-                <h1>Top Songs</h1>
-                {% for track in wrap.wrap1.top_5tracks %}
-                    <div class="details">
-                        <img src="{{ track.image }}" height="33" width="33">
-                        <div class="bullet">
-                            <img class="fbullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px">
-                        </div>
-                        <div class="text">
-                            <h2>{{ track.name }}</h2>
-                            <h3>{{ track.artists }}</h3>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-            <div class="info2">
-                <h1>Top Songs</h1>
-                {% for track in wrap.duowrap.top_tracks|slice:":5" %}
-                    <div class="details">
-                        <img src="{{ track.image }}" height="33" width="33">
-                        <div class="bullet">
-                            <img class="fbullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px">
-                        </div>
-                        <div class="text">
-                            <h2>{{ track.name }}</h2>
-                            <h3>{{ track.artists }}</h3>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-        </div>
+   <div id="card-container">
+       <div id="card" class="card">Original Card</div>
     </div>
-    <script>
-        document.querySelectorAll("#card").forEach(card => {
-            card.addEventListener("click", function () {
-                if (this.classList.contains("clicked")) {
-                    this.classList.remove("clicked");
-                } else {
-                    document.querySelectorAll("#card").forEach(c => c.classList.remove("clicked"));
-                    this.classList.add("clicked");
-                }
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const bulletImages = document.querySelectorAll('.fbullet-img');
-
-            bulletImages.forEach(function (bullet, index) {
-                const bulletImages = [
-                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet1.svg' %}",
-                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet2.svg' %}",
-                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet3.svg' %}",
-                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet4.svg' %}",
-                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet5.svg' %}"
-                ];
-
-                bullet.src = bulletImages[index % bulletImages.length];
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const bulletImages = document.querySelectorAll('.tbullet-img');
-
-            bulletImages.forEach(function (bullet, index) {
-                const bulletImages = [
-                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet1.svg' %}",
-                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet2.svg' %}",
-                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet3.svg' %}"
-                ];
-
-                bullet.src = bulletImages[index % bulletImages.length];
-            });
-        });
-    </script>
 </div>
+    <script>
+       document.addEventListener("DOMContentLoaded", () => {
+  const originalCard = document.getElementById("card");
+  const container = document.getElementById("card-container");
 
-{% if wrap.isDuo %}
-    {{ wrap.wrap2 }}
-    {{ wrap.duowrap }}
-{% endif %}
+  originalCard.addEventListener("click", () => {
+    // Hide the original card for the split animation
+    originalCard.style.opacity = "0";
+
+    // Create the two split cards
+    const card1 = document.createElement("div");
+    card1.classList.add("card", "split-card", "info1");
+    card1.textContent = "Info 1";
+
+    const card2 = document.createElement("div");
+    card2.classList.add("card", "split-card", "info2");
+    card2.textContent = "Info 2";
+
+    // Add them to the container
+    container.appendChild(card1);
+    container.appendChild(card2);
+
+    // Initial split animation delay
+    setTimeout(() => {
+      card1.style.opacity = "1";
+      card2.style.opacity = "1";
+    }, 50); // Make sure the cards appear after creation
+
+    // Recombine the cards after a delay
+    setTimeout(() => {
+      card1.classList.add("recombine");
+      card2.classList.add("recombine");
+
+      // After recombination, remove the split cards and show the original card again
+      setTimeout(() => {
+        card1.remove();
+        card2.remove();
+        originalCard.style.opacity = "1"; // Show the original card again
+      }, 1000); // Match the recombine animation duration
+    }, 3000); // Delay before recombination starts
+  });
+});
+    </script>
 </body>
 </html>
