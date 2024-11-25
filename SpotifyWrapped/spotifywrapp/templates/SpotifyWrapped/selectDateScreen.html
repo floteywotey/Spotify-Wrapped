@@ -45,6 +45,7 @@
             <form id="filter-form" method="POST" action="{% url 'solo_results' %}">
                 {% csrf_token %}
                 <div class="filter-group">
+                    <div class="radio-buttons">
                     <div class="choices">
                         <input type="radio" id="longterm" name="time" value="long_term">
                         <label for="longterm" class="long">
@@ -69,11 +70,31 @@
                                  id="quarter_cycle" alt="quarter moon">
                         </label>
                     </div>
+                    </div>
                     <button type="submit" class="filter-button">Begin Your Reading</button>
+
                 </div>
             </form>
         </div>
     </div>
 </div>
+<div id="fade-overlay"></div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("filter-form");
+        const fadeOverlay = document.getElementById("fade-overlay");
+
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            fadeOverlay.classList.add("visible");
+
+            setTimeout(() => {
+                form.submit();
+            }, 1000);
+        });
+    });
+</script>
 </body>
 </html>

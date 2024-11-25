@@ -41,7 +41,7 @@ class CreateInvite(forms.ModelForm):
 
     message = forms.CharField(
         widget=forms.Textarea(attrs={'placeholder': 'Message'}),
-        required=True,
+        required=False,
     )
 
     class Meta:

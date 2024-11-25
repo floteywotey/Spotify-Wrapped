@@ -1,4 +1,6 @@
 import os
+from random import randint
+
 import requests
 from .forms import CreateInvite, SignUpForm
 from django.shortcuts import render, redirect
@@ -10,7 +12,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from dotenv import load_dotenv
 from django.http import JsonResponse
 
-from .models import SpotifyUser, wraps, invites
+from .models import SpotifyUser, wraps, invites, Friends
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from django.contrib.auth.forms import PasswordResetForm
@@ -25,8 +27,8 @@ load_dotenv()
 
 CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
 CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
-REDIRECT_URI = os.getenv("SPOTIFY_REDIRECT_URI")
-
+REDIRECT_URI_HOME = os.getenv("SPOTIFY_REDIRECT_URI_HOME")
+REDIRECT_URI_PROFILE = os.getenv("SPOTIFY_REDIRECT_URI_PROFILE")
 
 #Spotify Token URL
 AUTH_URL = 'https://accounts.spotify.com/api/token'
@@ -40,6 +42,16 @@ def startscreen(request):
 def readings(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
+    if request.method == 'POST':
+        identity = request.POST.get('id', '')
+        print(identity)
+        wrap = wraps.objects.get(id=identity)
+        print(wrap)
+        if (wrap.user1 == request.user.username):
+            wrap.user1 = ''
+        if (wrap.user2 == request.user.username):
+            wrap.user2 = ''
+        wrap.save()
     return render(request, 'readings.html', {"recent" : recentWraps(request.user.username)})
 
 def home(request):
@@ -124,14 +136,17 @@ def profile(request):
             invite.userFrom = request.user.username
             invite.fromSpotifyToken = SpotifyUser.objects.get(user=request.user.username).spotifytoken
             invite.fromRefreshToken = SpotifyUser.objects.get(user=request.user.username).refreshtoken
-            if not SpotifyUser.objects.filter(user=invite.userTo).exists():
-                invite.delete()
             invite.save()
+            if len(list(SpotifyUser.objects.filter(user=invite.userTo))) == 0:
+                invite.delete()
             return redirect('profile')
     else:
         form = CreateInvite()
     inviteList = list(invites.objects.filter(userTo=request.user.username))
-    return render(request, 'profile.html', {'username' : request.user.username, 'form' : form, 'usertoken' : getSpotifyUser(request.user.username).spotifytoken, 'inviteList' : inviteList})
+    friendList = list(Friends.objects.filter(user1=request.user.username))
+    return render(request, 'profile.html', {'username' : request.user.username, 'form' : form,
+                            'usertoken' : getSpotifyUser(request.user.username).spotifytoken, 'inviteList' : inviteList,
+                                             'friendList' : friendList})
 
 def select_date(request):
     if not request.user.is_authenticated:
@@ -140,11 +155,23 @@ def select_date(request):
         return redirect('spotify_authorize_home')
     return render(request, 'selectDateScreen.html')
 
+def resultsintermediate(request):
+    return render(request, 'resultsintermediate.html')
+
 def results(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
     sortedArray = recentWraps(request.user.username)
-    return render(request, 'results.html', context={'wrap': sortedArray[0]})
+    if (len(sortedArray) > 0):
+        return render(request, 'results.html', context={'wrap': sortedArray[0]})
+    else:
+        return render(request, 'results.html', {})
+def post_results(request):
+    if not request.user.is_authenticated:
+        return redirect('startscreen')
+    identity = request.POST.get('id', '')
+    wrap = wraps.objects.get(id=identity)
+    return render(request, 'results.html', context={'wrap': wrap})
 
 def solo_results(request):
     if not request.user.is_authenticated:
@@ -152,10 +179,15 @@ def solo_results(request):
     if request.method == "POST":
         time = request.POST.get('time', '')
         data = getSoloWrap(request, request.user.username, time, 50)
-        wrap = wraps.objects.create(wrap1=data, wrap2={}, duowrap={}, isDuo=False, user1=request.user.username)
+
+        randInt = randint(0,13)
+        if (len(recentWraps(request.user.username)) > 0):
+            while (randInt == recentWraps(request.user.username)[0].imageNum):
+                randInt = randint(0,13)
+        wrap = wraps.objects.create(wrap1=data, wrap2={}, duowrap={}, isDuo=False, user1=request.user.username, imageNum = randInt, image = imageList[randInt])
         wrap.save()
-        return redirect('results')
-    return redirect('results')
+        return redirect('resultsintermediate')
+    return redirect('resultsintermediate')
 
 def duo_results(request):
     if not request.user.is_authenticated:
@@ -170,6 +202,10 @@ def duo_results(request):
         toUser = request.user.username
         wrapData1 = getSoloWrap(request, fromUser, time, 50)
         wrapData2 = getSoloWrap(request, toUser, time, 50)
+        friend = Friends.objects.create(user1=fromUser, user2=toUser)
+        friend.save()
+        friend = Friends.objects.create(user1=toUser, user2=fromUser)
+        friend.save()
 
         shared_artists = []
         shared_genres = []
@@ -216,8 +252,17 @@ def duo_results(request):
             'valence': shared_valence
         }
         invites.objects.filter(id=invite).delete()
-
-        wrap = wraps.objects.create(wrap1=wrapData1, wrap2=wrapData2, duowrap=data, isDuo=True, user1=fromUser, user2=request.user.username)
+        randInt = randint(0, 13)
+        if (len(recentWraps(fromUser)) > 0 and len(recentWraps(toUser)) > 0):
+            while (randInt == recentWraps(fromUser)[0].imageNum or randInt == recentWraps(toUser)[0].imageNum):
+                randInt = randint(0, 13)
+        elif (len(recentWraps(fromUser)) > 0):
+            while (randInt == recentWraps(fromUser)[0].imageNum):
+                randInt = randint(0, 13)
+        elif (len(recentWraps(toUser)) > 0):
+            while (randInt == recentWraps(toUser)[0].imageNum):
+                randInt = randint(0, 13)
+        wrap = wraps.objects.create(wrap1=wrapData1, wrap2=wrapData2, duowrap=data, isDuo=True, user1=fromUser, user2=request.user.username, imageNum = randInt, image = imageList[randInt])
         wrap.save()
         return redirect('results')
     return redirect('results')
@@ -375,7 +420,6 @@ def getSoloWrap(request, username, time, limit=10):
     bot_valence = sorted(track_dict, key=lambda x: x['valence'], reverse=False)
     bot_energy = sorted(track_dict, key=lambda x: x['energy'], reverse=False)
     bot_danceability = sorted(track_dict, key=lambda x: x['danceability'], reverse=False)
-    print(top_danceability)
     # Prepare data for response
     data = {
         'top5artists': artist_dict[:5],
@@ -407,7 +451,7 @@ def getSoloWrap(request, username, time, limit=10):
 # Redirect user for Spotify authorization
 def spotify_authorize_profile(request):
     scope = 'user-top-read'
-    URI = 'http://localhost:8000/spotify-callback-profile/'
+    URI = REDIRECT_URI_PROFILE
     auth_url = (
         'https://accounts.spotify.com/authorize?'
         f'client_id={CLIENT_ID}&response_type=code&redirect_uri={URI}&scope={scope}&show_dialog=true'
@@ -426,7 +470,7 @@ def spotify_callback_profile(request):
     data = {
         'grant_type': 'authorization_code',
         'code': code,
-        'redirect_uri': 'http://localhost:8000/spotify-callback-profile/',
+        'redirect_uri': REDIRECT_URI_PROFILE,
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET,
     }
@@ -452,7 +496,7 @@ def spotify_callback_profile(request):
 
 def spotify_authorize_home(request):
     scope = 'user-top-read'
-    URI = 'http://localhost:8000/spotify-callback-home/'
+    URI = REDIRECT_URI_HOME
     auth_url = (
         'https://accounts.spotify.com/authorize?'
         f'client_id={CLIENT_ID}&response_type=code&redirect_uri={URI}&scope={scope}&show_dialog=true'
@@ -465,7 +509,7 @@ def spotify_callback_home(request):
     data = {
         'grant_type': 'authorization_code',
         'code': code,
-        'redirect_uri': 'http://localhost:8000/spotify-callback-home/',
+        'redirect_uri': REDIRECT_URI_HOME,
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET,
     }
@@ -517,3 +561,20 @@ def password_reset(request):
         'form': password_form,
     }
     return render(request, 'password_reset_form.html', context)
+
+imageList = [
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/reawakening-dark.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/reawakening-light.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-alchemist.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-bard.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-chariot.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-explorer.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-hermit.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-jester.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-lovers.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-moon.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-rogue.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-scholar.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-sun.svg',
+            '/static/SpotifyWrapped/images/card/card_fronts_notext/the-wizard.svg'
+]

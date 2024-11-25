@@ -190,3 +190,41 @@ button:hover .star-6 {
 .fil0 {
   fill: #FFFDEF
 }
+
+.form-group input {
+    width: 30%;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    font-size: 15px;
+    background: black;
+    border-radius: 16px;
+    border: 1px solid white;
+    padding-left: 20px;
+}
+
+.form-group label {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.form-group {
+    padding: 0;
+    margin: 30px;
+}
+
+input, select, textarea {
+    color: white;
+    font-family: Sahitya, serif;
+}
+
+textarea:focus, input:focus {
+    color: white;
+    font-family: Sahitya, serif;
+}
+
+input:-webkit-autofill {
+    background-color: black !important;
+    -webkit-text-fill-color: white !important;
+    box-shadow: 0 0 0px 1000px black inset !important;
+    border-color: white;
+}

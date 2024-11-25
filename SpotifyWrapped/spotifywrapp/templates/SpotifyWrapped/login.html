@@ -22,7 +22,7 @@
             <div class="form-group {% if form.username.errors %}has-error{% endif %}">
                 <label for="id_username">Username:</label>
                 <input type="text" name="username" id="id_username" class="form-control"
-                       value="{{ form.username.value|default_if_none:'' }}">
+                       value="{{ form.username.value|default_if_none:'' }}" placeholder="Enter your username">
                 <!-- Display form error for username -->
                 {% if form.username.errors %}
                     <div class="error-message">
@@ -35,7 +35,7 @@
             <div class="form-group {% if form.password.errors %}has-error{% endif %}">
                 <label for="id_password">Password:</label>
                 <input type="password" name="password" id="id_password" class="form-control"
-                       value="{{ form.password.value|default_if_none:'' }}">
+                       value="{{ form.password.value|default_if_none:'' }}" placeholder="Enter your password">
                 <!-- Display form error for password -->
                 {% if form.password.errors %}
                     <div class="error-message">

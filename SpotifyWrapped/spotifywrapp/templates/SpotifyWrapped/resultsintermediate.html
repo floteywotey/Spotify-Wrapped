@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spotify Tarot Reading - Intermediate</title>
+    <link rel="stylesheet" href="{% static 'SpotifyWrapped/resultsintermediate.css' %}">
+</head>
+<body style="background: black">
+
+<div class="fade-to-black" id="fadeOverlay"></div>
+
+<div class="card-container" id="cardContainer">
+    <div class="card" id="card1"></div>
+    <div class="card" id="card2"></div>
+    <div class="card" id="card3"></div>
+    <div class="card" id="card4"></div>
+    <div class="card" id="card5"></div>
+    <div class="card" id="card6"></div>
+    <div class="card" id="card7"></div>
+    <div class="card" id="card8"></div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const cards = document.querySelectorAll(".card");
+    const fadeOverlay = document.getElementById("fadeOverlay");
+    const finalPositions = [
+            { x: -300, y: -150, rotate: -15 },
+            { x: -150, y: -150, rotate: -10 },
+            { x: 0, y: -150, rotate: -5 },
+            { x: 150, y: -150, rotate: 0 },
+            { x: -300, y: 100, rotate: 5 },
+            { x: -150, y: 100, rotate: 10 },
+            { x: 0, y: 100, rotate: 15 },
+            { x: 150, y: 100, rotate: 20 },
+        ];
+
+    const shuffleCards = () => {
+            cards.forEach((card) => {
+                const randomX = Math.random() * 200 - 100;
+                const randomY = Math.random() * 50 - 25;
+                const randomRotate = Math.random() * 30 - 15;
+                card.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotate}deg)`;
+            });
+        };
+
+    const resetCards = () => {
+            cards.forEach((card, index) => {
+                card.style.transform = `translateY(${15 * index}px) rotate(0deg)`;
+            });
+        };
+
+    const layoutCards = () => {
+            cards.forEach((card, index) => {
+                const { x, y, rotate } = finalPositions[index];
+                card.style.transform = `translate(${x}px, ${y}px) rotate(${rotate}deg)`;
+            });
+        };
+
+    setTimeout(() => {
+            shuffleCards();
+
+            setTimeout(() => {
+                resetCards();
+
+                setTimeout(() => {
+                    layoutCards();
+
+                    setTimeout(() => {
+                        fadeOverlay.classList.add("visible");
+                        setTimeout(() => {
+                            window.location.href = "{% url 'results' %}";
+                        }, 1000);
+                    }, 2000);
+                }, 2000);
+            }, 2000);
+        }, 1000);
+    });
+
+</script>
+
+</body>
+</html>
