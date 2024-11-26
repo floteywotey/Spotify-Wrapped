@@ -328,8 +328,7 @@ def recentWraps(username):
 def getSpotifyUser(username):
     return list(SpotifyUser.objects.filter(user=username))[0]
 
-def summary(request):
-    id = request.POST.get('id', '')
+def summary(request, id):
     wrap = wraps.objects.get(id=id)
     return render(request, 'summary.html', context={'wrap' : wrap})
 
