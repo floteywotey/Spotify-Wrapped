@@ -44,9 +44,7 @@ def readings(request):
         return redirect('startscreen')
     if request.method == 'POST':
         identity = request.POST.get('id', '')
-        print(identity)
         wrap = wraps.objects.get(id=identity)
-        print(wrap)
         if (wrap.user1 == request.user.username):
             wrap.user1 = ''
         if (wrap.user2 == request.user.username):
@@ -203,7 +201,6 @@ def duo_results(request):
             return redirect('spotify_authorize_profile')
         time = request.POST.get('time', '')
         invite = request.POST.get('id', '')
-        print(invite)
         fromUser = request.POST.get('fromUser', '')
         toUser = request.user.username
         wrapData1 = getSoloWrap(request, fromUser, time, 50)
@@ -278,7 +275,6 @@ def getUserToken(username):
 
 def refreshToken(request, username):
     user = list(SpotifyUser.objects.filter(user=username))[0]
-    print('aaaaaa')
     spotifyToken = user.getspotifytoken()
     refresh = user.getrefreshtoken()
     if not spotifyToken:
@@ -338,6 +334,10 @@ def recentWraps(username):
 def getSpotifyUser(username):
     return list(SpotifyUser.objects.filter(user=username))[0]
 
+def summary(request, id):
+    wrap = wraps.objects.get(id=id)
+    return render(request, 'summary.html', context={'wrap' : wrap})
+
 def getSoloWrap(request, username, time, limit=10):
     danceability = 0.0
     popularity = 0.0
@@ -378,7 +378,6 @@ def getSoloWrap(request, username, time, limit=10):
         for artist in track['artists']:
             artists += artist['name'] + ','
         artists = artists[:-1]
-        print(artists)
         dict = {
             'id' : track['id'],
             'name' : track['name'],

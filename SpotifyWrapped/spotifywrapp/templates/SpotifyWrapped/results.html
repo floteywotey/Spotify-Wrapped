@@ -439,39 +439,40 @@
         document.addEventListener("DOMContentLoaded", function () {
             const cards = document.querySelectorAll("#card");
             const summaryButtonContainer = document.querySelector(".summary-button-container");
-            let lastFlippedCard = null; // Track the last flipped card
+            let flippedCards = new Set(); // Track cards that have been flipped
 
-            function checkAllClicked() {
-                // Check if all cards have the 'flipped' class
-                const allClicked = Array.from(cards).every(card => card.classList.contains("flipped"));
-                if (allClicked) {
+            function checkAllFlipped() {
+                // Check if all cards have been flipped at least once
+                if (flippedCards.size === cards.length) {
                     summaryButtonContainer.style.display = "block"; // Show the button
                     summaryButtonContainer.style.zIndex = "10";
                 } else {
                     summaryButtonContainer.style.zIndex = "-1"; // Move the button behind the cards
+                    summaryButtonContainer.style.display = "none"; // Hide the button
                 }
             }
 
             cards.forEach(card => {
                 card.addEventListener("click", function () {
-                    // If a card is already flipped, un-flip it
-                    if (lastFlippedCard && lastFlippedCard !== this) {
-                        lastFlippedCard.classList.remove("clicked");
+                    // If another card is already flipped, un-flip it
+                    const lastFlippedCard = Array.from(cards).find(c => c !== this && c.classList.contains("clicked"));
+                    if (lastFlippedCard) {
+                        lastFlippedCard.classList.remove("clicked", "flipped");
                     }
 
-                    // Flip the current card
+                    // Toggle the 'clicked' class for the current card
                     this.classList.toggle("clicked");
 
-                    // If the card is flipped, mark it as 'flipped'
+                    // Add or remove the 'flipped' class based on the 'clicked' state
                     if (this.classList.contains("clicked")) {
                         this.classList.add("flipped");
+                        flippedCards.add(this); // Add to flippedCards set
+                    } else {
+                        this.classList.remove("flipped");
                     }
 
-                    // Update the last flipped card
-                    lastFlippedCard = this.classList.contains("clicked") ? this : null;
-
-                    // Check if all cards are clicked to show the button
-                    checkAllClicked();
+                    // Check if all cards have been flipped at least once
+                    checkAllFlipped();
                 });
             });
         });
@@ -512,9 +513,11 @@
 <div class="others">
     <div class="fade-text">Choose your first card</div>
 
-    <div class="summary-button-container">
-        <a href="" class="summary-button">View Summary</a>
+    <div class="summary-button-container fade">
+        <a href="{% url 'summary' wrap.id %}" class="summary-button">View Summary</a>
     </div>
 </div>
+
+
 </body>
 </html>

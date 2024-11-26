@@ -46,14 +46,70 @@
     <div class="readings container">
         <h2>Recent Readings</h2>
         <div class="cards">
+            <script>
+                function showPopup(id, date, cardContainer) {
+                    // Set the title and IDs for the popup
+                    document.getElementById('popupTitle').textContent = `Wrap Date: ${date}`;
+                    document.getElementById('deleteId').value = id;
+                    document.getElementById('displayId').value = id;
+
+                    // Show the popup
+                    const modal = document.getElementById('popupModal');
+                    modal.style.display = 'flex';
+
+                    // Add "hovered" class to the card container
+                    cardContainer.classList.add('hovered');
+                }
+
+                function closePopup() {
+                    // Hide the popup
+                    const modal = document.getElementById('popupModal');
+                    modal.style.display = 'none';
+
+                    // Remove "hovered" class from all card containers
+                    const cards = document.querySelectorAll('.card-container');
+                    cards.forEach(card => card.classList.remove('hovered'));
+                }
+
+                // Prevent closing the popup when clicking inside the popup content
+                document.getElementById('popupModal').addEventListener('click', function (event) {
+                    const popupContent = document.querySelector('.popup-content');
+                    if (!popupContent.contains(event.target)) {
+                        closePopup();
+                    }
+                });
+            </script>
+
+            <div id="popupModal" class="popup-container">
+                <div class="popup-content">
+                    <span class="close-btn" onclick="closePopup()">&times;</span>
+                    <div class="text">
+                        <p id="popupTitle">Wrap Date</p>
+                        <p>Will you revisit the stars of your past Wrapped or release it to the universe?</p>
+                    </div>
+                    <div class="buttons">
+                        <form class="invites" method="post" action="{% url 'readings' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="deleteId" name="id" value="">
+                            <button class="delete" type="submit">Delete</button>
+                        </form>
+                        <form class="invites" method="post" action="{% url 'post_results' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="displayId" name="id" value="">
+                            <button class="display" type="submit">View</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
             {% for item in recent %}
-                <div class="card-container">
+                <div class="card-container" onclick="showPopup('{{ item.id }}', '{{ item.date }}', this)">
                     <div class="main-card">
                         <svg viewBox="0 0 200 315" class="card-back"></svg>
                         <div class="card-front">
                             <img src={{ item.image }}>
                             <div class="card-text-overlay">
-                                <p class="top-text">Top Label</p>
+                                <p class="top-text">{{ item.date }}</p>
                                 <p class="bottom-text">Bottom Label</p>
                             </div>
                         </div>
