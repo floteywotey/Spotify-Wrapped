@@ -52,17 +52,9 @@ class wraps(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     user1 = models.CharField(max_length=150)
     user2 = models.CharField(max_length=150)
-    longTerm = "long_term"
-    medTerm = "medium_term"
-    shortTerm = "short_term"
-    choices = [
-        (longTerm, "long_term"),
-        (medTerm, "medium_term"),
-        (shortTerm, "short_term"),
-    ]
     duration = models.CharField(
-        max_length=15,
-        choices=choices
+        max_length=30,
+        default="",
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     imageNum = models.IntegerField()

@@ -83,8 +83,8 @@
                     <div class="card-front">
                         <img src="{{ item.image }}">
                         <div class="card-text-overlay">
-                            <p class="top-text">{{ item.date }}</p>
-                            <p class="bottom-text">Bottom Label</p>
+                            <p class="top-text">{{ item.date|date:"m.d.y" }}</p>
+                            <p class="bottom-text">{{ item.duration }}</p>
                         </div>
                     </div>
                 </div>
