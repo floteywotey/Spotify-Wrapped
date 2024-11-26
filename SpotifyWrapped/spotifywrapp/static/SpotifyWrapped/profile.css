@@ -125,9 +125,43 @@ button {
 
 button:hover {
     box-shadow: 0 0 25px rebeccapurple;
-    width: 160px;
     background: transparent;
     letter-spacing: 0.1em;
+}
+
+.friends-list {
+    list-style: none;
+}
+
+.friends-list .scroll-box {
+    width: 100%;
+    height: 67%;
+    border-radius: 12px;
+    border: 1px white solid;
+    overflow: auto;
+    background: transparent;
+    scrollbar-color: white whitesmoke;
+}
+
+.friend-list ul {
+    padding-left: 5px;
+}
+
+.friends-list li {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    padding-left: 25px;
+    position: relative;
+}
+
+.friends-list li::before {
+    content: "★";
+    color: white;
+    font-size: 0.75rem;
+    position: absolute;
+    left: 0;
 }
 
 .link {
@@ -135,9 +169,9 @@ button:hover {
     width: 1vw;
 }
 
-.scroll-box {
-    width: 90%;
-    height: 60%;
+.invites-box .scroll-box {
+    width: 95%;
+    height: 55%;
     border-radius: 12px;
     border: 1px white solid;
     overflow: auto;
@@ -204,9 +238,19 @@ h1 {
     color: white;
 }
 
+#charCount{
+    font-size: 0.9rem;
+    color: white;
+    margin: 0;
+}
+
 .cancel-button a {
     text-decoration: none;
     color: white;
+}
+
+.invites-box {
+   height: 400px;
 }
 
 .invites {
@@ -214,13 +258,14 @@ h1 {
 }
 
 .search-button {
-    padding: 5px;
-    max-width: 100%;
+    padding: 10px;
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     background: black;
     cursor: pointer;
+    text-align: start;
 }
 
 .search-button:hover {
@@ -228,4 +273,28 @@ h1 {
     border: 3px solid rebeccapurple;
     letter-spacing: normal;
     background: black;
+}
+
+.invite-button {
+    padding: 10px;
+    width: 125px;
+    font-size: 1vw;
+    border-radius: 16px;
+    border: 1px white solid;
+    background: transparent;
+    color: white;
+    font-family: Linden Hill, serif;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.invite-button:hover {
+    box-shadow: 0 0 25px rebeccapurple;
+    background: transparent;
+    letter-spacing: 0.1em;
+}
+
+.invite-button a {
+    text-decoration: none;
+    color: white;
 }

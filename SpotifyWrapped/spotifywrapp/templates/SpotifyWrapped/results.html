@@ -12,12 +12,12 @@
     <form class="home" action="{% url 'home' %}" method="post">
         {% csrf_token %}
         <button class="home-button" aria-label="Home" title="Home">
-            <img src="{% static 'SpotifyWrapped/images/icons/close_presentation.svg' %}" height="30px" width="30px">
+            <span class="close-icon"></span>
         </button>
     </form>
 </div>
-<div class="cards">
 
+<div class="cards">
     <div class="card1" id="card">
         <div class="card-back" id="back1"></div>
         <div class="card-front" id="front1">
@@ -27,7 +27,7 @@
                     <div class="details">
                         <img src="{{ track.image }}" height="33" width="33">
                         <div class="bullet">
-                            <img class="bullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px">
+                            <img class="fbullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px">
                         </div>
                         <div class="text">
                             <h2>{{ track.name }}</h2>
@@ -48,7 +48,7 @@
                     <div class="details">
                         <img src="{{ artist.image }}" width="33" height="33">
                         <div class="bullet">
-                            <img class="bullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px">
+                            <img class="fbullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px">
                         </div>
                         <div class="text">
                             <h2>{{ artist.name }}</h2>
@@ -67,7 +67,7 @@
                 {% for genre in wrap.wrap1.top5genres %}
                     <div class="details">
                         <div class="bullet">
-                            <img class="bullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px">
+                            <img class="fbullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px">
                         </div>
                         <div class="text">
                             <h2>{{ genre }}</h2>
@@ -102,12 +102,12 @@
                     <p>Your music drifts in cosmic dust, where a lone comet passes by, playing gentle and introspective
                         rhythm filling your journey with a familiar and comforting emptiness. These tracks are for
                         solitary star gazing as you float through universe.</p>
-                    <p>Your average danceability:{{ wrap.wrap1.danceability }}%.</p>
+                    <p>Your average danceability: {{ wrap.wrap1.danceability }}%.</p>
                     {% for track in wrap.wrap1.bot3danceability %}
                         <div class="details">
                             <img src="{{ track.image }}" width="33" height="33">
                             <div class="bullet">
-                                <img class="bullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
                                      width="10px">
                             </div>
                             <div class="text">
@@ -129,7 +129,7 @@
                     <div class="details">
                         <img src="{{ track.image }}" width="33" height="33">
                         <div class="bullet">
-                            <img class="bullet-img" data-index="{{ forloop.counter }}" height="10px"
+                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
                                  width="10px">
                         </div>
                         <div class="text">
@@ -146,7 +146,7 @@
             function addDanceabilityId() {
                 const element = document.getElementById('front5');
 
-                if (danceability < 0.5) {
+                if (danceability < 50) {
                     element.id = "front5-varlow";
                 } else {
                     element.id = "front5-varhigh";
@@ -159,7 +159,7 @@
                 const highInfo = document.getElementById("info5-varhigh");
 
                 card.addEventListener("mouseenter", () => {
-                    if (danceability < 0.5) {
+                    if (danceability < 50) {
                         lowInfo.style.display = "flex";
                         highInfo.style.display = "none";
                     } else {
@@ -187,12 +187,12 @@
                     <p>Your music gently orbits at its own slow, deliberate pace, emitting a soft glow like distant
                         stars, filling your space with a sense of peace. These tracks are for quiet moments, creating a
                         reflective atmosphere that keeps you grounded amidst the stars.</p>
-                    <p>Your average energy:{{ wrap.wrap1.energy }}%.</p>
+                    <p>Your average energy: {{ wrap.wrap1.energy }}%.</p>
                     {% for track in wrap.wrap1.bot3energy %}
                         <div class="details">
                             <img src="{{ track.image }}" width="33" height="33">
                             <div class="bullet">
-                                <img class="bullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
                                      width="10px">
                             </div>
                             <div class="text">
@@ -214,7 +214,7 @@
                     <div class="details">
                         <img src="{{ track.image }}" width="33" height="33">
                         <div class="bullet">
-                            <img class="bullet-img" data-index="{{ forloop.counter }}" height="10px"
+                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
                                  width="10px">
                         </div>
                         <div class="text">
@@ -231,7 +231,7 @@
             function addEnergyId() {
                 const element = document.getElementById('front6');
 
-                if (energy < 0.5) {
+                if (energy < 50) {
                     element.id = "front6-varlow";
                 } else {
                     element.id = "front6-varhigh";
@@ -244,7 +244,7 @@
                 const highInfo = document.getElementById("info6-varhigh");
 
                 card.addEventListener("mouseenter", () => {
-                    if (energy < 0.5) {
+                    if (energy < 50) {
                         lowInfo.style.display = "flex";
                         highInfo.style.display = "none";
                     } else {
@@ -273,12 +273,12 @@
                     <p>Your music is a hidden nebula in uncharted territory, a secret only a few have wandered into.
                         These tracks echo distantly in the quiet parts of the galaxy, a unique and quiet beauty valued
                         only by those who appreciate the obscure.</p>
-                    <p>The popularity of your songs:{{ wrap.wrap1.popularity }}%.</p>
-                    {% for track in wrap.wrap1.bot3energy %}
+                    <p>The popularity of your songs: {{ wrap.wrap1.popularity }}%.</p>
+                    {% for track in wrap.wrap1.bot3popularity %}
                         <div class="details">
                             <img src="{{ track.image }}" width="33" height="33">
                             <div class="bullet">
-                                <img class="bullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
                                      width="10px">
                             </div>
                             <div class="text">
@@ -300,7 +300,7 @@
                     <div class="details">
                         <img src="{{ track.image }}" width="33" height="33">
                         <div class="bullet">
-                            <img class="bullet-img" data-index="{{ forloop.counter }}" height="10px"
+                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
                                  width="10px">
                         </div>
                         <div class="text">
@@ -317,7 +317,7 @@
             function addPopularityId() {
                 const element = document.getElementById('front7');
 
-                if (popularity < 0.5) {
+                if (popularity < 50) {
                     element.id = "front7-varlow";
                 } else {
                     element.id = "front7-varhigh";
@@ -330,7 +330,7 @@
                 const highInfo = document.getElementById("info7-varhigh");
 
                 card.addEventListener("mouseenter", () => {
-                    if (popularity < 0.5) {
+                    if (popularity < 50) {
                         lowInfo.style.display = "flex";
                         highInfo.style.display = "none";
                     } else {
@@ -355,15 +355,15 @@
         <div class="card-front" id="front8">
             <div class="info fade varlow" id="info8-varlow">
                 <div class="scenario">
-                    <p>Your music drifts in the shadows, embracing the veil of night. These tracks are like a haunting
-                        echo, painting a soundscape of quiet allure and melancholy that helps you find companionship
-                        with the void.</p>
-                    <p>Your average positivity:{{ wrap.wrap1.valence }}%.</p>
+                    <p>Your music drifts in the shadows, embracing the dark of side of each celestial body like the veil
+                        of night. These tracks are like a haunting echo, painting a soundscape of quiet allure and
+                        melancholy that helps you find companionship with the void.</p>
+                    <p>Your average positivity: {{ wrap.wrap1.valence }}%.</p>
                     {% for track in wrap.wrap1.bot3valence %}
                         <div class="details">
                             <img src="{{ track.image }}" width="33" height="33">
                             <div class="bullet">
-                                <img class="bullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
                                      width="10px">
                             </div>
                             <div class="text">
@@ -385,7 +385,7 @@
                     <div class="details">
                         <img src="{{ track.image }}" width="33" height="33">
                         <div class="bullet">
-                            <img class="bullet-img" data-index="{{ forloop.counter }}" height="10px"
+                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
                                  width="10px">
                         </div>
                         <div class="text">
@@ -402,7 +402,7 @@
             function addValenceId() {
                 const element = document.getElementById('front8');
 
-                if (valence < 0.5) {
+                if (valence < 50) {
                     element.id = "front8-varlow";
                 } else {
                     element.id = "front8-varhigh";
@@ -415,7 +415,7 @@
                 const highInfo = document.getElementById("info8-varhigh");
 
                 card.addEventListener("mouseenter", () => {
-                    if (valence < 0.5) {
+                    if (valence < 50) {
                         lowInfo.style.display = "flex";
                         highInfo.style.display = "none";
                     } else {
@@ -436,18 +436,50 @@
     </div>
 
     <script>
-        document.querySelectorAll("#card").forEach(card => {
-            card.addEventListener("click", function () {
-                if (this.classList.contains("clicked")) {
-                    this.classList.remove("clicked");
+        document.addEventListener("DOMContentLoaded", function () {
+            const cards = document.querySelectorAll("#card");
+            const summaryButtonContainer = document.querySelector(".summary-button-container");
+            let flippedCards = new Set(); // Track cards that have been flipped
+
+            function checkAllFlipped() {
+                // Check if all cards have been flipped at least once
+                if (flippedCards.size === cards.length) {
+                    summaryButtonContainer.style.display = "block"; // Show the button
+                    summaryButtonContainer.style.zIndex = "10";
                 } else {
-                    document.querySelectorAll("#card").forEach(c => c.classList.remove("clicked"));
-                    this.classList.add("clicked");
+                    summaryButtonContainer.style.zIndex = "-1"; // Move the button behind the cards
+                    summaryButtonContainer.style.display = "none"; // Hide the button
                 }
+            }
+
+            cards.forEach(card => {
+                card.addEventListener("click", function () {
+                    // If another card is already flipped, un-flip it
+                    const lastFlippedCard = Array.from(cards).find(c => c !== this && c.classList.contains("clicked"));
+                    if (lastFlippedCard) {
+                        lastFlippedCard.classList.remove("clicked", "flipped");
+                    }
+
+                    // Toggle the 'clicked' class for the current card
+                    this.classList.toggle("clicked");
+
+                    // Add or remove the 'flipped' class based on the 'clicked' state
+                    if (this.classList.contains("clicked")) {
+                        this.classList.add("flipped");
+                        flippedCards.add(this); // Add to flippedCards set
+                    } else {
+                        this.classList.remove("flipped");
+                    }
+
+                    // Check if all cards have been flipped at least once
+                    checkAllFlipped();
+                });
             });
         });
+
+
         document.addEventListener("DOMContentLoaded", function () {
-            const bulletImages = document.querySelectorAll('.bullet-img');
+            const bulletImages = document.querySelectorAll('.fbullet-img');
 
             bulletImages.forEach(function (bullet, index) {
                 const bulletImages = [
@@ -461,12 +493,37 @@
                 bullet.src = bulletImages[index % bulletImages.length];
             });
         });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const bulletImages = document.querySelectorAll('.tbullet-img');
+
+            bulletImages.forEach(function (bullet, index) {
+                const bulletImages = [
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet1.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet2.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet3.svg' %}"
+                ];
+
+                bullet.src = bulletImages[index % bulletImages.length];
+            });
+        });
     </script>
 </div>
 
-{% if wrap.isDuo %}
-    {{ wrap.wrap2 }}
-    {{ wrap.duowrap }}
-{% endif %}
+<div class="others">
+    <div class="fade-text">Choose your first card</div>
+
+    <div class="summary-button-container fade">
+        <a href="{% url 'summary' %}" class="summary-button">View Summary</a>
+        </div>
+        <form class="summary" method="post" action="{% url 'summary' %}">
+            {% csrf_token %}
+            <input type="hidden" id="id" name="id" value="{{ wrap.id }}">
+            <button class="summary-button" type="submit">summary button</button>
+        </form>
+        </div>
+    </div>
+
+
 </body>
 </html>
