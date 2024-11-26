@@ -35,7 +35,7 @@ body.light-mode {
     background: white url("images/backgrounds/light-mode-background.svg") no-repeat center center fixed;
     background-size: cover;
     overflow: hidden;
-    color: black;
+    color: white;
     transition: background 0.5s, color 0.5s;
 }
 
@@ -63,9 +63,6 @@ body.light-mode {
 }
 
 /* Light mode header overrides */
-body.light-mode .dark-header a {
-    color: black;
-}
 
 body.light-mode .dark-header a:hover {
     color: #5b5df6;
@@ -113,7 +110,7 @@ body.light-mode .dark-header a:hover {
 }
 
 body.light-mode .box {
-    background: rgba(255, 255, 255, 0.9);
+    background: transparent;
 }
 
 /* Buttons */

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{% static 'SpotifyWrapped/home.css' %}">
 </head>
 <body class="{% if theme_preference == 'light' %}light-mode{% endif %}">
-<div class="dark-header container">
+<div class="page_header container">
     <div class="left">
         <a href="{% url 'home' %}">Home</a>
         <a href="{% url 'readings' %}">Past Readings</a>
@@ -21,10 +21,19 @@
 <div class="main container fade">
     <div class="main-items">
         <div class="orb-container fade-longer">
-            <img src="{% static 'SpotifyWrapped/images/decorations/orb/dark-orb.svg' %}" id="orb" class="floating">
-            <img src="{% static 'SpotifyWrapped/images/decorations/orb/dark-star.svg' %}" id="star" class="floating">
+            <!-- Dynamically set the orb image based on the theme preference -->
+            <img
+                src="{% static 'SpotifyWrapped/images/decorations/orb/' %}{% if theme_preference == 'light' %}light-orb.svg{% else %}dark-orb.svg{% endif %}"
+                id="orb"
+                class="floating"
+            >
+            <img
+                src="{% static 'SpotifyWrapped/images/decorations/orb/' %}{% if theme_preference == 'light' %}light-star.svg{% else %}dark-star.svg{% endif %}"
+                id="star"
+                class="floating"
+            >
             <div class="moon-ring-container">
-                <img src="{% static 'SpotifyWrapped/images/decorations/moonring.svg' %}" id="moon-ring" alt="Moonring"
+                <img src="{% static 'SpotifyWrapped/images/decorations/orb/' %}{% if theme_preference == 'light' %}light-ring.svg{% else %}dark-ring.svg{% endif %}" id="moon-ring" alt="Moonring"
                      width="100%">
             </div>
         </div>

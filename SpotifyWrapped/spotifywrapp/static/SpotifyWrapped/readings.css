@@ -17,7 +17,7 @@ body {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    background: black url("images/backgrounds/dark-mode-background.svg") no-repeat center center fixed;
+    background: black url("images/backgrounds/dark-mode-background-decorative.svg") no-repeat center center fixed;
     -webkit-background-size: cover;
     color: white;
     margin: 0;
@@ -300,4 +300,17 @@ button:hover {
 
 .close-btn:hover {
     color: #8b8df8;
+}
+
+body.light-mode {
+    background: white url("images/backgrounds/light-mode-background-decorative.svg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+
+body.light-mode, body.light-mode * {
+    transition: background 0.5s, color 0.5s, box-shadow 0.5s;
 }

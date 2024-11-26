@@ -61,14 +61,14 @@ body {
     flex: 1 1 0;
 }
 
-.dark-header a {
+.page_header a {
     text-decoration: none;
     color: white;
     transition: 0.5s;
     cursor: pointer;
 }
 
-.dark-header a:hover {
+.page_header a:hover {
     text-decoration: none;
     color: #8b8df8;
     letter-spacing: 0.1em;
@@ -286,6 +286,7 @@ body {
     transform: translateX(-50%);
 }
 
+
 .card-back {
     background: url("images/card/default-card-back.svg") no-repeat center center;
     background-size: contain;
@@ -411,7 +412,7 @@ button:hover {
 body.light-mode {
     background: white url("images/backgrounds/light-mode-background.svg") no-repeat center center fixed;
     -webkit-background-size: cover;
-    color: black;
+    color: white;
 }
 
 /* Light mode transitions */
@@ -489,4 +490,20 @@ body.light-mode ::-webkit-scrollbar {
 body.light-mode ::-webkit-scrollbar-thumb {
     background: #c0c0c0;
     border-radius: 10px;
+}
+
+body.light-mode .page-header {
+    color: white;
+}
+
+/* Light mode header links */
+body.light-mode .page-header a {
+    text-decoration: none;
+    color: white;
+    transition: 0.5s;
+}
+
+body.light-mode .page-header a:hover {
+    color: lightblue;
+    letter-spacing: 0.1em;
 }
