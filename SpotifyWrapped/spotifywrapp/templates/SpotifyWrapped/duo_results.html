@@ -17,66 +17,95 @@
     </form>
 </div>
 <div class="cards">
-   <div id="card-container">
-       <div id="card" class="card">Original Card</div>
+    <div class="card1" id="card">
+        <div class="card-back" id="back1"></div>
+        <div class="card-front" id="front1">
+            <div class="info fade">
+                <h1>Top Songs</h1>
+                {% for track in wrap.duowrap.top_tracks|slice:":5" %}
+                    <div class="details">
+                        <img src="{{ track.image }}" height="33" width="33">
+                        <div class="bullet">
+                            <img class="fbullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px">
+                        </div>
+                        <div class="text">
+                            <h2>{{ track.name }}</h2>
+                            <h3>{{ track.artists }}</h3>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </div>
     <script>
-       document.addEventListener("DOMContentLoaded", () => {
-  const originalCard = document.getElementById("card");
-  const container = document.getElementById("card-container");
-  let isAnimating = false; // Flag to track if animation is in progress
+        document.addEventListener("DOMContentLoaded", function () {
+function splitCard(card) {
+    const front = card.querySelector(".card-front");
+    // Ensure card-front is visible before splitting
+    front.style.opacity = "0";
+    // Create split elements
+    const leftHalf = document.createElement("div");
+    leftHalf.classList.add("split-left");
 
-  originalCard.addEventListener("click", () => {
-    if (isAnimating) return; // If animation is running, ignore click
+    const rightHalf = document.createElement("div");
+    rightHalf.classList.add("split-right");
 
-    isAnimating = true; // Set flag to true to prevent rapid clicks
+    // Append split halves to the card
+    card.appendChild(leftHalf);
+    card.appendChild(rightHalf);
 
-    // Step 1: Animate the original card to split into left and right cards
-    originalCard.style.opacity = "0"; // Hide the original card during animation
-
-    // Create and add the split cards
-    const card1 = document.createElement("div");
-    card1.classList.add("card", "split-card", "info1");
-    card1.textContent = "Info 1";
-
-    const card2 = document.createElement("div");
-    card2.classList.add("card", "split-card", "info2");
-    card2.textContent = "Info 2";
-
-    // Add split cards to container
-    container.appendChild(card1);
-    container.appendChild(card2);
-
-    // Step 2: Make the cards appear with a delay for smooth effect
+    // Remove split elements after animation completes
+    // Remove split halves after animation
     setTimeout(() => {
-      card1.classList.add("show");
-      card2.classList.add("show");
-    }, 50); // Small delay to ensure the cards are added to DOM
+        leftHalf.remove();
+        rightHalf.remove();
 
-    // Step 3: Apply the split animation (left and right) to the cards
-    setTimeout(() => {
-      card1.classList.add("split-left");
-      card2.classList.add("split-right");
+        // Fade the front card back in
+        front.style.opacity = "1";
+    }, 3000); // Wait for split and merge animations to complete
+}
+let isAnimating = false;
+// Add event listener to cards
+document.querySelectorAll(".card1").forEach(card => {
+    card.addEventListener("click", function () {
+        // Prevent interaction if already animating
+        if (isAnimating) return;
 
-      // After the split, recombine the cards
-      setTimeout(() => {
-        // Apply recombine animations
-        card1.classList.add("recombine-left");
-        card2.classList.add("recombine-right");
+        // Set flag to true
+        isAnimating = true;
+        // Flip the card
+        card.classList.toggle("clicked");
 
-        // After recombination, remove the split cards and show the original card again
+        // Trigger split animation after flipping
         setTimeout(() => {
-          card1.remove(); // Remove left card
-          card2.remove(); // Remove right card
-          originalCard.style.opacity = "1"; // Show the original card again
-          isAnimating = false; // Reset the flag, allow new click
-        }, 1500); // Wait for recombine animation to finish
-      }, 1000); // Wait a moment after split before starting recombine
-    }, 1000); // Wait before starting the split animation
-  });
+            if (card.classList.contains("clicked")) {
+                splitCard(card);
+            }
+        }, 600); // Matches flip animation duration
+        // Reset flag after the entire animation ends
+        setTimeout(() => {
+            isAnimating = false;
+        }, 3000); // Match total animation duration
+    });
 });
+        });
 
+document.addEventListener("DOMContentLoaded", function () {
+            const bulletImages = document.querySelectorAll('.fbullet-img');
+
+            bulletImages.forEach(function (bullet, index) {
+                const bulletImages = [
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet1.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet2.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet3.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet4.svg' %}",
+                    "{% static 'SpotifyWrapped/images/decorations/bullets/bullet5.svg' %}"
+                ];
+
+                bullet.src = bulletImages[index % bulletImages.length];
+            });
+        });
     </script>
 </body>
 </html>

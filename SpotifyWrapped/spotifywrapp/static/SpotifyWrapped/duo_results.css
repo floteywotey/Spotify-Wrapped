@@ -20,124 +20,257 @@ body {
     position: absolute;
 }
 
-.header button {
+.home-button {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    margin-right: 10px;
+    background: transparent;
     border: none;
-    background: none;
-    margin: 20px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+.home-button .close-icon {
+    position: relative;
+    width: 40px;
+    height: 40px;
+}
+
+.home-button .close-icon::before,
+.home-button .close-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 2px;
+    background-color: white;
+    transform-origin: center;
+    transform: translate(-50%, -50%) rotate(45deg);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.home-button .close-icon::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.home-button:hover .close-icon::before,
+.home-button:hover .close-icon::after {
+    background: #8b8df8; /* Gradient hover effect */
+}
+
+.home-button:hover .close-icon::before {
+    transform: translate(-50%, -50%) rotate(225deg); /* Adds a small rotation effect */
+}
+
+.home-button:hover .close-icon::after {
+    transform: translate(-50%, -50%) rotate(135deg); /* Adds a small rotation effect */
+}
 .cards {
     -webkit-transform: perspective(900px);
     -webkit-transform-style: preserve-3d;
     position: fixed;
     width: 100%;
+    z-index: 100;
 }
 
-/* Basic styles for the card container */
-#card-container {
-  position: relative;
-  top: 10vh;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.card-front, .card-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
-/* Base styles for card animations */
-.card {
-  width: 300px;
-  height: 500px;
-  background-color: #3498db;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  position: absolute;
-  opacity: 1;
-  transition: opacity 0.5s ease, transform 1.5s ease;
+h1 {
+    font-size: 15px;
+    margin: 0;
 }
 
-/* Split card animation (left and right) */
-@keyframes splitLeft {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateX(0); /* Start at center */
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateX(-300px); /* Move left */
-  }
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1px;
+}
+.fade {
+    animation: fadeIn 0.5s ease-out;
 }
 
-@keyframes splitRight {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateX(0); /* Start at center */
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateX(300px); /* Move right */
-  }
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
-/* Apply the split animations to the left and right cards */
+img {
+    flex-shrink: 0;
+}
+
+.details {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    width: 100%;
+    max-height: 33px;
+    margin-left: 10px;
+    text-align: start;
+    gap: 5px;
+    margin-bottom: 3px;
+}
+
+.scenario {
+    margin: 10px 5px;
+    font-size: 5px;
+    text-align: center;
+}
+
+.bullet {
+    height: 100%;
+}
+
+.bullet-img {
+    margin-top: 10px;
+    align-content: space-between;
+}
+
+.text {
+    max-width: calc(100% - 70px);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    margin: 0;
+}
+
+.text h2 {
+    font-size: 7px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.2em;
+    max-height: 2.4em;
+    margin: 0;
+}
+
+.text h3 {
+    position: relative;
+    font-size: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card1 {
+    text-align: center;
+    position: absolute;
+    top: calc(10vh - 7.5vh);
+    left: calc(10vw - 5vw);
+    width: 133px;
+    height: 210px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background: black;
+    background-size: cover;
+    transition: transform .6s;
+    transform-style: preserve-3d;
+    transform: rotatex(75deg) translatey(-200px) translatez(-100px);
+}
+
+.card1.clicked {
+    transform: scale(3) rotatey(180deg) rotatex(0deg) rotatez(0deg) translatex(-14vw) translatey(13.75vh);
+    transition: .6s;
+}
+
+#front1 {
+    background: white url("images/card/card_fronts/the-wizard.svg") no-repeat center center;
+    background-size: contain;
+    color: black;
+    transform: rotateY(180deg);
+}
+
+.card1 .info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #14112AEE;
+    color: white;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+#back1 {
+    background: url("images/card/card_backs/back1.svg") no-repeat center center;
+    background-size: contain;
+}
+
+.card1.clicked:hover .info {
+    display: flex;
+}
+
+.card-front {
+    opacity: 0;
+    transition: opacity 1s ease-in; /* Smooth fade-in effect */
+}
+
+.split-left, .split-right {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+    background: white url("images/card/card_fronts/the-wizard.svg") no-repeat center center;
+    background-size: contain;
+    opacity: 1; /* Ensure split cards start fully visible */
+
+}
+
+/* Split animations */
 .split-left {
-  animation: splitLeft 1s forwards;
+    left: 0;
+    transform-origin: bottom left;
+    animation: splitLeft 2s ease-out forwards, fadeOut 1s 2s forwards;
 }
 
 .split-right {
-  animation: splitRight 1s forwards;
+    right: 0;
+    transform-origin: bottom right;
+    animation: splitRight 2s ease-out forwards, fadeOut 1s 2s forwards;
+}
+/* Fade out animation for split cards */
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
-/* Recombine card animations for left and right */
-@keyframes recombineLeft {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateX(-300px);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateX(0);
-  }
+@keyframes splitLeft {
+    50% {
+        transform: rotate(20deg);
+    }
 }
 
-@keyframes recombineRight {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateX(300px);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateX(0);
-  }
+@keyframes splitRight {
+    50% {
+        transform: rotate(-20deg);
+    }
 }
 
-/* Apply recombine animations */
-.recombine-left {
-  animation: recombineLeft 1.5s forwards;
-}
 
-.recombine-right {
-  animation: recombineRight 1.5s forwards;
-}
 
-/* Styling for split cards */
-.split-card {
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.split-card.show {
-  opacity: 1;
-}
-
-#card {
-  opacity: 1;
-  transition: opacity 1s ease;
-}
