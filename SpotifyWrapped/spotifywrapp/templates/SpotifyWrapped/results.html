@@ -514,8 +514,14 @@
     <div class="fade-text">Choose your first card</div>
 
     <div class="summary-button-container fade">
-        <a href="#" class="summary-button">View Summary</a>
+        <a href="{% url 'summary' %}" class="summary-button">View Summary</a>
+
     </div>
-</div>
+        <form class="summary" method="post" action="{% url 'summary' %}">
+            {% csrf_token %}
+            <input type="hidden" id="id" name="id" value="{{ wrap.id }}">
+            <button class="search-button" type="submit">summary button</button>
+        </form>
+    </div>
 </body>
 </html>
