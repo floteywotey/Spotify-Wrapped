@@ -22,21 +22,86 @@
         document.addEventListener("DOMContentLoaded", function () {
             const card = document.querySelector(".card");
 
-            // Flip the card first
+            // Step 1: Flip from #old to #new
             setTimeout(() => {
-                card.classList.add("flip");
+                card.classList.add("flip-to-new");
 
-                // Add the glowing effect after the flip completes
+                // Step 2: Add glow effect after #new is visible
                 setTimeout(() => {
                     card.classList.add("glow");
-                }, 1500); // Delay for glowing effect (e.g., 1.5 seconds after the flip starts)
-            }, 100); // Initial delay for animation start
+
+                    // Step 3: On click, flip to card-front and stop the glow
+                    card.addEventListener("click", function () {
+                        if (!card.classList.contains("flip-to-front")) {
+                            card.classList.remove("glow"); // Stop glowing
+                            card.classList.add("flip-to-front"); // Flip to show card-front
+                        }
+                    });
+                }, 1000); // Wait for flip-to-new to complete
+            }, 500); // Initial delay before flipping starts
         });
     </script>
-
     <div class="card" id="card">
-        <div class="card-front"></div>
-        <div class="card-back"></div>
+        <div class="card-back" id="old"></div>
+        <div class="card-back" id="new"></div>
+        <div class="card-front">
+            <div class="info fade">
+                <div class="images">
+                    {% for artist in wrap.wrap1.top5artists|slice:":1" %}
+                        <img id="artist" src="{{ artist.image }}" width="250" height="250">
+                    {% endfor %}
+                    <img id="decor" src="{% static 'SpotifyWrapped/images/decorations/summary-decor.svg' %}" width="450"
+                         height="450">
+                </div>
+                <div class="details">
+                    <div class="left">
+                        <div class="artists">
+                            <p class="title">Top Artists</p>
+                            <ol>
+                                {% for artist in wrap.wrap1.top5artists %}
+                                    <li><span class="number">{{ forloop.counter }}.</span> {{ artist.name }}</li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+                        <div class="personalities">
+                            <p class="title">Listening Personalities</p>
+                            <ol>
+                                <li><span class="number">1.</span> {% if wrap.wrap1.danceability > 0.5 %} The
+                                    Jester {% else %} The Hermit {% endif %}</li>
+                                <li><span class="number">2.</span> {% if wrap.wrap1.energy > 0.5 %} The Sage {% else %}
+                                    The Chariot {% endif %}</li>
+                                <li><span class="number">3.</span> {% if wrap.wrap1.ppopularity > 0.5 %} The
+                                    Rogue {% else %} The Bard {% endif %}</li>
+                                <li><span class="number">4.</span> {% if wrap.wrap1.valence > 0.5 %} The Moon {% else %}
+                                    The Sun {% endif %}</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="songs">
+                            <p class="title">Top Tracks</p>
+                            <ol>
+                                {% for artist in wrap.wrap1.top5tracks %}
+                                    <li><span class="number">{{ forloop.counter }}.</span> {{ artist.name }}</li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+                        <div class="genres">
+                            <p class="title">Total Genres</p>
+                            <p class="subtitle">{{ wrap.wrap1.num_genres }}</p>
+                        </div>
+                        <div class="genres">
+                            <p class="title">Top Genre</p>
+                            <p class="subtitle">
+                                {% for genre in wrap.wrap1.top5genres|slice:":1" %}
+                                    {{ genre }}
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

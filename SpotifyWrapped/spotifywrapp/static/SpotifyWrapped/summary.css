@@ -71,6 +71,24 @@ body {
     transform: translate(-50%, -50%) rotate(135deg);
 }
 
+/* Smooth Glow */
+.card.glow {
+    animation: pulsate 2s infinite ease-in-out; /* Pulsating glow */
+}
+
+@keyframes pulsate {
+    0% {
+        box-shadow: 0 0 10px 5px rgba(128, 0, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 40px 20px rgba(128, 0, 255, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 10px 5px rgba(128, 0, 255, 0.3);
+    }
+}
+
+/* Base Card Styles */
 .card {
     position: fixed;
     top: 50%;
@@ -81,11 +99,13 @@ body {
     background: black;
     border-radius: 12px;
     transform-style: preserve-3d;
-    transition: transform 1s ease-in-out, box-shadow 0.6s ease-in-out; /* Smooth shadow transition */
+    transition: transform 1s ease-in-out;
+    overflow: hidden;
 }
 
-
-.card-front, .card-back {
+/* Layers */
+.card-back,
+.card-front {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -93,26 +113,150 @@ body {
     border-radius: 12px;
     background-size: cover;
     background-position: center;
+    transform: rotateY(0deg);
 }
 
+/* `#old` (Initial state) */
+#old {
+    background: black url("images/card/card_backs/back1.svg") no-repeat;
+    z-index: 3;
+    transition: transform 1s ease-in-out;
+}
+
+/* `#new` (Hidden initially) */
+#new {
+    background: black url("images/card/card_backs/back.svg") no-repeat;
+    transform: rotateY(180deg); /* Hidden */
+    z-index: 2;
+    transition: transform 1s ease-in-out;
+}
+
+/* `card-front` (Hidden initially) */
 .card-front {
-    background: black url("images/card/card_backs/back8.svg") no-repeat;
-    border-radius: 12px;
+    background: black url("images/card/card_fronts/reawakening-dark.svg") no-repeat;
+    transform: rotateY(180deg) ; /* Hidden */
+    z-index: 1;
+    transition: transform 1s ease-in-out;
 }
 
-.card-back {
-    background: black url("images/card/card_backs/back.svg") no-repeat; /* Replace with the actual image URL */
-    transform: rotateY(180deg);
-    border-radius: 12px;
+/* Flip States */
+.card.flip-to-new #old {
+    transform: rotateY(180deg); /* Flip out */
+    transition: transform 1s ease-in-out;
 }
 
-.cards {
+.card.flip-to-new #new {
+    transform: rotateY(0deg); /* Flip in */
+    transition: transform 1s ease-in-out;
+}
+
+.card.flip-to-front #new {
+    transform: rotateY(180deg); /* Flip out */
+    transition: transform 1s ease-in-out;
+}
+
+.card.flip-to-front .card-front {
+    transform: rotateY(0); /* Flip in */
+    transition: transform 1s ease-in-out;
+}
+
+.fade {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.card-front:hover .info {
     display: flex;
+}
+
+.card-front .info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #24222BEE;
+    color: white;
+    display: none;
+    justify-content: start;
+    align-items: center;
+    font-size: 16px;
+    border-radius: 12px;
+    flex-direction: column;
+}
+
+.images {
+    display: flex;
+    width: 100%;
+    height: 50%;
     align-items: center;
     justify-content: center;
 }
 
-.card.flip {
-    transform: translate(-50%, -50%) rotateY(180deg);
-    transition: transform 1s ease-in-out;
+.images #decor {
+    position: absolute;
+}
+
+.details {
+    display: flex;
+    width: 100%;
+    height: 50%;
+    gap: 1px;
+}
+
+.details .left {
+    margin-left: 10px;
+    width: 50%;
+}
+
+.details .left {
+    margin-left: 10px;
+    width: 50%;
+}
+
+.details .left .title {
+    margin: 7px 15px 0;
+    padding: 0;
+    font-size: 17px;
+}
+
+.details .right .title {
+    margin: 7px 0 0;
+    padding: 0;
+    font-size: 17px;
+}
+
+.details .subtitle {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+
+.details .left ol {
+    margin: 0 30px;
+    padding: 0;
+    width: 100%;
+}
+
+.details .right ol {
+    margin: 0 15px;
+    padding: 0;
+}
+
+.details li {
+    font-size: 14px;
+    padding: 0 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 80%;
+    align-items: center;
 }
