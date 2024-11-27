@@ -37,4 +37,5 @@ urlpatterns = [
          auth_view.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'),
          name='password_reset_complete'),
     path('resultsintermediate/', views.resultsintermediate, name='resultsintermediate'),
+    path('duointermediate/', views.duointermediate, name='duointermediate'),
 ]

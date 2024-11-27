@@ -193,6 +193,9 @@ def duo_wrap(request):
     sortedArray = recentWraps(request.user.username)
     return render(request, 'duo_results.html', context={'wrap': sortedArray[0]})
 
+def duointermediate(request):
+    return render(request, 'duointermediate.html')
+
 def duo_results(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
@@ -267,8 +270,8 @@ def duo_results(request):
                 randInt = randint(0, 13)
         wrap = wraps.objects.create(wrap1=wrapData1, wrap2=wrapData2, duowrap=data, isDuo=True, user1=fromUser, user2=request.user.username, imageNum = randInt, image = imageList[randInt])
         wrap.save()
-        return redirect('duo_wrap')
-    return redirect('duo_wrap')
+        return redirect('duointermediate')
+    return redirect('duointermediate')
 
 def getUserToken(username):
     return getSpotifyUser(username).getspotifytoken()

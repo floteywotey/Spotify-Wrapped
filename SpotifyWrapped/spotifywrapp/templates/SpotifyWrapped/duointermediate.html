@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Duo Wrapped</title>
+    <link rel="stylesheet" href="{% static 'SpotifyWrapped/duointermediate.css' %}">
+</head>
+<body style="background: black">
+<div class="card-container" id="deck1">
+    <div class="card1" id="card1" style="--i:-4"></div>
+    <div class="card1" id="card2" style="--i:-3"></div>
+    <div class="card1" id="card3" style="--i:-2"></div>
+    <div class="card1" id="card4" style="--i:-1"></div>
+    <div class="card1" id="card5" style="--i:-0"></div>
+    <div class="card1" id="card6" style="--i:1"></div>
+    <div class="card1" id="card7" style="--i:2"></div>
+    <div class="card1" id="card8" style="--i:3"></div>
+</div>
+<div class="card-container" id="deck2">
+    <div class="card2" id="card1"></div>
+    <div class="card2" id="card2"></div>
+    <div class="card2" id="card3"></div>
+    <div class="card2" id="card4"></div>
+    <div class="card2" id="card5"></div>
+    <div class="card2" id="card6"></div>
+    <div class="card2" id="card7"></div>
+    <div class="card2" id="card8"></div>
+</div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const deck1 = document.querySelectorAll(".card1");
+    const deck2 = document.querySelectorAll(".card2");
+    const finalPositions = [
+            { x: -300, y: -150, rotate: -15 },
+            { x: -150, y: -150, rotate: -10 },
+            { x: 0, y: -150, rotate: -5 },
+            { x: 150, y: -150, rotate: 0 },
+            { x: -300, y: 100, rotate: 5 },
+            { x: -150, y: 100, rotate: 10 },
+            { x: 0, y: 100, rotate: 15 },
+            { x: 150, y: 100, rotate: 20 },
+        ];
+
+    const layoutCards = () => {
+            deck1.forEach((card) => {
+                const randomX = Math.random() * 200 - 100;
+                const randomY = Math.random() * 50 - 25;
+                const randomRotate = Math.random() * 30 - 15;
+                card.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotate}deg)`;
+            });
+        };
+
+    const resetCards = () => {
+            cards.forEach((card, index) => {
+                card.style.transform = `translateY(${15 * index}px) rotate(0deg)`;
+            });
+        };
+
+    const layoutCards = () => {
+            cards.forEach((card, index) => {
+                const { x, y, rotate } = finalPositions[index];
+                card.style.transform = `translate(${x}px, ${y}px) rotate(${rotate}deg)`;
+            });
+        };
+
+    setTimeout(() => {
+            shuffleCards();
+
+            setTimeout(() => {
+                resetCards();
+
+                setTimeout(() => {
+                    layoutCards();
+
+                    setTimeout(() => {
+                        fadeOverlay.classList.add("visible");
+                        setTimeout(() => {
+                            console.log("redirecting...");
+                            window.location.href = "{% url 'duo_wrap' %}";
+                        }, 1000);
+                    }, 2000);
+                }, 2000);
+            }, 2000);
+        }, 1000);
+    });
+
+</script>
+</html>
