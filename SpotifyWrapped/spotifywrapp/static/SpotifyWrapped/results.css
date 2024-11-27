@@ -34,6 +34,7 @@ body::before {
         opacity: 1;
     }
 }
+
 .header {
     width: 100%;
     display: flex;
@@ -90,6 +91,7 @@ body::before {
 .home-button:hover .close-icon::after {
     transform: translate(-50%, -50%) rotate(135deg); /* Adds a small rotation effect */
 }
+
 .cards {
     -webkit-transform: perspective(900px);
     -webkit-transform-style: preserve-3d;
@@ -326,7 +328,7 @@ img {
     height: 210px;
     margin-top: 5px;
     margin-bottom: 5px;
-    background: black url("images/card/card_backs/back3.svg") no-repeat fixed;
+    background: black;
     background-size: cover;
     transition: transform .6s;
     transform-style: preserve-3d;

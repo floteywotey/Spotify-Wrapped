@@ -38,4 +38,5 @@ urlpatterns = [
          name='password_reset_complete'),
     path('resultsintermediate/', views.resultsintermediate, name='resultsintermediate'),
     path('duointermediate/', views.duointermediate, name='duointermediate'),
+    path('summaryintermediate/<str:id>', views.summaryintermediate, name='summaryintermediate'),
 ]

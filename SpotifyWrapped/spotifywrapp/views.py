@@ -32,7 +32,7 @@ REDIRECT_URI_PROFILE = os.getenv("SPOTIFY_REDIRECT_URI_PROFILE")
 
 #Spotify Token URL
 AUTH_URL = 'https://accounts.spotify.com/api/token'
-
+timedict = {'long_term': 'Long Term (~1 year)', 'med_term': 'Medium Term (~6 months)', 'short_term': 'Short Term (~3 months)', }
 
 def startscreen(request):
     if request.user.is_authenticated:
@@ -182,8 +182,9 @@ def solo_results(request):
         if (len(recentWraps(request.user.username)) > 0):
             while (randInt == recentWraps(request.user.username)[0].imageNum):
                 randInt = randint(0,13)
-        wrap = wraps.objects.create(wrap1=data, wrap2={}, duowrap={}, isDuo=False, user1=request.user.username, imageNum = randInt, image = imageList[randInt])
+        wrap = wraps.objects.create(wrap1=data, wrap2={}, duowrap={}, isDuo=False, user1=request.user.username, duration=timedict[time], imageNum = randInt, image = imageList[randInt])
         wrap.save()
+        print(wrap.duration)
         return redirect('resultsintermediate')
     return redirect('resultsintermediate')
 
@@ -268,7 +269,7 @@ def duo_results(request):
         elif (len(recentWraps(toUser)) > 0):
             while (randInt == recentWraps(toUser)[0].imageNum):
                 randInt = randint(0, 13)
-        wrap = wraps.objects.create(wrap1=wrapData1, wrap2=wrapData2, duowrap=data, isDuo=True, user1=fromUser, user2=request.user.username, imageNum = randInt, image = imageList[randInt])
+        wrap = wraps.objects.create(wrap1=wrapData1, wrap2=wrapData2, duowrap=data, isDuo=True, user1=fromUser, user2=request.user.username, duration=timedict[time], imageNum = randInt, image = imageList[randInt])
         wrap.save()
         return redirect('duointermediate')
     return redirect('duointermediate')
@@ -340,6 +341,10 @@ def getSpotifyUser(username):
 def summary(request, id):
     wrap = wraps.objects.get(id=id)
     return render(request, 'summary.html', context={'wrap' : wrap})
+
+def summaryintermediate(request, id):
+    wrap = wraps.objects.get(id=id)
+    return render(request, 'summaryintermediate.html', context={'wrap' : wrap})
 
 def getSoloWrap(request, username, time, limit=10):
     danceability = 0.0
