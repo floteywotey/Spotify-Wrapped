@@ -65,6 +65,9 @@ def home(request):
                 count = count + 1
     return render(request, 'home.html', {'recent':sortedArray})
 
+def about_us(request):
+    return render(request, 'SpotifyWrapped/about_us.html')
+
 def userlogin(request):
     if request.user.is_authenticated:
         return redirect('home')

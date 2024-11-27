@@ -16,6 +16,7 @@ urlpatterns = [
     path("spotify-callback-profile/", views.spotify_callback_profile, name='spotify_callback_profile'),
     path("home/", views.home, name='home'),
     path("readings/", views.readings, name='readings'),
+    path("about_us/", views.about_us, name='about_us'),
     path("solo-results/", views.solo_results, name='solo_results'),
     path("select-date/", views.select_date, name='select_date'),
     path("delete/", views.deleteUser, name='delete'),
