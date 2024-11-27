@@ -339,6 +339,10 @@ def summary(request, id):
     wrap = wraps.objects.get(id=id)
     return render(request, 'summary.html', context={'wrap' : wrap})
 
+def summaryintermediate(request, id):
+    wrap = wraps.objects.get(id=id)
+    return render(request, 'summaryintermediate.html', context={'wrap' : wrap})
+
 def getSoloWrap(request, username, time, limit=10):
     danceability = 0.0
     popularity = 0.0

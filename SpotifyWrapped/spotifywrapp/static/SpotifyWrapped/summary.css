@@ -1,0 +1,118 @@
+/*custom fonts: Kaisei Tokumin, Kalnia, Sahitya, Linden Hill*/
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Linden+Hill:ital@0;1&family=Sahitya:wght@400;700&display=swap');
+
+* {
+    font-family: Sahitya, serif;
+    box-sizing: border-box;
+}
+
+body {
+    position: relative;
+    background: black;
+    background-size: cover;
+    color: white;
+    overflow: hidden;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+}
+
+.home-button {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    margin-right: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-button .close-icon {
+    position: relative;
+    width: 40px;
+    height: 40px;
+}
+
+.home-button .close-icon::before,
+.home-button .close-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 2px;
+    background-color: white;
+    transform-origin: center;
+    transform: translate(-50%, -50%) rotate(45deg);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.home-button .close-icon::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.home-button:hover .close-icon::before,
+.home-button:hover .close-icon::after {
+    background: #8b8df8;
+}
+
+.home-button:hover .close-icon::before {
+    transform: translate(-50%, -50%) rotate(225deg);
+}
+
+.home-button:hover .close-icon::after {
+    transform: translate(-50%, -50%) rotate(135deg);
+}
+
+.card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 399px;
+    height: 630px;
+    background: black;
+    border-radius: 12px;
+    transform-style: preserve-3d;
+    transition: transform 1s ease-in-out, box-shadow 0.6s ease-in-out; /* Smooth shadow transition */
+}
+
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+}
+
+.card-front {
+    background: black url("images/card/card_backs/back8.svg") no-repeat;
+    border-radius: 12px;
+}
+
+.card-back {
+    background: black url("images/card/card_backs/back.svg") no-repeat; /* Replace with the actual image URL */
+    transform: rotateY(180deg);
+    border-radius: 12px;
+}
+
+.cards {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card.flip {
+    transform: translate(-50%, -50%) rotateY(180deg);
+    transition: transform 1s ease-in-out;
+}

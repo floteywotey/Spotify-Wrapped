@@ -1,10 +1,43 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Summary</title>
+    <link rel="stylesheet" href="{% static 'SpotifyWrapped/summary.css' %}">
 </head>
 <body>
-{{ wrap.date }}
+<div class="header">
+    <form class="home" action="{% url 'home' %}" method="post">
+        {% csrf_token %}
+        <button class="home-button" aria-label="Home" title="Home">
+            <span class="close-icon"></span>
+        </button>
+    </form>
+</div>
+
+<div class="cards">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const card = document.querySelector(".card");
+
+            // Flip the card first
+            setTimeout(() => {
+                card.classList.add("flip");
+
+                // Add the glowing effect after the flip completes
+                setTimeout(() => {
+                    card.classList.add("glow");
+                }, 1500); // Delay for glowing effect (e.g., 1.5 seconds after the flip starts)
+            }, 100); // Initial delay for animation start
+        });
+    </script>
+
+    <div class="card" id="card">
+        <div class="card-front"></div>
+        <div class="card-back"></div>
+    </div>
+</div>
 </body>
 </html>
