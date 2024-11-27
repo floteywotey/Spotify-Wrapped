@@ -22,6 +22,9 @@
     <div class="cards">
         <script>
             function showPopup(id, date, cardContainer) {
+                console.log("ID:", id); // Debugging: Check the ID value
+                console.log("Date:", date); // Debugging: Check the date value
+
                 // Set the title and IDs for the popup
                 document.getElementById('popupTitle').textContent = `Wrap Date: ${date}`;
                 document.getElementById('deleteId').value = id;
@@ -67,7 +70,7 @@
                         <input type="hidden" id="deleteId" name="id" value="">
                         <button class="delete" type="submit">Delete</button>
                     </form>
-                    <form class="invites" method="post" action="{% url 'post_results' %}">
+                    <form class="invites" method="post" action="{% url 'viewwrap' item.id %}">
                         {% csrf_token %}
                         <input type="hidden" id="displayId" name="id" value="">
                         <button class="display" type="submit">View</button>

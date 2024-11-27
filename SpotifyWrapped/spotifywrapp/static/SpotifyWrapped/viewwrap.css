@@ -1,0 +1,718 @@
+/*custom fonts: Kaisei Tokumin, Kalnia, Sahitya, Linden Hill*/
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Linden+Hill:ital@0;1&family=Sahitya:wght@400;700&display=swap');
+
+* {
+    font-family: Sahitya, serif;
+    box-sizing: border-box;
+}
+
+body {
+    position: relative;
+    background: black;
+    background-size: cover;
+    color: white;
+    overflow: hidden;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+}
+
+.home-button {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    margin-right: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.home-button .close-icon {
+    position: relative;
+    width: 40px;
+    height: 40px;
+}
+
+.home-button .close-icon::before,
+.home-button .close-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 2px;
+    background-color: white;
+    transform-origin: center;
+    transform: translate(-50%, -50%) rotate(45deg);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.home-button .close-icon::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.home-button:hover .close-icon::before,
+.home-button:hover .close-icon::after {
+    background: #8b8df8;
+}
+
+.home-button:hover .close-icon::before {
+    transform: translate(-50%, -50%) rotate(225deg);
+}
+
+.home-button:hover .close-icon::after {
+    transform: translate(-50%, -50%) rotate(135deg);
+}
+
+/* Container for the cards */
+.cards {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.card {
+    position: absolute;
+    width: 150px;
+    height: 200px;
+    background: gray;
+    border-radius: 8px;
+    transform-origin: center bottom;
+    transform: translate(-50%, -50%); /* Maintain initial transform */
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: translate(calc(-50% + var(--spread)), calc(40vh - 150px)) rotate(var(--angle)) !important;
+    box-shadow: 0 10px 20px rgba(139, 141, 248, 0.8);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth animation */
+}
+
+/* Fan-out animation keyframes */
+@keyframes fanOut {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg); /* Centered and stacked */
+    }
+    100% {
+        transform: translate(calc(-50% + var(--spread)), -50%) rotate(var(--angle)); /* Spread out in an arc */
+    }
+}
+
+/* Move-down animation keyframes */
+@keyframes moveDown {
+    0% {
+        transform: translate(calc(-50% + var(--spread)), -50%) rotate(var(--angle));
+    }
+    100% {
+        transform: translate(calc(-50% + var(--spread)), calc(45vh - 150px)) rotate(var(--angle));
+    }
+}
+
+.no-hover .card {
+    pointer-events: none;
+}
+
+/* Add animation classes */
+.fanned {
+    animation: fanOut 3s ease forwards; /* Slower fan-out animation */
+}
+
+.moved {
+    animation: moveDown 2.5s ease forwards; /* Smooth and slower move-down */
+}
+
+.card.centered {
+    position: absolute;
+    top: 37% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) rotate(0deg) !important;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), top 0.8s ease-in-out, left 0.8s ease-in-out;
+}
+
+.fade {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+img {
+    flex-shrink: 0;
+}
+
+.details {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    width: 95%;
+    max-height: 100px;
+    margin-left: 20px;
+    text-align: start;
+    gap: 10px;
+    margin-bottom: 3px;
+}
+
+.scenario {
+    margin: 10px 5px;
+    font-size: 15px;
+    text-align: center;
+}
+
+.bullet {
+    height: 100%;
+    align-content: center;
+}
+
+.bullet-img {
+    margin: 20px;
+}
+
+.text {
+    max-width: calc(100% - 50px);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    margin: 0;
+    height: 100%;
+    align-content: center;
+    justify-content: center;
+}
+
+.text h2 {
+    font-size: 25px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.2em;
+    max-height: 2.4em;
+    margin: 0;
+}
+
+.text h3 {
+    position: relative;
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+h1 {
+    font-size: 60px;
+    margin: 0;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+.card1 {
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 399px;
+    height: 630px;
+    background: black url("images/card/card_fronts/the-wizard.svg") no-repeat fixed;
+    background-size: cover;
+    border-radius: 12px;
+    transform-style: preserve-3d;
+    transition: transform .6s;
+    transform: translate(-50%, -50%);
+}
+
+.card1 .info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #14112AEE;
+    color: white;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.card1.centered:hover .info {
+    display: flex;
+}
+
+.card2 {
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 399px;
+    height: 630px;
+    background: black url("images/card/card_fronts/the-lovers.svg") no-repeat fixed;
+    background-size: cover;
+    border-radius: 12px;
+    transform-style: preserve-3d;
+    transition: transform .6s;
+    transform: translate(-50%, -50%);
+}
+
+.card2 .info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #431924EE;
+    color: white;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.card2.centered:hover .info {
+    display: flex;
+}
+
+.card2 .text {
+    max-width: calc(100% - 70px);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    margin: 0;
+}
+
+.card2 .text h2 {
+    font-size: 25px;
+    justify-content: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.2em;
+    max-height: 2.4em;
+    align-content: center;
+    margin-top: 5px;
+}
+
+.card3 {
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 399px;
+    height: 630px;
+    background: black url("images/card/card_fronts/the-alchemist.svg") no-repeat fixed;
+    background-size: cover;
+    border-radius: 12px;
+    transform-style: preserve-3d;
+    transition: transform .6s;
+    transform: translate(-50%, -50%);
+}
+
+.card3 .info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #202030EE;
+    color: white;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.card3.centered:hover .info {
+    display: flex;
+}
+
+.card3 .text {
+    max-width: calc(100% - 20px);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    margin: 0;
+}
+
+.card3 .text h2 {
+    font-size: 25px;
+    justify-content: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.2em;
+    max-height: 2.4em;
+    align-content: center;
+    margin-top: 5px;
+}
+
+.card4 {
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 399px;
+    height: 630px;
+    background: black url("images/card/card_fronts/the-explorer.svg") no-repeat fixed;
+    background-size: cover;
+    border-radius: 12px;
+    transform-style: preserve-3d;
+    transition: transform .6s;
+    transform: translate(-50%, -50%);
+}
+
+.card4 .info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #112C20EE;
+    color: white;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.card4.centered:hover .info {
+    display: flex;
+}
+
+.card4 .info p {
+    margin: 10px 5px;
+    font-size: 15px;
+    text-align: center;
+}
+
+.card5 {
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 399px;
+    height: 630px;
+    background: black no-repeat fixed;
+    background-size: cover;
+    border-radius: 12px;
+    transform-style: preserve-3d;
+    transition: transform .6s;
+    transform: translate(-50%, -50%);
+}
+
+.card5 .info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #211803EE;
+    color: white;
+    display: none;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.card5.centered:hover .info .varhigh {
+}
+.card5.centered:hover .info .varlow {
+}
+
+.card5 .info.details {
+    display: flex;
+    flex-direction: row;
+    margin: 10px 5px;
+    align-content: start;
+}
+
+.card6 {
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 399px;
+    height: 630px;
+    background: black no-repeat fixed;
+    background-size: cover;
+    border-radius: 12px;
+    transform-style: preserve-3d;
+    transition: transform .6s;
+    transform: translate(-50%, -50%);
+}
+
+.card6 .info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #422221EE;
+    color: white;
+    display: none;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.card6.centered:hover .info .varhigh {}
+.card6.centered:hover .info .varlow {}
+
+.card6.details {
+    display: flex;
+    flex-direction: row;
+    margin: 10px 5px;
+    align-content: start;
+}
+
+.card7 {
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 399px;
+    height: 630px;
+    background: black no-repeat fixed;
+    background-size: cover;
+    border-radius: 12px;
+    transform-style: preserve-3d;
+    transition: transform .6s;
+    transform: translate(-50%, -50%);
+}
+
+.card7 .info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #041732EE;
+    color: white;
+    display: none;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.card7.centered:hover .info .varhigh {}
+.card7.centered:hover .info .varlow {}
+
+.card7.details {
+    display: flex;
+    flex-direction: row;
+    margin: 10px 5px;
+    align-content: start;
+}
+
+.card8 {
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 399px;
+    height: 630px;
+    background: black no-repeat fixed;
+    background-size: cover;
+    border-radius: 12px;
+    transform-style: preserve-3d;
+    transition: transform .6s;
+    transform: translate(-50%, -50%);
+}
+
+.card8 .info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #302E04EE;
+    color: white;
+    display: none;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.card8.centered:hover .info .varhigh {}
+.card8.centered:hover .info .varlow {}
+
+.card8.details {
+    display: flex;
+    flex-direction: row;
+    margin: 10px 5px;
+    align-content: start;
+}
+
+.high-danceability {
+    background-image: url("images/card/card_fronts/the-jester.svg");
+}
+
+.low-danceability {
+    background-image: url("images/card/card_fronts/the-hermit.svg");
+}
+
+.high-energy {
+    background-image: url("images/card/card_fronts/the-chariot.svg");
+}
+
+.low-energy {
+    background-image: url("images/card/card_fronts/the-sage.svg");
+}
+
+.high-popularity {
+    background-image: url("images/card/card_fronts/the-bard.svg");
+}
+
+.low-popularity {
+    background-image: url("images/card/card_fronts/the-bard.svg");
+}
+
+.high-valence {
+    background-image: url("images/card/card_fronts/the-sun.svg");
+}
+
+.low-valence {
+    background-image: url("images/card/card_fronts/the-moon.svg");
+}
+
+.card9.centered:hover .info {
+    display: flex;
+}
+
+.card9 {
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 399px;
+    height: 630px;
+    background: black url("images/card/card_fronts/reawakening-dark.svg") no-repeat fixed;
+    background-size: cover;
+    border-radius: 12px;
+    transform-style: preserve-3d;
+    transition: transform .6s;
+    transform: translate(-50%, -50%);
+}
+
+.card9 .card-front .info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #24222BEE;
+    color: white;
+    display: none;
+    justify-content: start;
+    align-items: center;
+    font-size: 16px;
+    border-radius: 12px;
+    flex-direction: column;
+}
+
+.card9 .images {
+    display: flex;
+    width: 100%;
+    height: 50%;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.card9 .images #decor {
+    position: absolute;
+    margin: 0;
+}
+
+.card9 .details {
+    display: flex;
+    width: 100%;
+    max-height: 50%;
+    gap: 1px;
+    margin: 0;
+}
+
+.card9 .details .right {
+    margin-left: 10px;
+    width: 50%;
+}
+
+.card9 .details .left {
+    margin-left: 10px;
+    width: 50%;
+}
+
+.card9 .details .left .title {
+    margin: 7px 15px 0;
+    padding: 0;
+    font-size: 17px;
+    width: 100%;
+}
+
+.card9 .details .right .title {
+    margin: 7px 0 0;
+    padding: 0;
+    font-size: 17px;
+    width: 100%;
+}
+
+.card9 .details .subtitle {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    width: 100%;
+}
+
+.card9 .details .left ol {
+    margin: 0 30px;
+    padding: 0;
+    width: 90%;
+}
+
+.card9 .details .right ol {
+    margin: 0 15px;
+    padding: 0;
+    width: 90%;
+}
+
+.card9 .details li {
+    font-size: 14px;
+    padding: 0 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 80%;
+}

@@ -32,7 +32,7 @@ REDIRECT_URI_PROFILE = os.getenv("SPOTIFY_REDIRECT_URI_PROFILE")
 
 #Spotify Token URL
 AUTH_URL = 'https://accounts.spotify.com/api/token'
-timedict = {'long_term': 'Long Term (~1 year)', 'med_term': 'Medium Term (~6 months)', 'short_term': 'Short Term (~3 months)', }
+timedict = {'long_term': 'Long Term (~1 year)', 'medium_term': 'Medium Term (~6 months)', 'short_term': 'Short Term (~3 months)', }
 
 def startscreen(request):
     if request.user.is_authenticated:
@@ -342,6 +342,10 @@ def summary(request, id):
 def summaryintermediate(request, id):
     wrap = wraps.objects.get(id=id)
     return render(request, 'summaryintermediate.html', context={'wrap' : wrap})
+
+def viewwrap(request, id):
+    wrap = wraps.objects.get(id=id)
+    return render(request, 'viewwrap.html', context={'wrap' : wrap})
 
 def getSoloWrap(request, username, time, limit=10):
     danceability = 0.0

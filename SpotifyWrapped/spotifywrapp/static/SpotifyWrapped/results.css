@@ -748,7 +748,7 @@ img {
     border: 1px white solid;
     text-decoration: none;
     transition: 0.5s;
-    position: relative; /* For orbiting elements to be positioned correctly */
+    position: relative;
 }
 
 .summary-button:hover {
