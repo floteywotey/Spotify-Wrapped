@@ -32,7 +32,7 @@ REDIRECT_URI_PROFILE = os.getenv("SPOTIFY_REDIRECT_URI_PROFILE")
 
 #Spotify Token URL
 AUTH_URL = 'https://accounts.spotify.com/api/token'
-timedict = {'long_term': 'Long Term (~1 year)', 'med_term': 'Medium Term (~6 months)', 'short_term': 'Short Term (~3 months)', }
+timedict = {'long_term': 'Long Term (~1 year)', 'medium_term': 'Medium Term (~6 months)', 'short_term': 'Short Term (~3 months)', }
 
 def startscreen(request):
     if request.user.is_authenticated:
@@ -64,6 +64,9 @@ def home(request):
                 sortedArray.append(wrap)
                 count = count + 1
     return render(request, 'home.html', {'recent':sortedArray})
+
+def about_us(request):
+    return render(request, 'SpotifyWrapped/about_us.html')
 
 def userlogin(request):
     if request.user.is_authenticated:
