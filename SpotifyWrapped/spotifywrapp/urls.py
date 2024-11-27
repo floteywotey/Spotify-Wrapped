@@ -22,6 +22,7 @@ urlpatterns = [
     path("delete?/", views.deleteQuestion, name='delete?'),
     path("profile/", views.profile, name='profile'),
     path("duo-results/", views.duo_results, name='duo_results'),
+    path("duo-wrap/", views.duo_wrap, name='duo_wrap'),
     path("results/", views.results, name='results'),
     path("post-results/", views.post_results, name='post_results'),
     path("summary/<str:id>", views.summary, name='summary'),
