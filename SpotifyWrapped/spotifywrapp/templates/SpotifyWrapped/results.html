@@ -22,7 +22,7 @@
         <div class="card-back" id="back1"></div>
         <div class="card-front" id="front1">
             <div class="info fade">
-                <h1>Top Songs</h1>
+                <h1>Top Tracks</h1>
                 {% for track in wrap.wrap1.top5tracks %}
                     <div class="details">
                         <img src="{{ track.image }}" height="33" width="33">
@@ -471,7 +471,6 @@
                 });
             });
         });
-
 
         document.addEventListener("DOMContentLoaded", function () {
             const bulletImages = document.querySelectorAll('.fbullet-img');
