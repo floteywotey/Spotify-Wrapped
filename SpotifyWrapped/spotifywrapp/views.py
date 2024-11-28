@@ -209,11 +209,11 @@ def duo_results(request):
         toUser = request.user.username
         wrapData1 = getSoloWrap(request, fromUser, time, 50)
         wrapData2 = getSoloWrap(request, toUser, time, 50)
-        friend = Friends.objects.create(user1=fromUser, user2=toUser)
-        friend.save()
-        friend = Friends.objects.create(user1=toUser, user2=fromUser)
-        friend.save()
-
+        if (len(list(Friends.objects.filter(user1=fromUser).filter(user2=toUser))) == 0):
+            friend = Friends.objects.create(user1=fromUser, user2=toUser)
+            friend.save()
+            friend = Friends.objects.create(user1=toUser, user2=fromUser)
+            friend.save()
         shared_artists = []
         shared_genres = []
         shared_tracks = []
@@ -239,11 +239,10 @@ def duo_results(request):
                 if album1 == album2:
                     shared_albums.append(album1)
 
-        shared_danceability = (wrapData1['danceability'] + wrapData2['danceability'])/2
-        shared_popularity = (wrapData1['popularity'] + wrapData2['popularity'])/2
-        shared_energy = (wrapData1['energy'] + wrapData2['energy'])/2
-        shared_valence = (wrapData1['valence'] + wrapData2['valence'])/2
-
+        # shared_danceability = (wrapData1['danceability'] + wrapData2['danceability'])/2
+        # shared_energy = (wrapData1['energy'] + wrapData2['energy'])/2
+        # shared_valence = (wrapData1['valence'] + wrapData2['valence'])/2
+        shared_popularity = (wrapData1['popularity'] + wrapData2['popularity']) / 2
         data = {
             'top_artists': shared_artists,
             'top_genres': shared_genres,
@@ -253,10 +252,10 @@ def duo_results(request):
             'numSharedGenres': len(shared_genres),
             'numSharedTracks': len(shared_tracks),
             'numSharedAlbums': len(shared_albums),
-            'danceability': shared_danceability,
             'popularity': shared_popularity,
-            'energy': shared_energy,
-            'valence': shared_valence
+            # 'danceability': shared_danceability,
+            # 'energy': shared_energy,
+            # 'valence': shared_valence
         }
         invites.objects.filter(id=invite).delete()
         randInt = randint(0, 13)
@@ -346,8 +345,14 @@ def summaryintermediate(request, id):
     wrap = wraps.objects.get(id=id)
     return render(request, 'summaryintermediate.html', context={'wrap' : wrap})
 
-def getSoloWrap(request, username, time, limit=10):
-    danceability = 0.0
+def viewwrap(request, id):
+    wrap = wraps.objects.get(id=id)
+    return render(request, 'viewwrap.html', context={'wrap' : wrap})
+
+def getSoloWrap(request, username, time, limit=50):
+    # danceability = 0.0
+    # energy = 0.0
+    # valence = 0.0
     popularity = 0.0
     energy = 0.0
     valence = 0.0
@@ -375,13 +380,26 @@ def getSoloWrap(request, username, time, limit=10):
         for genre in artist['genres']:
             genres[genre] = genres.get(genre, 0) + 1
     sorted_genres = sorted(genres.items(), key=lambda x: x[1], reverse=True)
-
+    explicitCount = 0
+    songLength = 0
+    count1900 = 0
+    count2000 = 0
     user = list(SpotifyUser.objects.filter(user=username))[0]
     token = user.getspotifytoken()
     # Get top tracks and extract albums
     top_tracks = get_top_tracks(request, token, time, username, limit)
     track_dict = []
+    track_explicit = []
+    track_modern = []
+    track_oldie = []
     for track in top_tracks['items']:
+        if (track['explicit']):
+            explicitCount += 1
+        songLength += track['duration_ms']
+        if (track['album']['release_date'][0:2] == '20'):
+            count2000 += 1
+        else:
+            count1900 += 1
         artists = ''
         for artist in track['artists']:
             artists += artist['name'] + ','
@@ -392,8 +410,18 @@ def getSoloWrap(request, username, time, limit=10):
             'image' : track['album'].get('images', [{'url':'None'}])[0].get('url','None'),
             'popularity' : track['popularity'],
             'artists' : artists,
+            'explicit' : track['explicit'],
+            'release_date' : track['album']['release_date'],
+            'duration' : track['duration_ms'] / 1000,
+            'modern' : track['album']['release_date'][0:2] == '20'
         }
         track_dict.append(dict)
+        if (dict['modern']):
+            track_modern.append(dict)
+        else:
+            track_oldie.append(dict)
+        if (dict['explicit']):
+            track_explicit.append(dict)
     albums = {}
     for track in top_tracks['items']:
         popularity += track['popularity']
@@ -403,37 +431,43 @@ def getSoloWrap(request, username, time, limit=10):
     sorted_albums = sorted(albums.items(), key=lambda x: x[1], reverse=True)
 
     # Using previous tracks, grab danceability, energy, valence, and popularity and take average
-    headers = {'Authorization': f'Bearer {token}'}
-    params = {'ids': songcsv}
-    response = requests.get('https://api.spotify.com/v1/audio-features', headers=headers, params=params)
-    if response.status_code != 200:
-        raise Exception(f"Failed to fetch top tracks! Status code: {response.status_code}")
-    for item in response.json()['audio_features']:
-        for track in track_dict:
-            if track['id'] == item['id']:
-                track['valence'] = item['valence'] * 100
-                track['energy'] = item['energy'] * 100
-                track['danceability'] = item['danceability'] * 100
-        valence += item['valence'] * 100
-        danceability += item['danceability'] * 100
-        energy += item['energy'] * 100
-    danceability /= limit
-    popularity /= limit
-    energy /= limit
-    valence /= limit
-    danceability = round(danceability, 2)
-    energy = round(energy, 2)
-    popularity = round(popularity, 2)
-    valence = round(valence, 2)
-    top_popularity = sorted(track_dict, key=lambda x: x['popularity'], reverse=True)
-    top_valence = sorted(track_dict, key=lambda x: x['valence'], reverse=True)
-    top_energy = sorted(track_dict, key=lambda x: x['energy'], reverse=True)
-    top_danceability = sorted(track_dict, key=lambda x: x['danceability'], reverse=True)
-    bot_popularity = sorted(track_dict, key=lambda x: x['popularity'], reverse=False)
-    bot_valence = sorted(track_dict, key=lambda x: x['valence'], reverse=False)
-    bot_energy = sorted(track_dict, key=lambda x: x['energy'], reverse=False)
-    bot_danceability = sorted(track_dict, key=lambda x: x['danceability'], reverse=False)
+    # headers = {'Authorization': f'Bearer {token}'}
+    # params = {'ids': songcsv}
+    # response = requests.get('https://api.spotify.com/v1/audio-features', headers=headers, params=params)
+    # if response.status_code != 200:
+    #     raise Exception(f"Failed to fetch top tracks! Status code: {response.status_code}")
+    # for item in response.json()['audio_features']:
+    #     for track in track_dict:
+    #         if track['id'] == item['id']:
+    #             track['valence'] = item['valence'] * 100
+    #             track['energy'] = item['energy'] * 100
+    #             track['danceability'] = item['danceability'] * 100
+    #     valence += item['valence'] * 100
+    #     danceability += item['danceability'] * 100
+    #     energy += item['energy'] * 100
+    # danceability /= limit
+    # energy /= limit
+    # valence /= limit
+    # danceability = round(danceability, 2)
+    # energy = round(energy, 2)
+    # valence = round(valence, 2)
+    # top_valence = sorted(track_dict, key=lambda x: x['valence'], reverse=True)
+    # top_energy = sorted(track_dict, key=lambda x: x['energy'], reverse=True)
+    # top_danceability = sorted(track_dict, key=lambda x: x['danceability'], reverse=True)
+    # bot_valence = sorted(track_dict, key=lambda x: x['valence'], reverse=False)
+    # bot_energy = sorted(track_dict, key=lambda x: x['energy'], reverse=False)
+    # bot_danceability = sorted(track_dict, key=lambda x: x['danceability'], reverse=False)
     # Prepare data for response
+    explicitCount = explicitCount/limit * 100
+    songLength = songLength/limit
+    count1900 = count1900/limit * 100
+    count2000 = count2000/limit * 100
+    popularity /= limit
+    popularity = round(popularity, 2)
+    top_length = sorted(track_dict, key=lambda x: x['duration'], reverse=True)
+    bot_length = sorted(track_dict, key=lambda x: x['duration'], reverse=False)
+    top_popularity = sorted(track_dict, key=lambda x: x['popularity'], reverse=True)
+    bot_popularity = sorted(track_dict, key=lambda x: x['popularity'], reverse=False)
     data = {
         'top5artists': artist_dict[:5],
         'top5genres': [genre[0] for genre in sorted_genres][:5],
@@ -444,18 +478,22 @@ def getSoloWrap(request, username, time, limit=10):
         'top5tracks': track_dict[:5],
         'top_tracks' : track_dict,
         'top_albums': [album[0] for album in sorted_albums],
-        'top3danceability' : top_danceability[:3],
-        'top3valence' : top_valence[:3],
-        'top3energy' : top_energy[:3],
-        'top3popularity' : top_popularity[:3],
-        'bot3danceability' : bot_danceability[:3],
-        'bot3valence' : bot_valence[:3],
-        'bot3energy' : bot_energy[:3],
-        'bot3popularity' : bot_popularity[:3],
-        'danceability': danceability,
         'popularity': popularity,
-        'energy': energy,
-        'valence': valence
+        'top3popularity': top_popularity[:3],
+        'bot3popularity': bot_popularity[:3],
+        'count1900': count1900,
+        'count2000': count2000,
+        'avgSongLength': songLength,
+        'explicitPercent': explicitCount,
+        # 'top3danceability' : top_danceability[:3],
+        # 'top3valence' : top_valence[:3],
+        # 'top3energy' : top_energy[:3],
+        # 'bot3danceability' : bot_danceability[:3],
+        # 'bot3valence' : bot_valence[:3],
+        # 'bot3energy' : bot_energy[:3],
+        # 'danceability': danceability,
+        # 'energy': energy,
+        # 'valence': valence
     }
     return data
     #except Exception as e:

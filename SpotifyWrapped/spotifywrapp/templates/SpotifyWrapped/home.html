@@ -94,7 +94,7 @@
                             <input type="hidden" id="deleteId" name="id" value="">
                             <button class="delete" type="submit">Delete</button>
                         </form>
-                        <form class="invites" method="post" action="{% url 'post_results' %}">
+                        <form class="invites" method="post" action="{% url 'viewwrap' item.id %}">
                             {% csrf_token %}
                             <input type="hidden" id="displayId" name="id" value="">
                             <button class="display" type="submit">View</button>
