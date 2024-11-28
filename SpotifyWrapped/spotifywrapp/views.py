@@ -398,7 +398,7 @@ def getSoloWrap(request, username, time, limit=50):
     for track in top_tracks['items']:
         if (track['explicit']):
             explicitCount += 1
-        songLength += track['duration_ms']
+        songLength += track['duration_ms'] / 1000
         if (track['album']['release_date'][0:2] == '20'):
             count2000 += 1
         else:
@@ -467,6 +467,10 @@ def getSoloWrap(request, username, time, limit=50):
     count2000 = count2000/limit * 100
     popularity /= limit
     popularity = round(popularity, 2)
+    explicitCount = round(explicitCount, 2)
+    songLength = round(songLength, 2)
+    count1900 = count1900/limit * 100
+    count2000 = count2000/limit * 100
     top_length = sorted(track_dict, key=lambda x: x['duration'], reverse=True)
     bot_length = sorted(track_dict, key=lambda x: x['duration'], reverse=False)
     top_popularity = sorted(track_dict, key=lambda x: x['popularity'], reverse=True)
@@ -479,6 +483,7 @@ def getSoloWrap(request, username, time, limit=50):
         'top_genres' : [genre[0] for genre in sorted_genres],
         'num_genres' : len(sorted_genres),
         'top5tracks': track_dict[:5],
+        'top3tracks': track_dict[:3],
         'top_tracks' : track_dict,
         'top_albums': [album[0] for album in sorted_albums],
         'popularity': popularity,
@@ -488,6 +493,11 @@ def getSoloWrap(request, username, time, limit=50):
         'count2000': count2000,
         'avgSongLength': songLength,
         'explicitPercent': explicitCount,
+        'track_explicit': track_explicit[:3],
+        'track_modern': track_modern[:3],
+        'track_oldie': track_oldie[:3],
+        'top_length': top_length[:3],
+        'bot_length': bot_length[:3],
         # 'top3danceability' : top_danceability[:3],
         # 'top3valence' : top_valence[:3],
         # 'top3energy' : top_energy[:3],

@@ -30,12 +30,12 @@
 
                     card.addEventListener("click", function () {
                         if (!card.classList.contains("flip-to-front")) {
-                            card.classList.remove("glow"); // Stop glowing
-                            card.classList.add("flip-to-front"); // Flip to show card-front
+                            card.classList.remove("glow");
+                            card.classList.add("flip-to-front");
                         }
                     });
-                }, 1000); // Wait for flip-to-new to complete
-            }, 500); // Initial delay before flipping starts
+                }, 1000);
+            }, 500);
         });
     </script>
     <div class="card" id="card">
@@ -63,13 +63,13 @@
                         <div class="personalities">
                             <p class="title">Listening Personalities</p>
                             <ol>
-                                <li><span class="number">1.</span> {% if wrap.wrap1.danceability > 50 %} The
+                                <li><span class="number">1.</span> {% if wrap.wrap1.count1900 <= wrap.wrap1.count2000 %} The
                                     Jester {% else %} The Hermit {% endif %}</li>
-                                <li><span class="number">2.</span> {% if wrap.wrap1.energy > 50 %} The Sage {% else %}
+                                <li><span class="number">2.</span> {% if wrap.wrap1.avgSongLength >= 195 %} The Sage {% else %}
                                     The Chariot {% endif %}</li>
-                                <li><span class="number">3.</span> {% if wrap.wrap1.ppopularity > 50 %} The
+                                <li><span class="number">3.</span> {% if wrap.wrap1.popularity >= 50 %} The
                                     Rogue {% else %} The Bard {% endif %}</li>
-                                <li><span class="number">4.</span> {% if wrap.wrap1.valence > 50 %} The Moon {% else %}
+                                <li><span class="number">4.</span> {% if wrap.wrap1.explicitPercent >= 50 %} The Moon {% else %}
                                     The Sun {% endif %}</li>
                             </ol>
                         </div>
@@ -115,7 +115,7 @@
 
             card.addEventListener("transitionend", function (event) {
                 if (card.classList.contains("flip-to-front") && event.propertyName === "transform") {
-                    isFlipped = true; // Mark as flipped
+                    isFlipped = true;
                 }
             });
 
