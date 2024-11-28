@@ -246,6 +246,7 @@ def duo_results(request):
         # shared_energy = (wrapData1['energy'] + wrapData2['energy'])/2
         # shared_valence = (wrapData1['valence'] + wrapData2['valence'])/2
         shared_popularity = (wrapData1['popularity'] + wrapData2['popularity']) / 2
+        shared_duration = (wrapData1['duration'] + wrapData2['duration']) / 2
         data = {
             'top_artists': shared_artists,
             'top_genres': shared_genres,
@@ -259,6 +260,7 @@ def duo_results(request):
             # 'danceability': shared_danceability,
             # 'energy': shared_energy,
             # 'valence': shared_valence
+            'duration': shared_duration
         }
         invites.objects.filter(id=invite).delete()
         randInt = randint(0, 13)

@@ -710,17 +710,23 @@ img {
     transition: .6s;
 }
 
-#front8-varlow {
+#front8 {
     background: white url("images/card/card_fronts/the-moon.svg") no-repeat center center;
     background-size: contain;
     transform: rotateY(180deg);
 }
 
-#front8-varhigh {
-    background: white url("images/card/card_fronts/the-sun.svg") no-repeat center center;
-    background-size: contain;
-    transform: rotateY(180deg);
-}
+/*#front8-varlow {*/
+/*    background: white url("images/card/card_fronts/the-moon.svg") no-repeat center center;*/
+/*    background-size: contain;*/
+/*    transform: rotateY(180deg);*/
+/*}*/
+
+/*#front8-varhigh {*/
+/*    background: white url("images/card/card_fronts/the-sun.svg") no-repeat center center;*/
+/*    background-size: contain;*/
+/*    transform: rotateY(180deg);*/
+/*}*/
 
 .card8 .info {
     position: absolute;
