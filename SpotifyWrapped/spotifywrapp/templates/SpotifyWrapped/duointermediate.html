@@ -1,90 +1,180 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Duo Wrapped</title>
-    <link rel="stylesheet" href="{% static 'SpotifyWrapped/duointermediate.css' %}">
+  <title>Fan Out Two Decks with Animation</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&display=swap');
+    body {
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-container {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    #deck1 {
+      bottom: -50%;
+      transition: bottom 2s ease;
+    }
+
+    #deck2 {
+      top: -50%;
+      transition: top 2s ease;
+      transform: rotateX(180deg);
+    }
+
+    .card {
+      position: absolute;
+      width: 180px;
+      height: 300px;
+      border-radius: 10px;
+      box-shadow: 2px 5px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      font-size: 2rem;
+      color: white;
+      font-family: 'Kaisei Tokumin', serif;
+      line-height: 150px;
+      transform-origin: bottom center;
+      transition: transform 1s ease; /* Smooth animation */
+    }
+
+    /* Unique Deck Colors */
+    #deck1 .card:nth-child(1) { background: red; }
+    #deck1 .card:nth-child(2) { background: orange; }
+    #deck1 .card:nth-child(3) { background: yellow; }
+    #deck1 .card:nth-child(4) { background: green; }
+    #deck1 .card:nth-child(5) { background: cornflowerblue; }
+    #deck1 .card:nth-child(6) { background: #5b5df6; }
+    #deck1 .card:nth-child(7) { background: #b67bed; }
+    #deck1 .card:nth-child(8) { background: pink; }
+
+    #deck2 .card:nth-child(1) { background: lightcoral; }
+    #deck2 .card:nth-child(2) { background: peachpuff; }
+    #deck2 .card:nth-child(3) { background: khaki; }
+    #deck2 .card:nth-child(4) { background: lightgreen; }
+    #deck2 .card:nth-child(5) { background: lightskyblue; }
+    #deck2 .card:nth-child(6) { background: mediumpurple; }
+    #deck2 .card:nth-child(7) { background: plum; }
+    #deck2 .card:nth-child(8) { background: palevioletred; }
+  </style>
 </head>
-<body style="background: black">
-<div class="card-container" id="deck1">
-    <div class="card1" id="card1" style="--i:-4"></div>
-    <div class="card1" id="card2" style="--i:-3"></div>
-    <div class="card1" id="card3" style="--i:-2"></div>
-    <div class="card1" id="card4" style="--i:-1"></div>
-    <div class="card1" id="card5" style="--i:-0"></div>
-    <div class="card1" id="card6" style="--i:1"></div>
-    <div class="card1" id="card7" style="--i:2"></div>
-    <div class="card1" id="card8" style="--i:3"></div>
-</div>
-<div class="card-container" id="deck2">
-    <div class="card2" id="card1"></div>
-    <div class="card2" id="card2"></div>
-    <div class="card2" id="card3"></div>
-    <div class="card2" id="card4"></div>
-    <div class="card2" id="card5"></div>
-    <div class="card2" id="card6"></div>
-    <div class="card2" id="card7"></div>
-    <div class="card2" id="card8"></div>
-</div>
-</body>
+<body>
+  <!-- Deck 1 (Bottom Center) -->
+  <div class="card-container" id="deck1">
+    <div class="card">1</div>
+    <div class="card">2</div>
+    <div class="card">3</div>
+    <div class="card">4</div>
+    <div class="card">5</div>
+    <div class="card">6</div>
+    <div class="card">7</div>
+    <div class="card">8</div>
+  </div>
+
+  <!-- Deck 2 (Top Center) -->
+  <div class="card-container" id="deck2">
+    <div class="card">1</div>
+    <div class="card">2</div>
+    <div class="card">3</div>
+    <div class="card">4</div>
+    <div class="card">5</div>
+    <div class="card">6</div>
+    <div class="card">7</div>
+    <div class="card">8</div>
+  </div>
+
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-    const deck1 = document.querySelectorAll(".card1");
-    const deck2 = document.querySelectorAll(".card2");
-    const finalPositions = [
-            { x: -300, y: -150, rotate: -15 },
-            { x: -150, y: -150, rotate: -10 },
-            { x: 0, y: -150, rotate: -5 },
-            { x: 150, y: -150, rotate: 0 },
-            { x: -300, y: 100, rotate: 5 },
-            { x: -150, y: 100, rotate: 10 },
-            { x: 0, y: 100, rotate: 15 },
-            { x: 150, y: 100, rotate: 20 },
-        ];
+  const fanOut = (deckId, spreadAngle, translateY) => {
+    const cards = document.querySelectorAll(`#${deckId} .card`);
+    const totalCards = cards.length;
 
-    const layoutCards = () => {
-            deck1.forEach((card) => {
-                const randomX = Math.random() * 200 - 100;
-                const randomY = Math.random() * 50 - 25;
-                const randomRotate = Math.random() * 30 - 15;
-                card.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotate}deg)`;
-            });
-        };
+    if (totalCards === 0) {
+      console.error(`No cards found in ${deckId}`);
+      return;
+    }
 
-    const resetCards = () => {
-            cards.forEach((card, index) => {
-                card.style.transform = `translateY(${15 * index}px) rotate(0deg)`;
-            });
-        };
+    const stepAngle = spreadAngle / (totalCards - 1);
+    const startAngle = -spreadAngle / 2;
 
-    const layoutCards = () => {
-            cards.forEach((card, index) => {
-                const { x, y, rotate } = finalPositions[index];
-                card.style.transform = `translate(${x}px, ${y}px) rotate(${rotate}deg)`;
-            });
-        };
-
-    setTimeout(() => {
-            shuffleCards();
-
-            setTimeout(() => {
-                resetCards();
-
-                setTimeout(() => {
-                    layoutCards();
-
-                    setTimeout(() => {
-                        fadeOverlay.classList.add("visible");
-                        setTimeout(() => {
-                            console.log("redirecting...");
-                            window.location.href = "{% url 'duo_wrap' %}";
-                        }, 1000);
-                    }, 2000);
-                }, 2000);
-            }, 2000);
-        }, 1000);
+    cards.forEach((card, index) => {
+      const angle = startAngle + stepAngle * index;
+      setTimeout(() => {
+        card.style.transform = `rotate(${angle}deg) translateY(${translateY}px)`;
+      }, index * 100); // Add delay for sweeping motion
     });
+  };
 
+  const combineDecks = () => {
+console.log("Combining cards one by one...");
+    const deck1Cards = document.querySelectorAll("#deck1 .card");
+    const deck2Cards = document.querySelectorAll("#deck2 .card");
+
+    const totalCards = Math.max(deck1Cards.length, deck2Cards.length);
+
+    for (let i = 0; i < totalCards; i++) {
+      // Combine Deck 1 card
+      if (deck1Cards[i]) {
+        setTimeout(() => {
+          deck1Cards[i].style.transition = "all 1s ease";
+          deck1Cards[i].style.position = "absolute";
+          deck1Cards[i].style.top = "50%";
+          const pos = i * 10;
+          deck1Cards[i].style.left = `${pos}%`;
+          deck1Cards[i].style.transform = "translate(-50%, -50%) rotate(0deg)";
+        }, i * 500); // Staggered delay
+      }
+
+      // Combine Deck 2 card
+      if (deck2Cards[i]) {
+        setTimeout(() => {
+          deck2Cards[i].style.transition = "all 1s ease";
+          deck2Cards[i].style.position = "absolute";
+          deck2Cards[i].style.top = "50%";
+          const pos = i * 10;
+          deck2Cards[i].style.left = `${pos}%`;
+          deck2Cards[i].style.transform = "translate(-50%, -50%) rotate(0deg)";
+        }, i * 500 + 250); // Slight offset for Deck 2 cards
+      }
+    }
+  };
+
+  window.onload = () => {
+    const deck1 = document.getElementById("deck1");
+    const deck2 = document.getElementById("deck2");
+
+    // Slide in Deck 1
+    deck1.style.bottom = "10%";
+    setTimeout(() => {
+      // Fan out Deck 1
+      fanOut("deck1", 100, -100);
+
+      // Slide in Deck 2
+      setTimeout(() => {
+        deck2.style.top = "10%";
+        setTimeout(() => {
+          // Fan out Deck 2
+          fanOut("deck2", 100, -100);
+
+          // Combine decks after both have fanned out
+          setTimeout(() => {
+            combineDecks();
+          }, 2000); // Wait for fan-out animations to complete
+        }, 2000);
+      }, 1500);
+    }, 2000);
+  };
 </script>
+
+
+</body>
 </html>
