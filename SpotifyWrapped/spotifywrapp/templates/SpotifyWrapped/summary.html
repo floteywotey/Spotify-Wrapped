@@ -22,15 +22,12 @@
         document.addEventListener("DOMContentLoaded", function () {
             const card = document.querySelector(".card");
 
-            // Step 1: Flip from #old to #new
             setTimeout(() => {
                 card.classList.add("flip-to-new");
 
-                // Step 2: Add glow effect after #new is visible
                 setTimeout(() => {
                     card.classList.add("glow");
 
-                    // Step 3: On click, flip to card-front and stop the glow
                     card.addEventListener("click", function () {
                         if (!card.classList.contains("flip-to-front")) {
                             card.classList.remove("glow"); // Stop glowing
@@ -66,13 +63,13 @@
                         <div class="personalities">
                             <p class="title">Listening Personalities</p>
                             <ol>
-                                <li><span class="number">1.</span> {% if wrap.wrap1.danceability > 0.5 %} The
+                                <li><span class="number">1.</span> {% if wrap.wrap1.danceability > 50 %} The
                                     Jester {% else %} The Hermit {% endif %}</li>
-                                <li><span class="number">2.</span> {% if wrap.wrap1.energy > 0.5 %} The Sage {% else %}
+                                <li><span class="number">2.</span> {% if wrap.wrap1.energy > 50 %} The Sage {% else %}
                                     The Chariot {% endif %}</li>
-                                <li><span class="number">3.</span> {% if wrap.wrap1.ppopularity > 0.5 %} The
+                                <li><span class="number">3.</span> {% if wrap.wrap1.ppopularity > 50 %} The
                                     Rogue {% else %} The Bard {% endif %}</li>
-                                <li><span class="number">4.</span> {% if wrap.wrap1.valence > 0.5 %} The Moon {% else %}
+                                <li><span class="number">4.</span> {% if wrap.wrap1.valence > 50 %} The Moon {% else %}
                                     The Sun {% endif %}</li>
                             </ol>
                         </div>
@@ -104,5 +101,32 @@
         </div>
     </div>
 </div>
+
+<div class="others">
+    <div class="finished-button-container fade">
+        <a href="{% url 'viewwrap' wrap.id %}" class="finished-button">View All</a>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const card = document.querySelector(".card");
+            const finishedButtonContainer = document.querySelector(".finished-button-container");
+
+            let isFlipped = false;
+
+            card.addEventListener("transitionend", function (event) {
+                if (card.classList.contains("flip-to-front") && event.propertyName === "transform") {
+                    isFlipped = true; // Mark as flipped
+                }
+            });
+
+            card.addEventListener("mouseenter", function () {
+                if (isFlipped) {
+                    finishedButtonContainer.classList.add("show");
+                }
+            });
+        });
+    </script>
+</div>
+
 </body>
 </html>

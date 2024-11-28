@@ -134,7 +134,7 @@ body {
 /* `card-front` (Hidden initially) */
 .card-front {
     background: black url("images/card/card_fronts/reawakening-dark.svg") no-repeat;
-    transform: rotateY(180deg) ; /* Hidden */
+    transform: rotateY(180deg); /* Hidden */
     z-index: 1;
     transition: transform 1s ease-in-out;
 }
@@ -199,10 +199,12 @@ body {
     height: 50%;
     align-items: center;
     justify-content: center;
+    padding: 0;
 }
 
 .images #decor {
     position: absolute;
+    margin: 0;
 }
 
 .details {
@@ -212,7 +214,7 @@ body {
     gap: 1px;
 }
 
-.details .left {
+.details .right {
     margin-left: 10px;
     width: 50%;
 }
@@ -226,18 +228,21 @@ body {
     margin: 7px 15px 0;
     padding: 0;
     font-size: 17px;
+    width: 100%;
 }
 
 .details .right .title {
     margin: 7px 0 0;
     padding: 0;
     font-size: 17px;
+    width: 100%;
 }
 
 .details .subtitle {
     margin: 0;
     padding: 0;
     font-size: 14px;
+    width: 100%;
 }
 
 .details .left ol {
@@ -249,6 +254,7 @@ body {
 .details .right ol {
     margin: 0 15px;
     padding: 0;
+    width: 100%;
 }
 
 .details li {
@@ -259,4 +265,36 @@ body {
     text-overflow: ellipsis;
     width: 80%;
     align-items: center;
+}
+
+.finished-button-container {
+    display: none;
+    position: fixed;
+    top: 95%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 1s ease, z-index 1s ease;
+}
+
+.finished-button-container.show {
+    display: flex;
+    opacity: 1;
+    z-index: 10;
+}
+
+.finished-button {
+    color: white;
+    padding: 20px;
+    border-radius: 32px;
+    border: 1px white solid;
+    text-decoration: none;
+    transition: 0.5s;
+    position: relative;
+}
+
+.finished-button:hover {
+    box-shadow: 0 3px 50px #8b8df8;
+    border: 1px #8b8df8 solid;
+    color: #8b8df8;
+    letter-spacing: 0.1em;
 }
