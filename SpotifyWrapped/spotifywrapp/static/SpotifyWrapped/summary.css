@@ -270,7 +270,7 @@ body {
 .finished-button-container {
     display: none;
     position: fixed;
-    top: 90%;
+    top: 95%;
     left: 50%;
     transform: translate(-50%, -50%);
     transition: opacity 1s ease, z-index 1s ease;

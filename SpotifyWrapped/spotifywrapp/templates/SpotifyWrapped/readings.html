@@ -23,19 +23,14 @@
     <div class="cards">
         <script>
             function showPopup(id, date, cardContainer) {
-                console.log("ID:", id); // Debugging: Check the ID value
-                console.log("Date:", date); // Debugging: Check the date value
-
-                // Set the title and IDs for the popup
                 document.getElementById('popupTitle').textContent = `Wrap Date: ${date}`;
                 document.getElementById('deleteId').value = id;
                 document.getElementById('displayId').value = id;
 
-                // Show the popup
                 const modal = document.getElementById('popupModal');
                 modal.style.display = 'flex';
 
-                // Add "hovered" class to the card container
+                document.querySelectorAll('.card-container').forEach(card => card.classList.remove('hovered')); // Ensure only one card is hovered
                 cardContainer.classList.add('hovered');
             }
 
@@ -49,7 +44,6 @@
                 cards.forEach(card => card.classList.remove('hovered'));
             }
 
-            // Prevent closing the popup when clicking inside the popup content
             document.getElementById('popupModal').addEventListener('click', function (event) {
                 const popupContent = document.querySelector('.popup-content');
                 if (!popupContent.contains(event.target)) {
@@ -71,7 +65,7 @@
                         <input type="hidden" id="deleteId" name="id" value="">
                         <button class="delete" type="submit">Delete</button>
                     </form>
-                    <form class="invites" method="post" action="{% url 'viewwrap' item.id %}">
+                    <form class="invites" method="post" action="">
                         {% csrf_token %}
                         <input type="hidden" id="displayId" name="id" value="">
                         <button class="display" type="submit">View</button>
@@ -80,31 +74,32 @@
             </div>
         </div>
 
-        {% for item in recent %}
-            <div class="card-container" onclick="showPopup('{{ item.id }}', '{{ item.date }}', this)">
-                <div class="main-card">
-                    <svg viewBox="0 0 200 315" class="card-back"></svg>
-                    <div class="card-front">
-                        <img src="{{ item.image }}">
-                        <div class="card-text-overlay">
-                            <p class="top-text">{{ item.date|date:"m.d.y" }}</p>
-                            <p class="bottom-text">{{ item.duration }}</p>
+        <div class="cards">
+            {% for item in recent %}
+                <div class="card-container"
+                     onclick="showPopup('{{ item.id }}', '{{ item.date }}', '{{ item.duration }}', '{{ item.image }}')">
+                    <div class="main-card">
+                        <svg viewBox="0 0 200 315" class="card-back"></svg>
+                        <div class="card-front">
+                            <img src="{{ item.image }}">
+                            <div class="card-text-overlay">
+                                <p class="top-text">{{ item.date|date:"m.d.y" }}</p>
+                                <p class="bottom-text">{{ item.duration }}</p>
+                            </div>
                         </div>
                     </div>
+                    <div class="fanned-card">
+                        <svg viewBox="0 0 200 315" class="card-back"></svg>
+                    </div>
+                    <div class="fanned-card">
+                        <svg viewBox="0 0 200 315" class="card-back"></svg>
+                    </div>
+                    <div class="fanned-card">
+                        <svg viewBox="0 0 200 315" class="card-back"></svg>
+                    </div>
                 </div>
-                <div class="fanned-card">
-                    <svg viewBox="0 0 200 315" class="card-back"></svg>
-                </div>
-                <div class="fanned-card">
-                    <svg viewBox="0 0 200 315" class="card-back"></svg>
-                </div>
-                <div class="fanned-card">
-                    <svg viewBox="0 0 200 315" class="card-back"></svg>
-                </div>
-            </div>
-        {% endfor %}
-
-
+            {% endfor %}
+        </div>
     </div>
 </div>
 </body>
