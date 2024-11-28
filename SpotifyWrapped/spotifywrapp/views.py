@@ -480,6 +480,7 @@ def getSoloWrap(request, username, time, limit=50):
         'top_genres' : [genre[0] for genre in sorted_genres],
         'num_genres' : len(sorted_genres),
         'top5tracks': track_dict[:5],
+        'top3tracks': track_dict[:3],
         'top_tracks' : track_dict,
         'top_albums': [album[0] for album in sorted_albums],
         'popularity': popularity,
