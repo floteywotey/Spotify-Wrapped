@@ -14,6 +14,7 @@ from pathlib import Path
 #from decouple import config
 
 import os
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -131,6 +132,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+
 
 
 # Static files (CSS, JavaScript, Images)

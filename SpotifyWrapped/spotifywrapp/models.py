@@ -52,6 +52,10 @@ class wraps(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     user1 = models.CharField(max_length=150)
     user2 = models.CharField(max_length=150)
+    duration = models.CharField(
+        max_length=30,
+        default="",
+    )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     imageNum = models.IntegerField()
     image = models.CharField(max_length=150)

@@ -12,17 +12,17 @@
     <form class="home" action="{% url 'home' %}" method="post">
         {% csrf_token %}
         <button class="home-button" aria-label="Home" title="Home">
-            <img src="{% static 'SpotifyWrapped/images/icons/close_presentation.svg' %}" height="30px" width="30px">
+            <span class="close-icon"></span>
         </button>
     </form>
 </div>
-<div class="cards">
 
+<div class="cards">
     <div class="card1" id="card">
         <div class="card-back" id="back1"></div>
         <div class="card-front" id="front1">
             <div class="info fade">
-                <h1>Top Songs</h1>
+                <h1>Top Tracks</h1>
                 {% for track in wrap.wrap1.top5tracks %}
                     <div class="details">
                         <img src="{{ track.image }}" height="33" width="33">
@@ -261,7 +261,6 @@
 
             document.addEventListener("DOMContentLoaded", addEnergyId);
             document.addEventListener("DOMContentLoaded", setupEnergyInfo);
-
         </script>
     </div>
 
@@ -436,14 +435,39 @@
     </div>
 
     <script>
-        document.querySelectorAll("#card").forEach(card => {
-            card.addEventListener("click", function () {
-                if (this.classList.contains("clicked")) {
-                    this.classList.remove("clicked");
+        document.addEventListener("DOMContentLoaded", function () {
+            const cards = document.querySelectorAll("#card");
+            const summaryButtonContainer = document.querySelector(".summary-button-container");
+            let flippedCards = new Set();
+
+            function checkAllFlipped() {
+                if (flippedCards.size === cards.length) {
+                    summaryButtonContainer.style.display = "block";
+                    summaryButtonContainer.style.zIndex = "10";
                 } else {
-                    document.querySelectorAll("#card").forEach(c => c.classList.remove("clicked"));
-                    this.classList.add("clicked");
+                    summaryButtonContainer.style.zIndex = "-1";
+                    summaryButtonContainer.style.display = "none";
                 }
+            }
+
+            cards.forEach(card => {
+                card.addEventListener("click", function () {
+                    const lastFlippedCard = Array.from(cards).find(c => c !== this && c.classList.contains("clicked"));
+                    if (lastFlippedCard) {
+                        lastFlippedCard.classList.remove("clicked", "flipped");
+                    }
+
+                    this.classList.toggle("clicked");
+
+                    if (this.classList.contains("clicked")) {
+                        this.classList.add("flipped");
+                        flippedCards.add(this);
+                    } else {
+                        this.classList.remove("flipped");
+                    }
+
+                    checkAllFlipped();
+                });
             });
         });
 
@@ -479,9 +503,14 @@
     </script>
 </div>
 
-{% if wrap.isDuo %}
-    {{ wrap.wrap2 }}
-    {{ wrap.duowrap }}
-{% endif %}
+<div class="others">
+    <div class="fade-text">Choose your first card</div>
+
+    <div class="summary-button-container fade">
+        <a href="{% url 'summaryintermediate' wrap.id %}" class="summary-button">View Summary</a>
+    </div>
+</div>
+
+
 </body>
 </html>

@@ -1,0 +1,93 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Summary</title>
+    <link rel="stylesheet" href="{% static 'SpotifyWrapped/summaryintermediate.css' %}">
+</head>
+<body>
+<div class="header">
+    <form class="home" action="{% url 'home' %}" method="post">
+        {% csrf_token %}
+        <button class="home-button" aria-label="Home" title="Home">
+            <span class="close-icon"></span>
+        </button>
+    </form>
+</div>
+
+<div class="cards">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const cards = document.querySelectorAll(".cards > div");
+            const cardsContainer = document.querySelector(".cards");
+
+            // Delay the initial stacking animation by 2 seconds
+            setTimeout(() => {
+                cards.forEach((card, index) => {
+                    // Stagger animations for each card
+                    setTimeout(() => {
+                        card.style.transform = `translate(-50%, calc(-50% + 400px))`;
+                        card.style.top = "50%";
+                        card.style.left = "50%";
+                        card.style.transition = `transform 1s ease-in-out, top 1s ease-in-out, left 1s ease-in-out`;
+                        card.style.zIndex = cards.length - index;
+                    }, index * 150);
+                });
+
+                const stackingDuration = cards.length * 150 + 500;
+                const additionalDelay = 500;
+                setTimeout(() => {
+                    cards.forEach((card) => {
+                        card.style.transform = `translate(-57%, calc(-50% + 408px)) scale(3)`;
+                        card.style.transition = `transform 1s ease-in-out`;
+                    });
+
+                    setTimeout(() => {
+                        cardsContainer.style.transition = "perspective 1s ease-in-out";
+                        cardsContainer.style.perspective = "none";
+
+                        setTimeout(() => {
+                            window.location.href = "{% url 'summary' wrap.id %}";
+                        }, 1000);
+                    }, 1000);
+                }, stackingDuration + additionalDelay);
+            }, 2000);
+        });
+    </script>
+
+    <div class="card1" id="card">
+        <div class="card-back" id="back1"></div>
+    </div>
+
+    <div class="card2" id="card">
+        <div class="card-back" id="back2"></div>
+    </div>
+
+    <div class="card3" id="card">
+        <div class="card-back" id="back3"></div>
+    </div>
+
+    <div class="card4" id="card">
+        <div class="card-back" id="back4"></div>
+    </div>
+
+    <div class="card5" id="card">
+        <div class="card-back" id="back5"></div>
+    </div>
+
+    <div class="card6" id="card">
+        <div class="card-back" id="back6"></div>
+    </div>
+
+    <div class="card7" id="card">
+        <div class="card-back" id="back7"></div>
+    </div>
+
+    <div class="card8" id="card">
+        <div class="card-back" id="back8"></div>
+    </div>
+</div>
+</body>
+</html>
