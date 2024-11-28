@@ -490,7 +490,7 @@ def getSoloWrap(request, username, time, limit=50):
         'count2000': count2000,
         'avgSongLength': songLength,
         'explicitPercent': explicitCount,
-        'track_explicit': track_explicit,
+        'track_explicit': track_explicit[:3],
         'track_modern': track_modern[:3],
         'track_oldie': track_oldie[:3],
         'top_length': top_length[:3],
