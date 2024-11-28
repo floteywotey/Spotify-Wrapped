@@ -395,7 +395,7 @@ def getSoloWrap(request, username, time, limit=50):
     for track in top_tracks['items']:
         if (track['explicit']):
             explicitCount += 1
-        songLength += track['duration_ms']
+        songLength += track['duration_ms'] / 1000
         if (track['album']['release_date'][0:2] == '20'):
             count2000 += 1
         else:
@@ -464,6 +464,10 @@ def getSoloWrap(request, username, time, limit=50):
     count2000 = count2000/limit * 100
     popularity /= limit
     popularity = round(popularity, 2)
+    explicitCount = round(explicitCount, 2)
+    songLength = round(songLength, 2)
+    count1900 = count1900/limit * 100
+    count2000 = count2000/limit * 100
     top_length = sorted(track_dict, key=lambda x: x['duration'], reverse=True)
     bot_length = sorted(track_dict, key=lambda x: x['duration'], reverse=False)
     top_popularity = sorted(track_dict, key=lambda x: x['popularity'], reverse=True)
