@@ -534,13 +534,13 @@ img {
 }
 
 #front6-varlow {
-    background: white url("images/card/card_fronts/the-sage.svg") no-repeat center center;
+    background: white url("images/card/card_fronts/the-chariot.svg") no-repeat center center;
     background-size: contain;
     transform: rotateY(180deg);
 }
 
 #front6-varhigh {
-    background: white url("images/card/card_fronts/the-chariot.svg") no-repeat center center;
+    background: white url("images/card/card_fronts/the-sage.svg") no-repeat center center;
     background-size: contain;
     transform: rotateY(180deg);
 }
@@ -662,13 +662,13 @@ img {
 }
 
 #front8-varlow {
-    background: white url("images/card/card_fronts/the-moon.svg") no-repeat center center;
+    background: white url("images/card/card_fronts/the-sun.svg") no-repeat center center;
     background-size: contain;
     transform: rotateY(180deg);
 }
 
 #front8-varhigh {
-    background: white url("images/card/card_fronts/the-sun.svg") no-repeat center center;
+    background: white url("images/card/card_fronts/the-moon.svg") no-repeat center center;
     background-size: contain;
     transform: rotateY(180deg);
 }

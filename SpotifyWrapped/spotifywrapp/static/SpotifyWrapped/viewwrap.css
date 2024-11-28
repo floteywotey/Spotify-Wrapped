@@ -585,11 +585,11 @@ h1 {
 }
 
 .high-energy {
-    background-image: url("images/card/card_fronts/the-chariot.svg");
+   background-image: url("images/card/card_fronts/the-sage.svg");
 }
 
 .low-energy {
-    background-image: url("images/card/card_fronts/the-sage.svg");
+    background-image: url("images/card/card_fronts/the-chariot.svg");
 }
 
 .high-popularity {
@@ -597,15 +597,15 @@ h1 {
 }
 
 .low-popularity {
-    background-image: url("images/card/card_fronts/the-bard.svg");
+    background-image: url("images/card/card_fronts/the-rogue.svg");
 }
 
 .high-valence {
-    background-image: url("images/card/card_fronts/the-sun.svg");
+    background-image: url("images/card/card_fronts/the-moon.svg");
 }
 
 .low-valence {
-    background-image: url("images/card/card_fronts/the-moon.svg");
+    background-image: url("images/card/card_fronts/the-sun.svg");
 }
 
 .card9.centered:hover .info {
