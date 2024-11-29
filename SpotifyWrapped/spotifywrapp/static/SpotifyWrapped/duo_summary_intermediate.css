@@ -1,0 +1,116 @@
+/* General Styling */
+body {
+    margin: 0;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.animation-container {
+    position: relative;
+    width: 600px;
+    height: 600px;
+}
+
+/* Moon */
+.moon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, #fdfd96, #f1c40f);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 50px 20px rgba(255, 255, 150, 0.5);
+}
+
+/* Decks */
+.deck {
+    position: absolute;
+    width: 120px;
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.deck-left {
+    top: 50%;
+    left: 20%;
+    transform: translateY(-50%);
+    animation: orbit-left 5s ease-in-out forwards;
+}
+
+.deck-right {
+    top: 50%;
+    right: 20%;
+    transform: translateY(-50%);
+    animation: orbit-right 5s ease-in-out forwards;
+}
+
+/* Cards */
+.card {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #8b8df8, #4b0082);
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Animations */
+@keyframes orbit-left {
+    0% {
+        transform: translate(-200px, -50%) rotate(0deg); /* Far left */
+    }
+    50% {
+        transform: translate(0, -200px) rotate(180deg); /* Above the moon */
+    }
+    100% {
+        transform: translate(-50px, -50%) rotate(360deg); /* Final position near the moon */
+    }
+}
+
+@keyframes orbit-right {
+    0% {
+        transform: translate(200px, -50%) rotate(0deg); /* Far right */
+    }
+    50% {
+        transform: translate(0, 200px) rotate(-180deg); /* Below the moon */
+    }
+    100% {
+        transform: translate(50px, -50%) rotate(-360deg); /* Final position near the moon */
+    }
+}
+
+
+@keyframes combine-left {
+    0% {
+        transform: translate(-50px, -50%); /* Matches final orbit position */
+    }
+    100% {
+        transform: translate(0, -50%); /* Move horizontally to the center */
+    }
+}
+
+@keyframes combine-right {
+    0% {
+        transform: translate(50px, -50%); /* Matches final orbit position */
+    }
+    100% {
+        transform: translate(0, -50%); /* Move horizontally to the center */
+    }
+}
+
+
+.deck-left {
+    animation: orbit-left 5s ease-in-out forwards;
+}
+
+.deck-right {
+    animation: orbit-right 5s ease-in-out forwards;
+}
+

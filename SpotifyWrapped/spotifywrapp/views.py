@@ -246,7 +246,8 @@ def duo_results(request):
         # shared_energy = (wrapData1['energy'] + wrapData2['energy'])/2
         # shared_valence = (wrapData1['valence'] + wrapData2['valence'])/2
         shared_popularity = (wrapData1['popularity'] + wrapData2['popularity']) / 2
-        shared_duration = (wrapData1['duration'] + wrapData2['duration']) / 2
+        shared_duration = (wrapData1['avgSongLength'] + wrapData2['avgSongLength']) / 2
+
         data = {
             'top_artists': shared_artists,
             'top_genres': shared_genres,
@@ -277,6 +278,14 @@ def duo_results(request):
         wrap.save()
         return redirect('duointermediate')
     return redirect('duointermediate')
+
+def duosummary(request, id):
+    wrap = wraps.objects.get(id=id)
+    return render(request, 'duosummary.html', context={'wrap' : wrap})
+
+def duo_summary_intermediate(request, id):
+    wrap = wraps.objects.get(id=id)
+    return render(request, 'duo_summary_intermediate.html', context={'wrap' : wrap})
 
 def getUserToken(username):
     return getSpotifyUser(username).getspotifytoken()

@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Duo Summary</title>
+    <link rel="stylesheet" href="{% static 'SpotifyWrapped/duo_summary_intermediate.css' %}">
+</head>
+<body>
+    <div class="animation-container">
+    <!-- Moon -->
+    <div class="moon"></div>
+
+    <!-- Decks of Cards -->
+    <div class="deck deck-left">
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+    </div>
+
+    <div class="deck deck-right">
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+    </div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const leftDeck = document.querySelector(".deck-left");
+    const rightDeck = document.querySelector(".deck-right");
+
+    // Wait for orbit animations to complete
+    setTimeout(() => {
+        // Dynamically set final orbit positions before starting combine
+        leftDeck.style.transform = "translate(-50px, -50%)";
+        rightDeck.style.transform = "translate(50px, -50%)";
+
+        // Trigger combine animations
+        leftDeck.style.animation = "combine-left 2s ease-in-out forwards";
+        rightDeck.style.animation = "combine-right 2s ease-in-out forwards";
+
+        // After combine animation completes
+        setTimeout(() => {
+            // Hide the individual decks
+            leftDeck.style.display = "none";
+            rightDeck.style.display = "none";
+
+            // Create a new combined deck
+            const combinedDeck = document.createElement("div");
+            combinedDeck.classList.add("deck");
+            combinedDeck.style.left = "50%";
+            combinedDeck.style.top = "50%";
+            combinedDeck.style.transform = "translate(-50%, -50%)";
+            document.querySelector(".animation-container").appendChild(combinedDeck);
+
+            // Add cards to the combined deck
+            for (let i = 0; i < 8; i++) {
+                const card = document.createElement("div");
+                card.classList.add("card");
+                combinedDeck.appendChild(card);
+            }
+        }, 2000); // Combine animation duration
+    }, 5000); // Orbit animation duration
+});
+
+</script>
+</body>
+</html>
