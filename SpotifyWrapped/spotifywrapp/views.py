@@ -249,20 +249,26 @@ def duo_results(request):
         shared_popularity = (wrapData1['popularity'] + wrapData2['popularity']) / 2
         shared_duration = (wrapData1['avgSongLength'] + wrapData2['avgSongLength']) / 2
 
-        popularity_compat = math.ceil(100 - abs(wrapData1['popularity'] - wrapData2['popularity']))
-        p1_20_prop = wrapData1['count1900']/len(wrapData1['top_tracks'])
-        p1_21_prop = wrapData1['count2000'] / len(wrapData1['top_tracks'])
-        p2_20_prop = wrapData2['count1900'] / len(wrapData2['top_tracks'])
-        p2_21_prop = wrapData2['count2000'] / len(wrapData2['top_tracks'])
-        distance = math.sqrt((p1_20_prop - p2_20_prop) ** 2 + (p1_21_prop - p2_21_prop) ** 2)
-        era_compat = math.ceil(100 * (1 - (distance/math.sqrt(2))))
-        duration_compat = math.ceil(100 - abs(wrapData1['avgSongLength'] - wrapData2['avgSongLength']))
-        explicit_compat = math.ceil(100 - abs(wrapData1['explicitPercent'] - wrapData2['explicitPercent']))
+
+        popularity_compat = math.ceil(100 * (1- (abs(wrapData1['popularity'] - wrapData2['popularity']))/max(wrapData1['popularity'],wrapData2['popularity'])))
+
+        if (len(wrapData1['top_tracks']) == 0 or len(wrapData2['top_tracks']) == 0):
+            era_compat = 0
+        else:
+            p1_20_prop = wrapData1['count1900']/len(wrapData1['top_tracks'])
+            p1_21_prop = wrapData1['count2000'] / len(wrapData1['top_tracks'])
+            p2_20_prop = wrapData2['count1900'] / len(wrapData2['top_tracks'])
+            p2_21_prop = wrapData2['count2000'] / len(wrapData2['top_tracks'])
+            distance = math.sqrt((p1_20_prop - p2_20_prop) ** 2 + (p1_21_prop - p2_21_prop) ** 2)
+            era_compat = math.ceil(100 * (1 - (distance/math.sqrt(2))))
+
+        duration_compat = math.ceil(100 * (1- (abs(wrapData1['avgSongLength'] - wrapData2['avgSongLength']))/max(wrapData1['avgSongLength'],wrapData2['avgSongLength'])))
+        explicit_compat = math.ceil(100 * (1- (abs(wrapData1['explicitPercent'] - wrapData2['explicitPercent']))/max(wrapData1['explicitPercent'],wrapData2['explicitPercent'])))
         shared_track_bonus = len(shared_tracks) * 5
         shared_artist_bonus = len(shared_artists) * 5
         shared_genres_bonus = len(shared_genres) * 5
         compatibility = (popularity_compat + era_compat + duration_compat + explicit_compat)/4
-        extra = compatibility + shared_genres_bonus + shared_artist_bonus + shared_track_bonus
+        extra = math.ceil(compatibility + shared_genres_bonus + shared_artist_bonus + shared_track_bonus)
         final_compat = 100 if extra > 100 else extra
 
         data = {

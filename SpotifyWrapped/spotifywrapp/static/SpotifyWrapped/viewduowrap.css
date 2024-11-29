@@ -4,6 +4,7 @@
 * {
     font-family: Sahitya, serif;
     box-sizing: border-box;
+    margin: 0;
 }
 
 body {
@@ -424,7 +425,15 @@ h1 {
     transition: transform .6s;
     transform: translate(-50%, -50%);
 }
+#front5-varlow {
+    background: white url("images/card/card_fronts/the-hermit.svg") no-repeat center center;
+    background-size: contain;
+}
 
+#front5-varhigh {
+    background: white url("images/card/card_fronts/the-jester.svg") no-repeat center center;
+    background-size: contain;
+}
 .card5 .info {
     position: absolute;
     top: 0;
@@ -434,7 +443,8 @@ h1 {
     background-color: #211803EE;
     color: white;
     display: none;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 15px;
     align-content: center;
     align-items: center;
     font-size: 16px;
@@ -477,7 +487,8 @@ h1 {
     background-color: #422221EE;
     color: white;
     display: none;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 15px;
     align-content: center;
     align-items: center;
     font-size: 16px;
@@ -508,7 +519,14 @@ h1 {
     transition: transform .6s;
     transform: translate(-50%, -50%);
 }
-
+.card7.rogue {
+    background: black url("images/card/card_fronts/the-rogue.svg") no-repeat fixed;
+    background-size: contain;
+}
+.card7.bard {
+    background: black url("images/card/card_fronts/the-bard.svg") no-repeat fixed;
+    background-size: contain;
+}
 .card7 .info {
     position: absolute;
     top: 0;
@@ -518,7 +536,8 @@ h1 {
     background-color: #041732EE;
     color: white;
     display: none;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 15px;
     align-content: center;
     align-items: center;
     font-size: 16px;
@@ -542,8 +561,8 @@ h1 {
     left: 50%;
     width: 399px;
     height: 630px;
-    background: black no-repeat fixed;
-    background-size: cover;
+    background: black url("images/card/card_fronts/the-moon.svg") no-repeat fixed;
+    background-size: contain;
     border-radius: 12px;
     transform-style: preserve-3d;
     transition: transform .6s;
@@ -559,7 +578,8 @@ h1 {
     background-color: #302E04EE;
     color: white;
     display: none;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 15px;
     align-content: center;
     align-items: center;
     font-size: 16px;
@@ -574,38 +594,6 @@ h1 {
     flex-direction: row;
     margin: 10px 5px;
     align-content: start;
-}
-
-.high-danceability {
-    background-image: url("images/card/card_fronts/the-jester.svg");
-}
-
-.low-danceability {
-    background-image: url("images/card/card_fronts/the-hermit.svg");
-}
-
-.high-energy {
-   background-image: url("images/card/card_fronts/the-sage.svg");
-}
-
-.low-energy {
-    background-image: url("images/card/card_fronts/the-chariot.svg");
-}
-
-.high-popularity {
-    background-image: url("images/card/card_fronts/the-bard.svg");
-}
-
-.low-popularity {
-    background-image: url("images/card/card_fronts/the-rogue.svg");
-}
-
-.high-valence {
-    background-image: url("images/card/card_fronts/the-moon.svg");
-}
-
-.low-valence {
-    background-image: url("images/card/card_fronts/the-sun.svg");
 }
 
 .card9.centered:hover .info {
@@ -649,7 +637,7 @@ h1 {
     background-size: contain;
     display: flex;
     width: 90%;
-    height: 40%;
+    height: 10%;
     align-items: center;
     justify-content: center;
     padding: 0;
@@ -662,7 +650,7 @@ h1 {
     align-items: center;
     padding-left: 10px;
     padding-right: 10px;
-    gap: 10px;
+    gap: 5px;
     margin-bottom: 15px;
 }
 .card9 .label h3 {
