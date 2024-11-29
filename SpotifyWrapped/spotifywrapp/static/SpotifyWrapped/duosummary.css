@@ -4,6 +4,7 @@
 * {
     font-family: Sahitya, serif;
     box-sizing: border-box;
+    margin: 0;
 }
 
 body {
@@ -133,7 +134,7 @@ body {
 
 /* `card-front` (Hidden initially) */
 .card-front {
-    background: black url("images/card/card_fronts/reawakening-dark.svg") no-repeat;
+    background: black url("images/card/card_fronts/unionStars-dark.svg") no-repeat;
     transform: rotateY(180deg); /* Hidden */
     z-index: 1;
     transition: transform 1s ease-in-out;
@@ -186,27 +187,46 @@ body {
     background-color: #24222BEE;
     color: white;
     display: none;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
     font-size: 16px;
     border-radius: 12px;
     flex-direction: column;
+    padding-top: 30px;
+    gap: 5px;
 }
 
-.images {
+.moons {
+    background: url("images/decorations/duo-moons.svg") center center no-repeat;
+    background-size: contain;
     display: flex;
-    width: 100%;
-    height: 50%;
+    width: 90%;
+    height: 40%;
     align-items: center;
     justify-content: center;
     padding: 0;
 }
 
-.images #decor {
-    position: absolute;
-    margin: 0;
+.label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    gap: 10px;
+    margin-bottom: 15px;
 }
-
+.label h3 {
+    font-size: 200%;
+}
+.label p {
+    text-align: center;
+}
+.compat {
+    font-size: 150%;
+    margin-bottom: 15px;
+}
 .details {
     display: flex;
     width: 100%;
@@ -217,6 +237,7 @@ body {
 .details .right {
     margin-left: 10px;
     width: 50%;
+    top: 40%;
 }
 
 .details .left {
@@ -227,21 +248,14 @@ body {
 .details .left .title {
     margin: 7px 15px 0;
     padding: 0;
-    font-size: 17px;
+    font-size: 18px;
     width: 100%;
 }
 
 .details .right .title {
     margin: 7px 0 0;
     padding: 0;
-    font-size: 17px;
-    width: 100%;
-}
-
-.details .subtitle {
-    margin: 0;
-    padding: 0;
-    font-size: 14px;
+    font-size: 18px;
     width: 100%;
 }
 
@@ -252,14 +266,14 @@ body {
 }
 
 .details .right ol {
-    margin: 0 15px;
+    margin: 0 16px;
     padding: 0;
     width: 100%;
 }
 
 .details li {
-    font-size: 14px;
-    padding: 0 3px;
+    font-size: 16px;
+    padding: 0 10px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

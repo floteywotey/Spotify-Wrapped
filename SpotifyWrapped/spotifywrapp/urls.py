@@ -43,4 +43,5 @@ urlpatterns = [
     path('viewwrap/<str:id>', views.viewwrap, name='viewwrap'),
     path('duo_summary_intermediate/<str:id>', views.duo_summary_intermediate, name='duo_summary_intermediate'),
     path("duosummary/<str:id>", views.duosummary, name='duosummary'),
+    path('viewduowrap/<str:id>', views.viewduowrap, name='viewduowrap')
 ]
