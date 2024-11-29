@@ -1,0 +1,132 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Duo Summary</title>
+    <link rel="stylesheet" href="{% static 'SpotifyWrapped/duosummary.css' %}">
+</head>
+<body>
+<div class="header">
+    <form class="home" action="{% url 'home' %}" method="post">
+        {% csrf_token %}
+        <button class="home-button" aria-label="Home" title="Home">
+            <span class="close-icon"></span>
+        </button>
+    </form>
+</div>
+
+<div class="cards">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const card = document.querySelector(".card");
+
+            setTimeout(() => {
+                card.classList.add("flip-to-new");
+
+                setTimeout(() => {
+                    card.classList.add("glow");
+
+                    card.addEventListener("click", function () {
+                        if (!card.classList.contains("flip-to-front")) {
+                            card.classList.remove("glow");
+                            card.classList.add("flip-to-front");
+                        }
+                    });
+                }, 1000);
+            }, 500);
+        });
+    </script>
+    <div class="card" id="card">
+        <div class="card-back" id="old"></div>
+        <div class="card-back" id="new"></div>
+        <div class="card-front">
+            <div class="info fade">
+                <div class="images">
+                    {% for artist in wrap.wrap1.top5artists|slice:":1" %}
+                        <img id="artist" src="{{ artist.image }}" width="250" height="250">
+                    {% endfor %}
+                    <img id="decor" src="{% static 'SpotifyWrapped/images/decorations/summary-decor.svg' %}" width="450"
+                         height="450">
+                </div>
+                <div class="details">
+                    <div class="left">
+                        <div class="artists">
+                            <p class="title">Top Artists</p>
+                            <ol>
+                                {% for artist in wrap.wrap1.top5artists %}
+                                    <li><span class="number">{{ forloop.counter }}.</span> {{ artist.name }}</li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+                        <div class="personalities">
+                            <p class="title">Listening Personalities</p>
+                            <ol>
+                                <li><span class="number">1.</span> {% if wrap.wrap1.count1900 <= wrap.wrap1.count2000 %} The
+                                    Jester {% else %} The Hermit {% endif %}</li>
+                                <li><span class="number">2.</span> {% if wrap.wrap1.avgSongLength >= 195 %} The Sage {% else %}
+                                    The Chariot {% endif %}</li>
+                                <li><span class="number">3.</span> {% if wrap.wrap1.popularity >= 50 %} The
+                                    Rogue {% else %} The Bard {% endif %}</li>
+                                <li><span class="number">4.</span> {% if wrap.wrap1.explicitPercent >= 50 %} The Moon {% else %}
+                                    The Sun {% endif %}</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="songs">
+                            <p class="title">Top Tracks</p>
+                            <ol>
+                                {% for artist in wrap.wrap1.top5tracks %}
+                                    <li><span class="number">{{ forloop.counter }}.</span> {{ artist.name }}</li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+                        <div class="genres">
+                            <p class="title">Total Genres</p>
+                            <p class="subtitle">{{ wrap.wrap1.num_genres }}</p>
+                        </div>
+                        <div class="genres">
+                            <p class="title">Top Genre</p>
+                            <p class="subtitle">
+                                {% for genre in wrap.wrap1.top5genres|slice:":1" %}
+                                    {{ genre }}
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="others">
+    <div class="finished-button-container fade">
+        <a href="{% url 'viewwrap' wrap.id %}" class="finished-button">View All</a>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const card = document.querySelector(".card");
+            const finishedButtonContainer = document.querySelector(".finished-button-container");
+
+            let isFlipped = false;
+
+            card.addEventListener("transitionend", function (event) {
+                if (card.classList.contains("flip-to-front") && event.propertyName === "transform") {
+                    isFlipped = true;
+                }
+            });
+
+            card.addEventListener("mouseenter", function () {
+                if (isFlipped) {
+                    finishedButtonContainer.classList.add("show");
+                }
+            });
+        });
+    </script>
+</div>
+
+</body>
+</html>

@@ -63,6 +63,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 moonDisc.classList.add("paused");
                 moon.classList.add("paused");
                 moon.classList.add("half-moon"); // Change appearance
+
+                // Scale the combined deck
+                setTimeout(() => {
+                    combinedDeck.style.transform = "translate(-50%, -50%) scale(1.75)"; // Scale to 3x
+                    combinedDeck.style.transition = `transform 1s ease-in-out`;
+
+                    // Redirect after scaling animation completes
+                    setTimeout(() => {
+                        window.location.href = "{% url 'duosummary' wrap.id %}";
+                    }, 1000); // Wait for scaling to complete (match the transition duration)
+                }, 3000); // Delay before scaling
             }, 500); // Delay for smooth transition
         }, 2000); // Combine animation duration
     }, 5000); // Orbit animation duration
