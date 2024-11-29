@@ -9,27 +9,23 @@
 <body>
     <div class="animation-container">
     <!-- Moon -->
-    <div class="moon"></div>
+    <div class="moon">
+        <div class="disc"></div>
+    </div>
 
     <!-- Decks of Cards -->
     <div class="deck deck-left">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
     </div>
 
     <div class="deck deck-right">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
     </div>
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const leftDeck = document.querySelector(".deck-left");
     const rightDeck = document.querySelector(".deck-right");
+    const moon = document.querySelector(".moon");
+    const moonDisc = document.querySelector(".disc");
 
     // Wait for orbit animations to complete
     setTimeout(() => {
@@ -56,14 +52,22 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelector(".animation-container").appendChild(combinedDeck);
 
             // Add cards to the combined deck
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 1; i++) {
                 const card = document.createElement("div");
                 card.classList.add("card");
                 combinedDeck.appendChild(card);
             }
+
+            // Stop the moon's rotation and change to a full moon
+            setTimeout(() => {
+                moonDisc.classList.add("paused");
+                moon.classList.add("paused");
+                moon.classList.add("half-moon"); // Change appearance
+            }, 500); // Delay for smooth transition
         }, 2000); // Combine animation duration
     }, 5000); // Orbit animation duration
 });
+
 
 </script>
 </body>
