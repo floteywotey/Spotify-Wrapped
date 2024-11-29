@@ -23,7 +23,7 @@
             const cards = document.querySelectorAll(".card");
             const arcWidth = 800;
             const maxAngle = 30;
-
+            console.log("playing animation...");
             cards.forEach((card, index) => {
                 const totalCards = cards.length;
                 const middleIndex = (totalCards - 1) / 2;
@@ -38,7 +38,7 @@
                 card.style.setProperty("--angle", `${angle}deg`);
                 card.style.setProperty("--spread", `${spread}px`);
             });
-            console.log()
+
             document.body.classList.add("no-hover");
             setTimeout(() => {
                 cards.forEach((card) => {
@@ -73,9 +73,8 @@
     </script>
 
     <!-- Card 1 -->
-    <div class="card1" id="card1">
+    <div class="card card1" id="card1">
         <!-- Card Back -->
-        <div class="card-back" id="back1"></div>
         <!-- Card Front -->
         <div class="card-front" id="front1">
             <!-- Info for shared tracks -->
@@ -85,9 +84,9 @@
                 </div>
                 {% for track in wrap.duowrap.top_tracks|slice:":3" %}
                 <div class="details">
-                    <img src="{{ track.image }}" height="33" width="33" alt="{{ track.name }}">
+                    <img src="{{ track.image }}" height="95px" width="95px" alt="{{ track.name }}">
                     <div class="bullet">
-                        <img class="fbullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px" alt="Bullet Point">
+                        <img class="fbullet-img" data-index="{{ forloop.counter }}" height="50px" width="50px" alt="Bullet Point">
                     </div>
                     <div class="text">
                         <h2>{{ track.name }}</h2>
@@ -106,9 +105,8 @@
     </div>
 
     <!-- Card 2 -->
-    <div class="card2" id="card2">
+    <div class="card card2" id="card2">
         <!-- Card Back -->
-        <div class="card-back" id="back2"></div>
         <!-- Card Front -->
         <div class="card-front" id="front2">
             <!-- Info for shared artists -->
@@ -118,9 +116,9 @@
                 </div>
                 {% for artist in wrap.duowrap.top_artists|slice:":3" %}
                 <div class="details">
-                    <img src="{{ artist.image }}" height="33" width="33" alt="{{ artist.name }}">
+                    <img src="{{ artist.image }}" height="95px" width="95px" alt="{{ artist.name }}">
                     <div class="bullet">
-                        <img class="fbullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px" alt="Bullet Point">
+                        <img class="fbullet-img" data-index="{{ forloop.counter }}" height="50px" width="50px" alt="Bullet Point">
                     </div>
                     <div class="text">
                         <h2>{{ artist.name }}</h2>
@@ -138,9 +136,8 @@
     </div>
 
     <!-- Card 3 -->
-    <div class="card3" id="card3">
+    <div class="card card3" id="card3">
         <!-- Card Back -->
-        <div class="card-back" id="back3"></div>
         <!-- Card Front -->
         <div class="card-front" id="front3">
             <!-- Info for shared artists -->
@@ -151,7 +148,7 @@
                 {% for genre in wrap.duowrap.top_genres|slice:":3"%}
                     <div class="details">
                         <div class="bullet">
-                            <img class="fbullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px">
+                            <img class="fbullet-img" data-index="{{ forloop.counter }}" height="50px" width="50px">
                         </div>
                         <div class="text">
                             <h2>{{ genre }}</h2>
@@ -169,9 +166,8 @@
     </div>
 
     <!-- Card 4 -->
-    <div class="card4" id="card4">
+    <div class="card card4" id="card4">
         <!-- Card Back -->
-        <div class="card-back" id="back4"></div>
         <!-- Card Front -->
         <div class="card-front" id="front4">
             <!-- Info for user1 more -->
@@ -207,20 +203,21 @@
                 const sameInfo = document.getElementById("info4-same");
 
                 card.addEventListener("mouseenter", () => {
-                    if (user2 < user1) {
-                        user1Info.style.display = "flex";
-                        user2Info.style.display = "none";
-                        sameInfo.style.display = "none";
-                    } else if (user1 < user2) {
-                        user1Info.style.display = "none";
-                        user2Info.style.display = "flex";
-                        sameInfo.style.display = "none";
-                    }
-                    else {
-                        user1Info.style.display = "none";
-                        user2Info.style.display = "none";
-                        sameInfo.style.display = "flex";
-                    }
+                     if (card.classList.contains("centered")) {
+                         if (user2 < user1) {
+                             user1Info.style.display = "flex";
+                             user2Info.style.display = "none";
+                             sameInfo.style.display = "none";
+                         } else if (user1 < user2) {
+                             user1Info.style.display = "none";
+                             user2Info.style.display = "flex";
+                             sameInfo.style.display = "none";
+                         } else {
+                             user1Info.style.display = "none";
+                             user2Info.style.display = "none";
+                             sameInfo.style.display = "flex";
+                         }
+                     }
                 });
 
                 card.addEventListener("mouseleave", () => {
@@ -235,8 +232,7 @@
     </div>
 
 <!-- New Card 5 -->
-    <div class="card5" id="card">
-        <div class="card-back" id="back5"></div>
+    <div class="card card5" id="card5">
         <div class="card-front" id="front5">
             <div class="info fade vardiff" id="info5-vardiff">
                 <div class="scenario">
@@ -251,10 +247,10 @@
                 </div>
                 {% for track in wrap.wrap1.track_oldie|slice:":1"%}
                         <div class="details">
-                            <img src="{{ track.image }}" width="33" height="33">
+                            <img src="{{ track.image }}" width="95px" height="95px">
                             <div class="bullet">
-                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
-                                     width="10px">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="50px"
+                                     width="50px">
                             </div>
                             <div class="text">
                                 <h2>{{ track.name }}</h2>
@@ -264,10 +260,10 @@
                     {% endfor %}
                     {% for track in wrap.wrap2.track_oldie|slice:":1"%}
                         <div class="details">
-                            <img src="{{ track.image }}" width="33" height="33">
+                            <img src="{{ track.image }}" width="95px" height="95px">
                             <div class="bullet">
-                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
-                                     width="10px">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="50px"
+                                     width="50px">
                             </div>
                             <div class="text">
                                 <h2>{{ track.name }}</h2>
@@ -283,10 +279,10 @@
                 </div>
                 {% for track in wrap.wrap1.track_modern|slice:":1"%}
                         <div class="details">
-                            <img src="{{ track.image }}" width="33" height="33">
+                            <img src="{{ track.image }}" width="95px" height="95px">
                             <div class="bullet">
-                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
-                                     width="10px">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="50px"
+                                     width="50px">
                             </div>
                             <div class="text">
                                 <h2>{{ track.name }}</h2>
@@ -296,10 +292,10 @@
                     {% endfor %}
                     {% for track in wrap.wrap2.track_modern|slice:":1"%}
                         <div class="details">
-                            <img src="{{ track.image }}" width="33" height="33">
+                            <img src="{{ track.image }}" width="95px" height="95px">
                             <div class="bullet">
-                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
-                                     width="10px">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="50px"
+                                     width="50px">
                             </div>
                             <div class="text">
                                 <h2>{{ track.name }}</h2>
@@ -310,63 +306,67 @@
             </div>
         </div>
         <script>
-            let wrap1Era = "newbie";
-            if ({{ wrap.wrap1.count1900 }} > {{ wrap.wrap1.count2000 }}) {
-                wrap1Era = "oldie";
-            }
-            let wrap2Era = "newbie";
-            if ({{ wrap.wrap2.count1900 }} > {{ wrap.wrap2.count2000 }}) {
-                wrap2Era = "oldie";
-            }
-            function addEraId() {
-                const element = document.getElementById('front5');
-
-                if (wrap1Era == wrap2Era) {
-                    element.id = "front5-varhigh";
-                } else {
-                    element.id = "front5-varlow";
+            document.addEventListener("DOMContentLoaded", function () {
+                let wrap1Era = "newbie";
+                if ({{ wrap.wrap1.count1900 }} > {{ wrap.wrap1.count2000 }}) {
+                    wrap1Era = "oldie";
                 }
-            }
+                let wrap2Era = "newbie";
+                if ({{ wrap.wrap2.count1900 }} > {{ wrap.wrap2.count2000 }}) {
+                    wrap2Era = "oldie";
+                }
 
-            function setupEraInfo() {
-                const card = document.querySelector(".card5");
-                const diffInfo = document.getElementById("info5-vardiff");
-                const oldieInfo = document.getElementById("info5-varoldie");
-                const newbieInfo = document.getElementById("info5-varnewbie");
+                function addEraId() {
+                    const element = document.getElementById('front5');
 
-                card.addEventListener("mouseenter", () => {
-                    if (wrap1Era == wrap2Era) {
-                        if (wrap1Era == "oldie") {
-                            oldieInfo.style.display = "flex";
-                            diffInfo.style.display = "none";
-                            newbieInfo.style.display = "none";
-                        } else {
-                            oldieInfo.style.display = "none";
-                            diffInfo.style.display = "none";
-                            newbieInfo.style.display = "flex";
-                        }
+                    if (wrap1Era === wrap2Era) {
+                        element.id = "front5-varhigh";
                     } else {
-                        oldieInfo.style.display = "none";
-                        diffInfo.style.display = "flex";
-                        newbieInfo.style.display = "none";
+                        element.id = "front5-varlow";
                     }
-                });
+                }
 
-                card.addEventListener("mouseleave", () => {
-                    oldieInfo.style.display = "none";
-                    diffInfo.style.display = "none";
-                    newbieInfo.style.display = "none";
-                });
-            }
+                function setupEraInfo() {
+                    const card = document.querySelector(".card5");
+                    const diffInfo = document.getElementById("info5-vardiff");
+                    const oldieInfo = document.getElementById("info5-varoldie");
+                    const newbieInfo = document.getElementById("info5-varnewbie");
 
-            document.addEventListener("DOMContentLoaded", addEraId);
-            document.addEventListener("DOMContentLoaded", setupEraInfo);
+                    card.addEventListener("mouseenter", () => {
+                        if (card.classList.contains("centered")) {
+                            if (wrap1Era === wrap2Era) {
+                                if (wrap1Era === "oldie") {
+                                    oldieInfo.style.display = "flex";
+                                    diffInfo.style.display = "none";
+                                    newbieInfo.style.display = "none";
+                                } else {
+                                    oldieInfo.style.display = "none";
+                                    diffInfo.style.display = "none";
+                                    newbieInfo.style.display = "flex";
+                                }
+                            } else {
+                                oldieInfo.style.display = "none";
+                                diffInfo.style.display = "flex";
+                                newbieInfo.style.display = "none";
+                            }
+                        }
+                    });
+
+                    card.addEventListener("mouseleave", () => {
+                        oldieInfo.style.display = "none";
+                        diffInfo.style.display = "none";
+                        newbieInfo.style.display = "none";
+                    });
+                }
+
+                document.addEventListener("DOMContentLoaded", addEraId);
+                document.addEventListener("DOMContentLoaded", setupEraInfo);
+            });
         </script>
     </div>
 
     <!--New Card 6-->
-    <div class="card6" id="card">
-        <div class="card-back" id="back6"></div>
+    <div class="card card6" id="card6">
         <div class="card-front" id="front6">
             <div class="info fade varlow" id="info6-varlow">
                 <div class="scenario">
@@ -375,10 +375,10 @@
                     <p>Your average energy together: {{ wrap.duowrap.duration }}s.</p>
                     {% for track in wrap.wrap1.bot_length|slice:":1"%}
                         <div class="details">
-                            <img src="{{ track.image }}" width="33" height="33">
+                            <img src="{{ track.image }}" width="95px" height="95px">
                             <div class="bullet">
-                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
-                                     width="10px">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="50px"
+                                     width="50px">
                             </div>
                             <div class="text">
                                 <h2>{{ track.name }}</h2>
@@ -388,10 +388,10 @@
                     {% endfor %}
                     {% for track in wrap.wrap2.bot_length|slice:":1"%}
                         <div class="details">
-                            <img src="{{ track.image }}" width="33" height="33">
+                            <img src="{{ track.image }}" width="95px" height="95px">
                             <div class="bullet">
-                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
-                                     width="10px">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="50px"
+                                     width="50px">
                             </div>
                             <div class="text">
                                 <h2>{{ track.name }}</h2>
@@ -409,10 +409,10 @@
                 </div>
                 {% for track in wrap.wrap1.top_length|slice:":1"%}
                     <div class="details">
-                        <img src="{{ track.image }}" width="33" height="33">
+                        <img src="{{ track.image }}" width="95px" height="95px">
                         <div class="bullet">
-                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
-                                 width="10px">
+                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="50px"
+                                 width="50px">
                         </div>
                         <div class="text">
                             <h2>{{ track.name }}</h2>
@@ -422,10 +422,10 @@
                 {% endfor %}
                 {% for track in wrap.wrap2.top_length|slice:":1"%}
                     <div class="details">
-                        <img src="{{ track.image }}" width="33" height="33">
+                        <img src="{{ track.image }}" width="95px" height="95px">
                         <div class="bullet">
-                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
-                                 width="10px">
+                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="50px"
+                                 width="50px">
                         </div>
                         <div class="text">
                             <h2>{{ track.name }}</h2>
@@ -454,13 +454,15 @@
                 const highInfo = document.getElementById("info6-varhigh");
 
                 card.addEventListener("mouseenter", () => {
-                    if (length < 195) {
-                        lowInfo.style.display = "flex";
-                        highInfo.style.display = "none";
-                    } else {
-                        lowInfo.style.display = "none";
-                        highInfo.style.display = "flex";
-                    }
+                     if (card.classList.contains("centered")) {
+                         if (length < 195) {
+                             lowInfo.style.display = "flex";
+                             highInfo.style.display = "none";
+                         } else {
+                             lowInfo.style.display = "none";
+                             highInfo.style.display = "flex";
+                         }
+                     }
                 });
 
                 card.addEventListener("mouseleave", () => {
@@ -474,8 +476,7 @@
         </script>
     </div>
 
-    <div class="card7" id="card">
-        <div class="card-back" id="back7"></div>
+    <div class="card card7" id="card7">
         <div class="card-front" id="front7">
             <div class="info fade varlow" id="info7-varlow">
                 <div class="scenario">
@@ -483,10 +484,10 @@
                     <p>The popularity of your songs: {{ wrap.duowrap.popularity }}%.</p>
                     {% for track in wrap.wrap1.bot3popularity|slice:":1"%}
                         <div class="details">
-                            <img src="{{ track.image }}" width="33" height="33">
+                            <img src="{{ track.image }}" width="95px" height="95px">
                             <div class="bullet">
-                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
-                                     width="10px">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="50px"
+                                     width="50px">
                             </div>
                             <div class="text">
                                 <h2>{{ track.name }}</h2>
@@ -496,10 +497,10 @@
                     {% endfor %}
                     {% for track in wrap.wrap2.bot3popularity|slice:":1"%}
                         <div class="details">
-                            <img src="{{ track.image }}" width="33" height="33">
+                            <img src="{{ track.image }}" width="95px" height="95px">
                             <div class="bullet">
-                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
-                                     width="10px">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="50px"
+                                     width="50px">
                             </div>
                             <div class="text">
                                 <h2>{{ track.name }}</h2>
@@ -516,10 +517,10 @@
                 </div>
                 {% for track in wrap.wrap1.top3popularity|slice:":1"%}
                     <div class="details">
-                        <img src="{{ track.image }}" width="33" height="33">
+                        <img src="{{ track.image }}" width="95px" height="95px">
                         <div class="bullet">
-                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
-                                 width="10px">
+                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="50px"
+                                 width="50px">
                         </div>
                         <div class="text">
                             <h2>{{ track.name }}</h2>
@@ -529,10 +530,10 @@
                 {% endfor %}
                 {% for track in wrap.wrap2.top3popularity|slice:":1"%}
                     <div class="details">
-                        <img src="{{ track.image }}" width="33" height="33">
+                        <img src="{{ track.image }}" width="95px" height="95px">
                         <div class="bullet">
-                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
-                                 width="10px">
+                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="50px"
+                                 width="50px">
                         </div>
                         <div class="text">
                             <h2>{{ track.name }}</h2>
@@ -543,48 +544,50 @@
             </div>
         </div>
         <script>
-            const popularity = {{ wrap.duowrap.popularity }};
+            document.addEventListener("DOMContentLoaded", function () {
+                const popularity = {{ wrap.duowrap.popularity }};
 
-            function addPopularityId() {
-                const element = document.getElementById('front7');
-
-                if (popularity < 50) {
-                    element.id = "front7-varlow";
-                } else {
-                    element.id = "front7-varhigh";
-                }
-            }
-
-            function setupPopularityInfo() {
-                const card = document.querySelector(".card7");
-                const lowInfo = document.getElementById("info7-varlow");
-                const highInfo = document.getElementById("info7-varhigh");
-
-                card.addEventListener("mouseenter", () => {
+                function addPopularityId() {
+                    const card = document.querySelector(".card7");
                     if (popularity < 50) {
-                        lowInfo.style.display = "flex";
-                        highInfo.style.display = "none";
+                        card.classList.add("rogue");
                     } else {
-                        lowInfo.style.display = "none";
-                        highInfo.style.display = "flex";
+                        card.classList.add("bard");
+
                     }
-                });
+                }
 
-                card.addEventListener("mouseleave", () => {
-                    lowInfo.style.display = "none";
-                    highInfo.style.display = "none";
-                });
-            }
+                function setupPopularityInfo() {
+                    const card = document.querySelector(".card7");
+                    const lowInfo = document.getElementById("info7-varlow");
+                    const highInfo = document.getElementById("info7-varhigh");
 
-            document.addEventListener("DOMContentLoaded", addPopularityId);
-            document.addEventListener("DOMContentLoaded", setupPopularityInfo);
+                    card.addEventListener("mouseenter", () => {
+                        if (card.classList.contains("centered")) {
+                            if (popularity < 50) {
+                                lowInfo.style.display = "flex";
+                                highInfo.style.display = "none";
+                            } else {
+                                lowInfo.style.display = "none";
+                                highInfo.style.display = "flex";
+                            }
+                        }
+                    });
+
+                    card.addEventListener("mouseleave", () => {
+                        lowInfo.style.display = "none";
+                        highInfo.style.display = "none";
+                    });
+                }
+
+                document.addEventListener("DOMContentLoaded", addPopularityId);
+                document.addEventListener("DOMContentLoaded", setupPopularityInfo);
+            });
         </script>
     </div>
 
     <!--New Card 8-->
-    <div class="card8" id="card8">
-        <!-- Card Back -->
-        <div class="card-back" id="back8"></div>
+    <div class="card card8" id="card8">
         <!-- Card Front -->
         <div class="card-front" id="front8">
             <!-- Info for user1 more -->
@@ -649,9 +652,7 @@
         </script>
     </div>
 
-    <div class="card9" id="card">
-        <div class="card-back" id="old"></div>
-        <div class="card-back" id="new"></div>
+    <div class="card card9" id="card9">
         <div class="card-front">
             <div class="info fade">
                 <div class="moons"></div>
@@ -696,8 +697,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    <script>
+        <script>
     const compat = {{ wrap.duowrap.compatibility }};
 
     function setupLabel() {
@@ -735,50 +735,8 @@
             document.addEventListener("DOMContentLoaded", setupLabel);
         </script>
     </div>
-</body>
-
+    </div>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-    let flippedCards = new Set(); // Track flipped cards
-    const cards = document.querySelectorAll(".cards > div"); // All card elements
-    const summaryButtonContainer = document.querySelector(".summary-button-container");
-    let isAnimating = false;
-
-    // Function to check if all cards are flipped
-    function checkAllFlipped() {
-        if (flippedCards.size === cards.length) {
-            summaryButtonContainer.style.display = "block";
-            summaryButtonContainer.style.zIndex = "10";
-        } else {
-            summaryButtonContainer.style.zIndex = "-1";
-            summaryButtonContainer.style.display = "none";
-        }
-    }
-
-    // Function to split a card visually
-    function splitCard(card) {
-        const front = card.querySelector(".card-front");
-        front.style.opacity = "0"; // Hide the front
-        const frontBackground = getComputedStyle(front).background;
-
-        const leftHalf = document.createElement("div");
-        leftHalf.classList.add("split-left");
-        leftHalf.style.background = frontBackground;
-
-        const rightHalf = document.createElement("div");
-        rightHalf.classList.add("split-right");
-        rightHalf.style.background = frontBackground;
-
-        card.appendChild(leftHalf);
-        card.appendChild(rightHalf);
-
-        setTimeout(() => {
-            leftHalf.remove();
-            rightHalf.remove();
-            front.style.opacity = "1"; // Restore visibility
-        }, 3000);
-    }
-
     // Function to set up card hover and interaction logic
     function setupCardInfo(cardSelector, infoSelector, noneSelector, length) {
         const card = document.querySelector(cardSelector);
@@ -786,13 +744,15 @@
         const none = document.querySelector(noneSelector);
 
         card.addEventListener("mouseenter", () => {
-            if (length !== 0) {
-                info.style.display = "flex";
-                none.style.display = "none";
-            } else {
-                info.style.display = "none";
-                none.style.display = "flex";
-            }
+             if (card.classList.contains("centered")) {
+                 if (length !== 0) {
+                     info.style.display = "flex";
+                     none.style.display = "none";
+                 } else {
+                     info.style.display = "none";
+                     none.style.display = "flex";
+                 }
+             }
         });
 
         card.addEventListener("mouseleave", () => {
@@ -824,7 +784,6 @@
     document.querySelectorAll('.tbullet-img').forEach((bullet, index) => {
         bullet.src = tbulletImages[index % tbulletImages.length];
     });
-});
 </script>
 </body>
 </html>

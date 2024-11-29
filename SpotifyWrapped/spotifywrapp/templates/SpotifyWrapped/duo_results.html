@@ -289,7 +289,7 @@
 {#        </script>#}
 {#    </div>#}
 <!-- New Card 5 -->
-    <div class="card5" id="card">
+    <div class="card5" id="card5">
         <div class="card-back" id="back5"></div>
         <div class="card-front" id="front5">
             <div class="info fade vardiff" id="info5-vardiff">
@@ -375,7 +375,7 @@
             function addEraId() {
                 const element = document.getElementById('front5');
 
-                if (wrap1Era == wrap2Era) {
+                if (wrap1Era === wrap2Era) {
                     element.id = "front5-varhigh";
                 } else {
                     element.id = "front5-varlow";
@@ -389,8 +389,8 @@
                 const newbieInfo = document.getElementById("info5-varnewbie");
 
                 card.addEventListener("mouseenter", () => {
-                    if (wrap1Era == wrap2Era) {
-                        if (wrap1Era == "oldie") {
+                    if (wrap1Era === wrap2Era) {
+                        if (wrap1Era === "oldie") {
                             oldieInfo.style.display = "flex";
                             diffInfo.style.display = "none";
                             newbieInfo.style.display = "none";
@@ -527,7 +527,7 @@
 {#    </div>#}
 
     <!--New Card 6-->
-    <div class="card6" id="card">
+    <div class="card6" id="card6">
         <div class="card-back" id="back6"></div>
         <div class="card-front" id="front6">
             <div class="info fade varlow" id="info6-varlow">
@@ -636,7 +636,7 @@
         </script>
     </div>
 
-    <div class="card7" id="card">
+    <div class="card7" id="card7">
         <div class="card-back" id="back7"></div>
         <div class="card-front" id="front7">
             <div class="info fade varlow" id="info7-varlow">
