@@ -9,27 +9,23 @@
 <body>
     <div class="animation-container">
     <!-- Moon -->
-    <div class="moon"></div>
+    <div class="moon">
+        <div class="disc"></div>
+    </div>
 
     <!-- Decks of Cards -->
     <div class="deck deck-left">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
     </div>
 
     <div class="deck deck-right">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
     </div>
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const leftDeck = document.querySelector(".deck-left");
     const rightDeck = document.querySelector(".deck-right");
+    const moon = document.querySelector(".moon");
+    const moonDisc = document.querySelector(".disc");
 
     // Wait for orbit animations to complete
     setTimeout(() => {
@@ -56,14 +52,33 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelector(".animation-container").appendChild(combinedDeck);
 
             // Add cards to the combined deck
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 1; i++) {
                 const card = document.createElement("div");
                 card.classList.add("card");
                 combinedDeck.appendChild(card);
             }
+
+            // Stop the moon's rotation and change to a full moon
+            setTimeout(() => {
+                moonDisc.classList.add("paused");
+                moon.classList.add("paused");
+                moon.classList.add("half-moon"); // Change appearance
+
+                // Scale the combined deck
+                setTimeout(() => {
+                    combinedDeck.style.transform = "translate(-50%, -50%) scale(1.75)"; // Scale to 3x
+                    combinedDeck.style.transition = `transform 1s ease-in-out`;
+
+                    // Redirect after scaling animation completes
+                    setTimeout(() => {
+                        window.location.href = "{% url 'duosummary' wrap.id %}";
+                    }, 1000); // Wait for scaling to complete (match the transition duration)
+                }, 3000); // Delay before scaling
+            }, 500); // Delay for smooth transition
         }, 2000); // Combine animation duration
     }, 5000); // Orbit animation duration
 });
+
 
 </script>
 </body>

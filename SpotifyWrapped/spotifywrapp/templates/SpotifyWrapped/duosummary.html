@@ -1,0 +1,154 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Duo Summary</title>
+    <link rel="stylesheet" href="{% static 'SpotifyWrapped/duosummary.css' %}">
+</head>
+<body>
+<div class="header">
+    <form class="home" action="{% url 'home' %}" method="post">
+        {% csrf_token %}
+        <button class="home-button" aria-label="Home" title="Home">
+            <span class="close-icon"></span>
+        </button>
+    </form>
+</div>
+
+<div class="cards">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const card = document.querySelector(".card");
+
+            setTimeout(() => {
+                card.classList.add("flip-to-new");
+
+                setTimeout(() => {
+                    card.classList.add("glow");
+
+                    card.addEventListener("click", function () {
+                        if (!card.classList.contains("flip-to-front")) {
+                            card.classList.remove("glow");
+                            card.classList.add("flip-to-front");
+                        }
+                    });
+                }, 1000);
+            }, 500);
+        });
+    </script>
+    <div class="card" id="card">
+        <div class="card-back" id="old"></div>
+        <div class="card-back" id="new"></div>
+        <div class="card-front">
+            <div class="info fade">
+                <div class="moons"></div>
+                <div class="label" id="high">
+                    <h3>The Cosmic Duet</h3>
+                    <p>The cosmos aligns your musical paths, creating a bond as seamless as the light of a full moon.
+                        Your shared preferences echo through the universe, a celestial duet meant to be.</p>
+                </div>
+                <div class="label" id="mid">
+                    <h3>The Partial Eclipse</h3>
+                    <p>Your bond reflects the waxing and waning moon, sometimes in perfect sync and other times revealing individuality.
+                        The universe weaves your tastes into a beautiful balance of harmony and contrast.</p>
+                </div>
+                <div class="label" id="low">
+                    <h3>The Dissonant Constellations</h3>
+                    <p>The cosmos reveals two distinct paths, as if your playlists belong to separate constellations.
+                        Yet, even the most distant stars can inspire one another from afar.</p>
+                </div>
+                <div class="compat">Your total compatibility: {{ wrap.duowrap.compatibility }}%</div>
+                <div class="details">
+                    <div class="left">
+                        <h3 class="title">Shared Taste</h3>
+                        <div class="shared">
+                            <ol>
+                                <li> {{ wrap.duowrap.numSharedTracks }} shared tracks</li>
+                                <li> {{ wrap.duowrap.numSharedArtists }} shared artists</li>
+                                <li> {{ wrap.duowrap.numSharedGenres }} shared genres</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <h3 class="title">Compatibility</h3>
+                        <div class="percentages">
+                            <ol>
+                                <li> popularity: {{ wrap.duowrap.popularity_compat }}%</li>
+                                <li> era: {{ wrap.duowrap.era_compat }}%</li>
+                                <li> duration: {{ wrap.duowrap.duration_compat }}%</li>
+                                <li> explicit: {{ wrap.duowrap.explicit_compat }}%</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const compat = {{ wrap.duowrap.compatibility }};
+
+    function setupLabel() {
+        const card = document.querySelector(".card");
+                const high = document.getElementById("high");
+                const mid = document.getElementById("mid");
+                const low = document.getElementById("low");
+
+                card.addEventListener("mouseenter", () => {
+                    console.log("mouse entered");
+                    if (compat >= 0 && compat < 40) {
+                        low.style.display = "flex";
+                        mid.style.display = "none";
+                        high.style.display = "none";
+                    } else if (compat >= 40 && compat < 70) {
+                        low.style.display = "none";
+                        mid.style.display = "flex";
+                        high.style.display = "none";
+                    }
+                    else {
+                        low.style.display = "none";
+                        mid.style.display = "none";
+                        high.style.display = "flex";
+                    }
+                });
+
+                card.addEventListener("mouseleave", () => {
+                    console.log("mouse leave");
+                    low.style.display = "none";
+                    mid.style.display = "none";
+                    high.style.display = "none";
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", setupLabel);
+        </script>
+<div class="others">
+    <div class="finished-button-container fade">
+        <a href="{% url 'viewduowrap' wrap.id %}" class="finished-button">View All</a>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const card = document.querySelector(".card");
+            const finishedButtonContainer = document.querySelector(".finished-button-container");
+
+            let isFlipped = false;
+
+            card.addEventListener("transitionend", function (event) {
+                if (card.classList.contains("flip-to-front") && event.propertyName === "transform") {
+                    isFlipped = true;
+                }
+            });
+
+            card.addEventListener("mouseenter", function () {
+                if (isFlipped) {
+                    finishedButtonContainer.classList.add("show");
+                }
+            });
+        });
+    </script>
+</div>
+
+</body>
+</html>
