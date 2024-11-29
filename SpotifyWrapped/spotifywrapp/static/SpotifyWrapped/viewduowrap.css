@@ -425,13 +425,14 @@ h1 {
     transition: transform .6s;
     transform: translate(-50%, -50%);
 }
-#front5-varlow {
-    background: white url("images/card/card_fronts/the-hermit.svg") no-repeat center center;
+
+
+.card5.jester {
+    background: black url("images/card/card_fronts/the-jester.svg") no-repeat fixed;
     background-size: contain;
 }
-
-#front5-varhigh {
-    background: white url("images/card/card_fronts/the-jester.svg") no-repeat center center;
+.card5.hermit {
+    background: black url("images/card/card_fronts/the-hermit.svg") no-repeat fixed;
     background-size: contain;
 }
 .card5 .info {
@@ -451,10 +452,9 @@ h1 {
     border-radius: 4px;
 }
 
-.card5.centered:hover .info .varhigh {
-}
-.card5.centered:hover .info .varlow {
-}
+.card5.centered:hover .info .vardiff {}
+.card5.centered:hover .info .var-oldie {}
+.card5.centered:hover .info .var-newbie {}
 
 .card5 .info.details {
     display: flex;
@@ -477,7 +477,14 @@ h1 {
     transition: transform .6s;
     transform: translate(-50%, -50%);
 }
-
+.card6.sage {
+    background: black url("images/card/card_fronts/the-sage.svg") no-repeat fixed;
+    background-size: contain;
+}
+.card6.chariot {
+    background: black url("images/card/card_fronts/the-chariot.svg") no-repeat fixed;
+    background-size: contain;
+}
 .card6 .info {
     position: absolute;
     top: 0;
