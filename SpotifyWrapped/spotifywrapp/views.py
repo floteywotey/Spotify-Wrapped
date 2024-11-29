@@ -197,6 +197,9 @@ def duo_wrap(request):
     sortedArray = recentWraps(request.user.username)
     return render(request, 'duo_results.html', context={'wrap': sortedArray[0]})
 
+def duointermediate(request):
+    return render(request, 'duointermediate.html')
+
 def duo_results(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
@@ -243,6 +246,8 @@ def duo_results(request):
         # shared_energy = (wrapData1['energy'] + wrapData2['energy'])/2
         # shared_valence = (wrapData1['valence'] + wrapData2['valence'])/2
         shared_popularity = (wrapData1['popularity'] + wrapData2['popularity']) / 2
+        shared_duration = (wrapData1['avgSongLength'] + wrapData2['avgSongLength']) / 2
+
         data = {
             'top_artists': shared_artists,
             'top_genres': shared_genres,
@@ -256,6 +261,7 @@ def duo_results(request):
             # 'danceability': shared_danceability,
             # 'energy': shared_energy,
             # 'valence': shared_valence
+            'duration': shared_duration
         }
         invites.objects.filter(id=invite).delete()
         randInt = randint(0, 13)
@@ -270,8 +276,16 @@ def duo_results(request):
                 randInt = randint(0, 13)
         wrap = wraps.objects.create(wrap1=wrapData1, wrap2=wrapData2, duowrap=data, isDuo=True, user1=fromUser, user2=request.user.username, duration=timedict[time], imageNum = randInt, image = imageList[randInt])
         wrap.save()
-        return redirect('duo_wrap')
-    return redirect('duo_wrap')
+        return redirect('duointermediate')
+    return redirect('duointermediate')
+
+def duosummary(request, id):
+    wrap = wraps.objects.get(id=id)
+    return render(request, 'duosummary.html', context={'wrap' : wrap})
+
+def duo_summary_intermediate(request, id):
+    wrap = wraps.objects.get(id=id)
+    return render(request, 'duo_summary_intermediate.html', context={'wrap' : wrap})
 
 def getUserToken(username):
     return getSpotifyUser(username).getspotifytoken()
