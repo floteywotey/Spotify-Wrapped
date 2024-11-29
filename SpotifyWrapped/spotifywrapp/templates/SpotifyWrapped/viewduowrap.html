@@ -25,6 +25,7 @@
             const maxAngle = 30;
             console.log("playing animation...");
             cards.forEach((card, index) => {
+
                 const totalCards = cards.length;
                 const middleIndex = (totalCards - 1) / 2;
                 const offset = index - middleIndex;
@@ -307,61 +308,66 @@
         </div>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                let wrap1Era = "newbie";
-                if ({{ wrap.wrap1.count1900 }} > {{ wrap.wrap1.count2000 }}) {
-                    wrap1Era = "oldie";
-                }
-                let wrap2Era = "newbie";
-                if ({{ wrap.wrap2.count1900 }} > {{ wrap.wrap2.count2000 }}) {
-                    wrap2Era = "oldie";
-                }
+    let wrap1Era = "newbie";
+    if ({{ wrap.wrap1.count1900 }} > {{ wrap.wrap1.count2000 }}) {
+        wrap1Era = "oldie";
+    }
+    let wrap2Era = "newbie";
+    if ({{ wrap.wrap2.count1900 }} > {{ wrap.wrap2.count2000 }}) {
+        wrap2Era = "oldie";
+    }
 
-                function addEraId() {
-                    const element = document.getElementById('front5');
+    const card = document.querySelector(".card5");
+    const diffInfo = document.getElementById("info5-vardiff");
+    const oldieInfo = document.getElementById("info5-varoldie");
+    const newbieInfo = document.getElementById("info5-varnewbie");
 
-                    if (wrap1Era === wrap2Era) {
-                        element.id = "front5-varhigh";
-                    } else {
-                        element.id = "front5-varlow";
-                    }
-                }
+    if (!card || !diffInfo || !oldieInfo || !newbieInfo) {
+        console.error("One or more required elements are missing.");
+        return;
+    }
 
-                function setupEraInfo() {
-                    const card = document.querySelector(".card5");
-                    const diffInfo = document.getElementById("info5-vardiff");
-                    const oldieInfo = document.getElementById("info5-varoldie");
-                    const newbieInfo = document.getElementById("info5-varnewbie");
+    function addEraId() {
+        if (wrap1Era === wrap2Era) {
+            card.classList.add("jester");
+            card.classList.remove("hermit");
+        } else {
+            card.classList.add("hermit");
+            card.classList.remove("jester");
+        }
+    }
 
-                    card.addEventListener("mouseenter", () => {
-                        if (card.classList.contains("centered")) {
-                            if (wrap1Era === wrap2Era) {
-                                if (wrap1Era === "oldie") {
-                                    oldieInfo.style.display = "flex";
-                                    diffInfo.style.display = "none";
-                                    newbieInfo.style.display = "none";
-                                } else {
-                                    oldieInfo.style.display = "none";
-                                    diffInfo.style.display = "none";
-                                    newbieInfo.style.display = "flex";
-                                }
-                            } else {
-                                oldieInfo.style.display = "none";
-                                diffInfo.style.display = "flex";
-                                newbieInfo.style.display = "none";
-                            }
-                        }
-                    });
-
-                    card.addEventListener("mouseleave", () => {
-                        oldieInfo.style.display = "none";
+    function setupEraInfo() {
+        card.addEventListener("mouseenter", () => {
+            console.log("mouse entered");
+            if (card.classList.contains("centered")) {
+                if (wrap1Era === wrap2Era) {
+                    if (wrap1Era === "oldie") {
+                        oldieInfo.style.display = "flex";
                         diffInfo.style.display = "none";
                         newbieInfo.style.display = "none";
-                    });
+                    } else {
+                        oldieInfo.style.display = "none";
+                        diffInfo.style.display = "none";
+                        newbieInfo.style.display = "flex";
+                    }
+                } else {
+                    oldieInfo.style.display = "none";
+                    diffInfo.style.display = "flex";
+                    newbieInfo.style.display = "none";
                 }
+            }
+        });
 
-                document.addEventListener("DOMContentLoaded", addEraId);
-                document.addEventListener("DOMContentLoaded", setupEraInfo);
-            });
+        card.addEventListener("mouseleave", () => {
+            oldieInfo.style.display = "none";
+            diffInfo.style.display = "none";
+            newbieInfo.style.display = "none";
+        });
+    }
+    addEraId();
+    setupEraInfo();
+});
         </script>
     </div>
 
@@ -372,7 +378,7 @@
                 <div class="scenario">
                     <p>The Sage charts your musical journey like constellations of brief brilliance, where every note is a shining moment in time.
                         Your connection thrives in the space between fleeting melodies.</p>
-                    <p>Your average energy together: {{ wrap.duowrap.duration }}s.</p>
+                    <p>Your average time together: {{ wrap.duowrap.duration }}s.</p>
                     {% for track in wrap.wrap1.bot_length|slice:":1"%}
                         <div class="details">
                             <img src="{{ track.image }}" width="95px" height="95px">
@@ -405,7 +411,7 @@
                 <div class="scenario">
                     <p>The Chariot moves through the stars, guided by tracks that unfold like nebulae in the cosmos.
                         Your bond celebrates the beauty of music that stretches across time, leaving trails of brilliance in its wake.</p>
-                    <p>Your average energy together: {{ wrap.duowrap.duration }}s.</p>
+                    <p>Your average time together: {{ wrap.duowrap.duration }}s.</p>
                 </div>
                 {% for track in wrap.wrap1.top_length|slice:":1"%}
                     <div class="details">
@@ -439,12 +445,14 @@
             const length = {{ wrap.duowrap.duration }};
 
             function addTimeId() {
-                const element = document.getElementById('front6');
+                const card = document.querySelector(".card6");
 
                 if (length < 195) {
-                    element.id = "front6-varlow";
+                    card.classList.add("sage");
+                    card.classList.remove("chariot"); // Remove opposite class to avoid conflicts
                 } else {
-                    element.id = "front6-varhigh";
+                    card.classList.add("sage");
+                    card.classList.remove("chariot"); // Remove opposite class to avoid conflicts
                 }
             }
 
@@ -544,46 +552,48 @@
             </div>
         </div>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const popularity = {{ wrap.duowrap.popularity }};
+        document.addEventListener("DOMContentLoaded", function () {
+        const popularity = {{ wrap.duowrap.popularity }};
+        function addPopularityId() {
+            const card = document.querySelector(".card7");
+            if (popularity < 50) {
+                console.log("deciding on pop id");
+                card.classList.add("rogue");
+                card.classList.remove("bard"); // Remove opposite class to avoid conflicts
+            } else {
+                card.classList.add("bard");
+                card.classList.remove("rogue"); // Remove opposite class to avoid conflicts
+            }
+        }
 
-                function addPopularityId() {
-                    const card = document.querySelector(".card7");
+        function setupPopularityInfo() {
+            const card = document.querySelector(".card7");
+            const lowInfo = document.getElementById("info7-varlow");
+            const highInfo = document.getElementById("info7-varhigh");
+
+            card.addEventListener("mouseenter", () => {
+                if (card.classList.contains("centered")) {
                     if (popularity < 50) {
-                        card.classList.add("rogue");
+                        lowInfo.style.display = "flex";
+                        highInfo.style.display = "none";
                     } else {
-                        card.classList.add("bard");
-
+                        lowInfo.style.display = "none";
+                        highInfo.style.display = "flex";
                     }
                 }
-
-                function setupPopularityInfo() {
-                    const card = document.querySelector(".card7");
-                    const lowInfo = document.getElementById("info7-varlow");
-                    const highInfo = document.getElementById("info7-varhigh");
-
-                    card.addEventListener("mouseenter", () => {
-                        if (card.classList.contains("centered")) {
-                            if (popularity < 50) {
-                                lowInfo.style.display = "flex";
-                                highInfo.style.display = "none";
-                            } else {
-                                lowInfo.style.display = "none";
-                                highInfo.style.display = "flex";
-                            }
-                        }
-                    });
-
-                    card.addEventListener("mouseleave", () => {
-                        lowInfo.style.display = "none";
-                        highInfo.style.display = "none";
-                    });
-                }
-
-                document.addEventListener("DOMContentLoaded", addPopularityId);
-                document.addEventListener("DOMContentLoaded", setupPopularityInfo);
             });
-        </script>
+
+            card.addEventListener("mouseleave", () => {
+                lowInfo.style.display = "none";
+                highInfo.style.display = "none";
+            });
+        }
+
+        // Call the function to apply the class immediately on load
+        addPopularityId();
+        setupPopularityInfo();
+    });
+    </script>
     </div>
 
     <!--New Card 8-->
@@ -623,20 +633,20 @@
                 const sameInfo = document.getElementById("info8-same");
 
                 card.addEventListener("mouseenter", () => {
-                    console.log("mouse entered");
-                    if (ex2 < ex1) {
-                        user1Info.style.display = "flex";
-                        user2Info.style.display = "none";
-                        sameInfo.style.display = "none";
-                    } else if (ex1 < ex2) {
-                        user1Info.style.display = "none";
-                        user2Info.style.display = "flex";
-                        sameInfo.style.display = "none";
-                    }
-                    else {
+                    if (card.classList.contains("centered")) {
+                        if (ex2 < ex1) {
+                            user1Info.style.display = "flex";
+                            user2Info.style.display = "none";
+                            sameInfo.style.display = "none";
+                        } else if (ex1 < ex2) {
+                            user1Info.style.display = "none";
+                            user2Info.style.display = "flex";
+                            sameInfo.style.display = "none";
+                        } else {
                         user1Info.style.display = "none";
                         user2Info.style.display = "none";
                         sameInfo.style.display = "flex";
+                        }
                     }
                 });
 
