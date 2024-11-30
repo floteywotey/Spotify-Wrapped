@@ -919,8 +919,14 @@
         </script>
     </div>
 </div>
+<script>
+    $("#my-button").click(function(e) {
+        $("#my-form").submit();
+    });
+</script>
+<form id="my-form" method="POST" action="" style="display: none"></form>
 <div class="summary-button-container fade">
-        <a href="{% url 'duo_summary_intermediate' wrap.id %}" class="summary-button">View Summary</a>
+        <a id='my-button' href="{% url 'duo_summary_intermediate' wrap.id %}" class="summary-button">View Summary</a>
 </div>
 
 <script>
