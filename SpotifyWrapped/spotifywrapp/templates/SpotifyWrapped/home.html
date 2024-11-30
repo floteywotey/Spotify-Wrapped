@@ -48,15 +48,23 @@
         <h2>Recent Readings</h2>
         <div class="cards">
             <script>
-                function showPopup(id, date, duration, cardContainer) {
+                function showPopup(id, date, duration, cardContainer, duo) {
                     document.getElementById('popupTitle').textContent = `Wrap Date: ${date}`;
                     document.getElementById('popupSubTitle').textContent = `Wrap Duration: ${duration}`;
+                    // Update the action URL for the "View" form dynamically
+                    const viewForm = document.querySelector('.invites .display').parentNode;
+
+                    if (duo === 'True') {
+                        document.getElementById('duo').textContent = `Wrap Type: Duo Wrap`;
+                        viewForm.action = `/viewduowrap/${id}`;
+                    } else {
+                        document.getElementById('duo').textContent = `Wrap Type: Solo Wrap`;
+                        viewForm.action = `/viewwrap/${id}`;
+                    }
                     document.getElementById('deleteId').value = id;
                     document.getElementById('displayId').value = id;
 
-                    // Update the action URL for the "View" form dynamically
-                    const viewForm = document.querySelector('.invites .display').parentNode;
-                    viewForm.action = `/viewwrap/${id}`;
+
 
                     // Show the popup
                     const modal = document.getElementById('popupModal');
@@ -91,6 +99,7 @@
                     <div class="text">
                         <p id="popupTitle">Wrap Date</p>
                         <p id="popupSubTitle">Wrap Duration</p>
+                        <p id="duo"></p>
                         <p>Will you revisit the stars of your past Wrapped or release it to the universe?</p>
                     </div>
                     <div class="buttons">
@@ -111,7 +120,7 @@
             <div class="cards">
                 {% for item in recent %}
                     <div class="card-container"
-                         onclick="showPopup('{{ item.id }}', '{{ item.date }}', '{{ item.duration }}', this)">
+                         onclick="showPopup('{{ item.id }}', '{{ item.date }}', '{{ item.duration }}', this, '{{ item.isDuo }}')">
                         <div class="main-card">
                             <svg viewBox="0 0 200 315" class="card-back"></svg>
                             <div class="card-front">

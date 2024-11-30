@@ -710,17 +710,23 @@ img {
     transition: .6s;
 }
 
-#front8-varlow {
+#front8 {
     background: white url("images/card/card_fronts/the-moon.svg") no-repeat center center;
     background-size: contain;
     transform: rotateY(180deg);
 }
 
-#front8-varhigh {
-    background: white url("images/card/card_fronts/the-sun.svg") no-repeat center center;
-    background-size: contain;
-    transform: rotateY(180deg);
-}
+/*#front8-varlow {*/
+/*    background: white url("images/card/card_fronts/the-moon.svg") no-repeat center center;*/
+/*    background-size: contain;*/
+/*    transform: rotateY(180deg);*/
+/*}*/
+
+/*#front8-varhigh {*/
+/*    background: white url("images/card/card_fronts/the-sun.svg") no-repeat center center;*/
+/*    background-size: contain;*/
+/*    transform: rotateY(180deg);*/
+/*}*/
 
 .card8 .info {
     position: absolute;
@@ -738,8 +744,8 @@ img {
     border-radius: 4px;
 }
 
-.card8.clicked:hover .info .varhigh {}
-.card8.clicked:hover .info .varlow {}
+.card8.clicked:hover .info{}
+
 
 .card8.details {
     display: flex;
@@ -751,4 +757,30 @@ img {
 #back8 {
     background: url("images/card/card_backs/back8.svg") no-repeat center center;
     background-size: contain;
+}
+
+.summary-button-container {
+    display: none;
+    position: fixed;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 1s ease, z-index 1s ease;
+}
+
+.summary-button {
+    color: white;
+    padding: 20px;
+    border-radius: 32px;
+    border: 1px white solid;
+    text-decoration: none;
+    transition: 0.5s;
+    position: relative;
+}
+
+.summary-button:hover {
+    box-shadow: 0 3px 50px #8b8df8;
+    border: 1px #8b8df8 solid;
+    color: #8b8df8;
+    letter-spacing: 0.1em;
 }

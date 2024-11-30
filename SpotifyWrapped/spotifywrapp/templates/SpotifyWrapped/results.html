@@ -99,11 +99,12 @@
         <div class="card-front" id="front5">
             <div class="info fade varlow" id="info5-varlow">
                 <div class="scenario">
-                    <p>Your music drifts in cosmic dust, where a lone comet passes by, playing gentle and introspective
-                        rhythm filling your journey with a familiar and comforting emptiness. These tracks are for
-                        solitary star gazing as you float through universe.</p>
-                    <p>Your average danceability: {{ wrap.wrap1.danceability }}%.</p>
-                    {% for track in wrap.wrap1.bot3danceability %}
+                    <p>Your music echoes like a timeless signal from the past, traveling through the decades to reach
+                        you. These tracks carry the charm of classic melodies, resonating with a nostalgic gravity that
+                        pulls you into the roots of exploration. It’s a symphony of history, where every note is
+                        steeped in stories of a bygone era.</p>
+                    <p>Most of your songs are from the 20th century or before.</p>
+                    {% for track in wrap.wrap1.track_oldie %}
                         <div class="details">
                             <img src="{{ track.image }}" width="33" height="33">
                             <div class="bullet">
@@ -120,12 +121,13 @@
             </div>
             <div class="info fade varhigh" id="info5-varhigh">
                 <div class="scenario">
-                    <p>Your music bursts like supernovas, with each burst creating vibrant and groovy beats that
-                        make you lose yourself in a cosmic dance. These tracks are for playfully jumping around through
-                        different constellations and showing off your sparkle.</p>
-                    <p>Your average danceability: {{ wrap.wrap1.danceability }}%.</p>
+                    <p>Your playlist feels like a rocket launch into the future, filled with the vibrant energy of
+                        modern creativity. These tracks are bold and fresh, propelled by innovative beats and
+                        cutting-edge sounds. They reflect the pulse of a dynamic era where music reinvents itself
+                        endlessly.</p>
+                    <p>Most of your songs are from the 21st century.</p>
                 </div>
-                {% for track in wrap.wrap1.top3danceability %}
+                {% for track in wrap.wrap1.track_modern %}
                     <div class="details">
                         <img src="{{ track.image }}" width="33" height="33">
                         <div class="bullet">
@@ -141,25 +143,26 @@
             </div>
         </div>
         <script>
-            const danceability = {{ wrap.wrap1.danceability }};
+            const oldie = {{ wrap.wrap1.count1900 }};
+            const modern = {{ wrap.wrap1.count2000 }};
 
-            function addDanceabilityId() {
+            function addHistoryId() {
                 const element = document.getElementById('front5');
 
-                if (danceability < 50) {
+                if (oldie > modern) {
                     element.id = "front5-varlow";
                 } else {
                     element.id = "front5-varhigh";
                 }
             }
 
-            function setupDanceabilityInfo() {
+            function setupHistoryInfo() {
                 const card = document.querySelector(".card5");
                 const lowInfo = document.getElementById("info5-varlow");
                 const highInfo = document.getElementById("info5-varhigh");
 
                 card.addEventListener("mouseenter", () => {
-                    if (danceability < 50) {
+                    if (oldie > modern) {
                         lowInfo.style.display = "flex";
                         highInfo.style.display = "none";
                     } else {
@@ -174,8 +177,8 @@
                 });
             }
 
-            document.addEventListener("DOMContentLoaded", addDanceabilityId);
-            document.addEventListener("DOMContentLoaded", setupDanceabilityInfo);
+            document.addEventListener("DOMContentLoaded", addHistoryId);
+            document.addEventListener("DOMContentLoaded", setupHistoryInfo);
         </script>
     </div>
 
@@ -184,11 +187,11 @@
         <div class="card-front" id="front6">
             <div class="info fade varlow" id="info6-varlow">
                 <div class="scenario">
-                    <p>Your music gently orbits at its own slow, deliberate pace, emitting a soft glow like distant
-                        stars, filling your space with a sense of peace. These tracks are for quiet moments, creating a
-                        reflective atmosphere that keeps you grounded amidst the stars.</p>
-                    <p>Your average energy: {{ wrap.wrap1.energy }}%.</p>
-                    {% for track in wrap.wrap1.bot3energy %}
+                    <p>Your music feels like a journey through the vastness of space, where every track stretches across
+                        galaxies, inviting you to explore uncharted soundscapes. These tracks give you the
+                        time to lose yourself in cosmic wanderings and savor the intricate stories each note tells.</p>
+                    <p>Your average song length: {{ wrap.wrap1.avgSongLength }} seconds.</p>
+                    {% for track in wrap.wrap1.bot_length %}
                         <div class="details">
                             <img src="{{ track.image }}" width="33" height="33">
                             <div class="bullet">
@@ -205,12 +208,13 @@
             </div>
             <div class="info fade varhigh" id="info6-varhigh">
                 <div class="scenario">
-                    <p>Your music roars through space, pulsating with restless energy and fueling an unstoppable journey
-                        forward. These tracks are filled with cosmic adrenaline and vibrant determination, pushing you
-                        beyond the known universe.</p>
-                    <p>Your average energy: {{ wrap.wrap1.energy }}%.</p>
+                    <p>Your music is a series of shooting stars, brief yet brilliant, streaking across the night sky.
+                        Each track is a concentrated burst of energy, delivering impactful moments that leave you eager
+                        for the next spark. These tracks bring their magic in quick, radiant
+                        bursts.</p>
+                    <p>Your average song length: {{ wrap.wrap1.avgSongLength }} seconds.</p>
                 </div>
-                {% for track in wrap.wrap1.top3energy %}
+                {% for track in wrap.wrap1.top_length %}
                     <div class="details">
                         <img src="{{ track.image }}" width="33" height="33">
                         <div class="bullet">
@@ -226,25 +230,25 @@
             </div>
         </div>
         <script>
-            const energy = {{ wrap.wrap1.energy }};
+            const duration = {{ wrap.wrap1.avgSongLength }};
 
-            function addEnergyId() {
+            function addDurationId() {
                 const element = document.getElementById('front6');
 
-                if (energy < 50) {
+                if (duration < 195) {
                     element.id = "front6-varlow";
                 } else {
                     element.id = "front6-varhigh";
                 }
             }
 
-            function setupEnergyInfo() {
+            function setupDurationInfo() {
                 const card = document.querySelector(".card6");
                 const lowInfo = document.getElementById("info6-varlow");
                 const highInfo = document.getElementById("info6-varhigh");
 
                 card.addEventListener("mouseenter", () => {
-                    if (energy < 50) {
+                    if (duration < 50) {
                         lowInfo.style.display = "flex";
                         highInfo.style.display = "none";
                     } else {
@@ -259,8 +263,8 @@
                 });
             }
 
-            document.addEventListener("DOMContentLoaded", addEnergyId);
-            document.addEventListener("DOMContentLoaded", setupEnergyInfo);
+            document.addEventListener("DOMContentLoaded", addDurationId);
+            document.addEventListener("DOMContentLoaded", setupDurationInfo);
         </script>
     </div>
 
@@ -354,11 +358,12 @@
         <div class="card-front" id="front8">
             <div class="info fade varlow" id="info8-varlow">
                 <div class="scenario">
-                    <p>Your music drifts in the shadows, embracing the dark of side of each celestial body like the veil
-                        of night. These tracks are like a haunting echo, painting a soundscape of quiet allure and
-                        melancholy that helps you find companionship with the void.</p>
-                    <p>Your average positivity: {{ wrap.wrap1.valence }}%.</p>
-                    {% for track in wrap.wrap1.bot3valence %}
+                    <p>Your music orbits with a serene yet captivating elegance, painting a tranquil starfield,
+                        offering safe harbors in the vastness of sound. These tracks steer clear of debris fields,
+                        allowing you to drift peacefully through a galaxy of harmony without turbulence and finding
+                        power in restraint, embodying a calm and balanced universe.</p>
+                    <p>You've listen to explicit songs less.</p>
+                    {% for track in wrap.wrap1.top3tracks %}
                         <div class="details">
                             <img src="{{ track.image }}" width="33" height="33">
                             <div class="bullet">
@@ -375,12 +380,13 @@
             </div>
             <div class="info fade varhigh" id="info8-varhigh">
                 <div class="scenario">
-                    <p>Your music blazes solar flares, erupting with a vibrant horizon of golden waves and illuminating
-                        the darkest corners with warmth. These tracks remind you of the beauty in everything, that even
-                        in dark space, light and joy can thrive.</p>
-                    <p>Your average positivity: {{ wrap.wrap1.valence }}%.</p>
+                    <p>Your music creates meteor storms, unapologetically bold and charged with intensity, like an
+                        unfiltered cosmic explosion, inviting you to embrace the thrill of the raw and untamed. These
+                        tracks are fiery and daring, refusing to hold back, creating a sense of danger that electrifies
+                        the atmosphere. </p>
+                    <p>You listen to explicit songs more.</p>
                 </div>
-                {% for track in wrap.wrap1.top3valence %}
+                {% for track in wrap.wrap1.track_explicit %}
                     <div class="details">
                         <img src="{{ track.image }}" width="33" height="33">
                         <div class="bullet">
@@ -396,25 +402,25 @@
             </div>
         </div>
         <script>
-            const valence = {{ wrap.wrap1.valence }};
+            const explicit = {{ wrap.wrap1.explicitPercent }};
 
-            function addValenceId() {
+            function addExplicitId() {
                 const element = document.getElementById('front8');
 
-                if (valence < 50) {
+                if (explicit < 50) {
                     element.id = "front8-varlow";
                 } else {
                     element.id = "front8-varhigh";
                 }
             }
 
-            function setupValenceInfo() {
+            function setupExplicitInfo() {
                 const card = document.querySelector(".card8");
                 const lowInfo = document.getElementById("info8-varlow");
                 const highInfo = document.getElementById("info8-varhigh");
 
                 card.addEventListener("mouseenter", () => {
-                    if (valence < 50) {
+                    if (explicit < 50) {
                         lowInfo.style.display = "flex";
                         highInfo.style.display = "none";
                     } else {
@@ -429,8 +435,8 @@
                 });
             }
 
-            document.addEventListener("DOMContentLoaded", addValenceId);
-            document.addEventListener("DOMContentLoaded", setupValenceInfo);
+            document.addEventListener("DOMContentLoaded", addExplicitId);
+            document.addEventListener("DOMContentLoaded", setupExplicitInfo);
         </script>
     </div>
 

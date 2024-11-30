@@ -1,5 +1,6 @@
 import os
 from random import randint
+import math
 
 import requests
 from .forms import CreateInvite, SignUpForm
@@ -207,6 +208,9 @@ def duo_wrap(request):
     sortedArray = recentWraps(request.user.username)
     return render(request, 'duo_results.html', context={'wrap': sortedArray[0]})
 
+def duointermediate(request):
+    return render(request, 'duointermediate.html')
+
 def duo_results(request):
     if not request.user.is_authenticated:
         return redirect('startscreen')
@@ -253,6 +257,30 @@ def duo_results(request):
         # shared_energy = (wrapData1['energy'] + wrapData2['energy'])/2
         # shared_valence = (wrapData1['valence'] + wrapData2['valence'])/2
         shared_popularity = (wrapData1['popularity'] + wrapData2['popularity']) / 2
+        shared_duration = (wrapData1['avgSongLength'] + wrapData2['avgSongLength']) / 2
+
+
+        popularity_compat = math.ceil(100 * (1- (abs(wrapData1['popularity'] - wrapData2['popularity']))/max(wrapData1['popularity'],wrapData2['popularity'])))
+
+        if (len(wrapData1['top_tracks']) == 0 or len(wrapData2['top_tracks']) == 0):
+            era_compat = 0
+        else:
+            p1_20_prop = wrapData1['count1900']/len(wrapData1['top_tracks'])
+            p1_21_prop = wrapData1['count2000'] / len(wrapData1['top_tracks'])
+            p2_20_prop = wrapData2['count1900'] / len(wrapData2['top_tracks'])
+            p2_21_prop = wrapData2['count2000'] / len(wrapData2['top_tracks'])
+            distance = math.sqrt((p1_20_prop - p2_20_prop) ** 2 + (p1_21_prop - p2_21_prop) ** 2)
+            era_compat = math.ceil(100 * (1 - (distance/math.sqrt(2))))
+
+        duration_compat = math.ceil(100 * (1- (abs(wrapData1['avgSongLength'] - wrapData2['avgSongLength']))/max(wrapData1['avgSongLength'],wrapData2['avgSongLength'])))
+        explicit_compat = math.ceil(100 * (1- (abs(wrapData1['explicitPercent'] - wrapData2['explicitPercent']))/max(wrapData1['explicitPercent'],wrapData2['explicitPercent'])))
+        shared_track_bonus = len(shared_tracks) * 5
+        shared_artist_bonus = len(shared_artists) * 5
+        shared_genres_bonus = len(shared_genres) * 5
+        compatibility = (popularity_compat + era_compat + duration_compat + explicit_compat)/4
+        extra = math.ceil(compatibility + shared_genres_bonus + shared_artist_bonus + shared_track_bonus)
+        final_compat = 100 if extra > 100 else extra
+
         data = {
             'top_artists': shared_artists,
             'top_genres': shared_genres,
@@ -266,6 +294,13 @@ def duo_results(request):
             # 'danceability': shared_danceability,
             # 'energy': shared_energy,
             # 'valence': shared_valence
+            'duration': shared_duration,
+            'popularity_compat': popularity_compat,
+            'era_compat': era_compat,
+            'duration_compat': duration_compat,
+            'explicit_compat': explicit_compat,
+            'compatibility': final_compat,
+
         }
         invites.objects.filter(id=invite).delete()
         randInt = randint(0, 13)
@@ -280,8 +315,20 @@ def duo_results(request):
                 randInt = randint(0, 13)
         wrap = wraps.objects.create(wrap1=wrapData1, wrap2=wrapData2, duowrap=data, isDuo=True, user1=fromUser, user2=request.user.username, duration=timedict[time], imageNum = randInt, image = imageList[randInt])
         wrap.save()
-        return redirect('duo_wrap')
-    return redirect('duo_wrap')
+        return redirect('duointermediate')
+    return redirect('duointermediate')
+
+def duosummary(request, id):
+    wrap = wraps.objects.get(id=id)
+    return render(request, 'duosummary.html', context={'wrap' : wrap})
+
+def duo_summary_intermediate(request, id):
+    wrap = wraps.objects.get(id=id)
+    return render(request, 'duo_summary_intermediate.html', context={'wrap' : wrap})
+
+def viewduowrap(request, id):
+    wrap = wraps.objects.get(id=id)
+    return render(request, 'viewduowrap.html', context={'wrap' : wrap})
 
 def getUserToken(username):
     return getSpotifyUser(username).getspotifytoken()
@@ -500,7 +547,7 @@ def getSoloWrap(request, username, time, limit=50):
         'count2000': count2000,
         'avgSongLength': songLength,
         'explicitPercent': explicitCount,
-        'track_explicit': track_explicit,
+        'track_explicit': track_explicit[:3],
         'track_modern': track_modern[:3],
         'track_oldie': track_oldie[:3],
         'top_length': top_length[:3],
