@@ -70,12 +70,10 @@ def about_us(request):
     if request.method == 'POST':
         subject = 'Contact Us'
         email = request.POST.get('message')
-        send_mail(subject, email, 'spotifywrapped19@gmail.com', ['noreply.ethank@gmail.com'], fail_silently=False)
+        message = email + ' ' + request.user.email
+        send_mail(subject, message, 'spotifywrapped19@gmail.com', ['noreply.ethank@gmail.com'], fail_silently=False)
         return redirect('about_us')
     return render(request, 'about_us.html')
-
-
-
 
 def userlogin(request):
     if request.user.is_authenticated:
