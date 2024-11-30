@@ -11,7 +11,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from dotenv import load_dotenv
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 
 from .models import SpotifyUser, wraps, invites, Friends
 from django.core.mail import send_mail, BadHeaderError
@@ -177,32 +177,35 @@ def duo_wrap(request):
     if not request.user.is_authenticated:
         return redirect('login')
     sortedArray = recentWraps(request.user.username)
-    if request.method == 'POST':
-        return render(request, 'duo_results.html', context={'wrap': sortedArray[0]})
-    else:
-        return redirect('home')
+    referer = request.META.get('HTTP_REFERER', '')
+    if not referer or "duointermediate" not in referer:
+        return HttpResponseForbidden("You can't access this page directly.")
+    return render(request, 'duo_results.html', context={'wrap': sortedArray[0]})
 
 def duointermediate(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    if request.method == 'POST':
-        return render(request, 'duointermediate.html')
-    else:
-        return redirect('home')
+    referer = request.META.get('HTTP_REFERER', '')
+    if not referer or "profile" not in referer:
+        return HttpResponseForbidden("You can't access this page directly.")
+    return render(request, 'duointermediate.html')
 
 def resultsintermediate(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    if request.method == 'POST':
-        return render(request, 'resultsintermediate.html')
-    else:
-        return redirect('home')
+    referer = request.META.get('HTTP_REFERER', '')
+    if not referer or "select-date" not in referer:
+        return HttpResponseForbidden("You can't access this page directly.")
+    return render(request, 'resultsintermediate.html')
 
 def results(request):
     if not request.user.is_authenticated:
         return redirect('login')
     sortedArray = recentWraps(request.user.username)
-    if (len(sortedArray) > 0) and request.method == 'POST':
+    referer = request.META.get('HTTP_REFERER', '')
+    if not referer or "resultsintermediate" not in referer:
+        return HttpResponseForbidden("You can't access this page directly.")
+    if (len(sortedArray) > 0):
         return render(request, 'results.html', context={'wrap': sortedArray[0]})
     else:
         return redirect('home')
@@ -399,19 +402,19 @@ def summary(request, id):
     if not request.user.is_authenticated:
         return redirect('login')
     wrap = wraps.objects.get(id=id)
-    if request.method == 'POST':
-        return render(request, 'summary.html', context={'wrap' : wrap})
-    else:
-        return redirect('home')
+    referer = request.META.get('HTTP_REFERER', '')
+    if not referer or "/results/" not in referer:
+        return HttpResponseForbidden("You can't access this page directly.")
+    return render(request, 'summary.html', context={'wrap' : wrap})
 
 def summaryintermediate(request, id):
     if not request.user.is_authenticated:
         return redirect('login')
     wrap = wraps.objects.get(id=id)
-    if request.method == 'POST':
-        return render(request, 'summaryintermediate.html', context={'wrap' : wrap})
-    else:
-        return redirect('home')
+    referer = request.META.get('HTTP_REFERER', '')
+    if not referer or "/results/" not in referer:
+        return HttpResponseForbidden("You can't access this page directly.")
+    return render(request, 'summaryintermediate.html', context={'wrap' : wrap})
 
 def viewwrap(request, id):
     wrap = wraps.objects.get(id=id)
@@ -421,19 +424,19 @@ def duosummary(request, id):
     if not request.user.is_authenticated:
         return redirect('login')
     wrap = wraps.objects.get(id=id)
-    if request.method == 'POST':
-        return render(request, 'duosummary.html', context={'wrap' : wrap})
-    else:
-        return redirect('home')
+    referer = request.META.get('HTTP_REFERER', '')
+    if not referer or "/duo-results/" not in referer:
+        return HttpResponseForbidden("You can't access this page directly.")
+    return render(request, 'duosummary.html', context={'wrap' : wrap})
 
 def duo_summary_intermediate(request, id):
     if not request.user.is_authenticated:
         return redirect('login')
     wrap = wraps.objects.get(id=id)
-    if request.method == 'POST':
-        return render(request, 'duo_summary_intermediate.html', context={'wrap' : wrap})
-    else:
-        return redirect('home')
+    referer = request.META.get('HTTP_REFERER', '')
+    if not referer or "/duo-results/" not in referer:
+        return HttpResponseForbidden("You can't access this page directly.")
+    return render(request, 'duo_summary_intermediate.html', context={'wrap' : wrap})
 
 def viewduowrap(request, id):
     wrap = wraps.objects.get(id=id)
