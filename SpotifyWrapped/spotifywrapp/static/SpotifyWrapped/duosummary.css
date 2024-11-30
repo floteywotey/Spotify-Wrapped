@@ -1,0 +1,314 @@
+/*custom fonts: Kaisei Tokumin, Kalnia, Sahitya, Linden Hill*/
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Linden+Hill:ital@0;1&family=Sahitya:wght@400;700&display=swap');
+
+* {
+    font-family: Sahitya, serif;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body {
+    position: relative;
+    background: black;
+    background-size: cover;
+    color: white;
+    overflow: hidden;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+}
+
+.home-button {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    margin-right: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-button .close-icon {
+    position: relative;
+    width: 40px;
+    height: 40px;
+}
+
+.home-button .close-icon::before,
+.home-button .close-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 2px;
+    background-color: white;
+    transform-origin: center;
+    transform: translate(-50%, -50%) rotate(45deg);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.home-button .close-icon::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.home-button:hover .close-icon::before,
+.home-button:hover .close-icon::after {
+    background: #8b8df8;
+}
+
+.home-button:hover .close-icon::before {
+    transform: translate(-50%, -50%) rotate(225deg);
+}
+
+.home-button:hover .close-icon::after {
+    transform: translate(-50%, -50%) rotate(135deg);
+}
+
+/* Smooth Glow */
+.card.glow {
+    animation: pulsate 2s infinite ease-in-out; /* Pulsating glow */
+}
+
+@keyframes pulsate {
+    0% {
+        box-shadow: 0 0 10px 5px rgba(128, 0, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 40px 20px rgba(128, 0, 255, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 10px 5px rgba(128, 0, 255, 0.3);
+    }
+}
+
+/* Base Card Styles */
+.card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 399px;
+    height: 630px;
+    background: black;
+    border-radius: 12px;
+    transform-style: preserve-3d;
+    transition: transform 1s ease-in-out;
+    overflow: hidden;
+}
+
+/* Layers */
+.card-back,
+.card-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+    transform: rotateY(0deg);
+}
+
+/* `#old` (Initial state) */
+#old {
+    background: black url("images/card/card_backs/back1.svg") no-repeat;
+    z-index: 3;
+    transition: transform 1s ease-in-out;
+}
+
+/* `#new` (Hidden initially) */
+#new {
+    background: black url("images/card/card_backs/back.svg") no-repeat;
+    transform: rotateY(180deg); /* Hidden */
+    z-index: 2;
+    transition: transform 1s ease-in-out;
+}
+
+/* `card-front` (Hidden initially) */
+.card-front {
+    background: black url("images/card/card_fronts/unionStars-dark.svg") no-repeat;
+    transform: rotateY(180deg); /* Hidden */
+    z-index: 1;
+    transition: transform 1s ease-in-out;
+}
+
+/* Flip States */
+.card.flip-to-new #old {
+    transform: rotateY(180deg); /* Flip out */
+    transition: transform 1s ease-in-out;
+}
+
+.card.flip-to-new #new {
+    transform: rotateY(0deg); /* Flip in */
+    transition: transform 1s ease-in-out;
+}
+
+.card.flip-to-front #new {
+    transform: rotateY(180deg); /* Flip out */
+    transition: transform 1s ease-in-out;
+}
+
+.card.flip-to-front .card-front {
+    transform: rotateY(0); /* Flip in */
+    transition: transform 1s ease-in-out;
+}
+
+.fade {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.card-front:hover .info {
+    display: flex;
+}
+
+.card-front .info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #24222BEE;
+    color: white;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    border-radius: 12px;
+    flex-direction: column;
+    padding-top: 30px;
+    gap: 5px;
+}
+
+.moons {
+    background: url("images/decorations/duo-moons.svg") center center no-repeat;
+    background-size: contain;
+    display: flex;
+    width: 90%;
+    height: 10%;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.label h3 {
+    font-size: 200%;
+    text-align: center;
+}
+.label p {
+    text-align: center;
+}
+.compat {
+    font-size: 150%;
+    margin-bottom: 15px;
+}
+.details {
+    display: flex;
+    width: 100%;
+    gap: 1px;
+}
+
+.details .right {
+    margin-left: 10px;
+    width: 50%;
+    top: 40%;
+}
+
+.details .left {
+    margin-left: 10px;
+    width: 50%;
+}
+
+.details .left .title {
+    margin: 7px 15px 0;
+    padding: 0;
+    font-size: 18px;
+    width: 100%;
+}
+
+.details .right .title {
+    margin: 7px 0 0;
+    padding: 0;
+    font-size: 18px;
+    width: 100%;
+}
+
+.details .left ol {
+    margin: 0 30px;
+    padding: 0;
+    width: 100%;
+}
+
+.details .right ol {
+    margin: 0 16px;
+    padding: 0;
+    width: 100%;
+}
+
+.details li {
+    font-size: 16px;
+    padding: 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 80%;
+    align-items: center;
+}
+
+.finished-button-container {
+    display: none;
+    position: fixed;
+    top: 95%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 1s ease, z-index 1s ease;
+}
+
+.finished-button-container.show {
+    display: flex;
+    opacity: 1;
+    z-index: 10;
+}
+
+.finished-button {
+    color: white;
+    padding: 20px;
+    border-radius: 32px;
+    border: 1px white solid;
+    text-decoration: none;
+    transition: 0.5s;
+    position: relative;
+}
+
+.finished-button:hover {
+    box-shadow: 0 3px 50px #8b8df8;
+    border: 1px #8b8df8 solid;
+    color: #8b8df8;
+    letter-spacing: 0.1em;
+}

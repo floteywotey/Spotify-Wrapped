@@ -1,0 +1,179 @@
+/* General Styling */
+body {
+    margin: 0;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+.animation-container {
+    position: relative;
+    width: 600px;
+    height: 600px;
+}
+
+.moon {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  left: 45%;
+  background-color: #fff;
+  transform: translateZ(0);
+  transition: all 2s ease-in-out; /* Smooth transition for appearance change */
+}
+
+/* Initial Disc Shadow and Rotation */
+.disc {
+  transform-style: preserve-3d;
+  width: 100%;
+  height: 100%;
+  animation: rotate 4s linear infinite;
+
+  &::before,
+  &::after {
+    content: " ";
+    display: block;
+    transform-style: preserve-3d;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transition: transform 4s;
+    position: absolute;
+    backface-visibility: hidden;
+  }
+
+  &::before {
+    background-color: black;
+  }
+
+  &::after {
+    background-color: #fff;
+    transform: rotateY(180deg);
+  }
+}
+
+/* Moon Shadow Flip Animation */
+.moon::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: black;
+  width: 50%;
+  height: 100%;
+  animation: flip 2s 1s steps(2) infinite alternate;
+}
+/* Paused State */
+.moon.paused::before {
+  animation: none; /* Stops the shadow flip animation */
+  left: 50%; /* Fix the shadow in the center for a half-moon appearance */
+}
+
+.paused {
+  animation-play-state: paused; /* Stop rotation */
+}
+
+.half-moon {
+  background-color: #ffffff; /* Bright moon color */
+    box-shadow: 0 0 50px 20px rgba(255, 255, 255, 0.8); /* Glowing effect */
+  transform: scale(1.2); /* Slightly increase the size for emphasis */
+  transition: all 2s ease-in-out; /* Smooth transition */
+}
+
+@keyframes rotate {
+  0%   { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+@keyframes flip {
+  0%   { left: 0; }
+  100% { left: 100%; }
+}
+
+/* Decks */
+.deck {
+    position: absolute;
+    width: 240px;
+    height: 360px;
+    background: black url("images/card/card_backs/back8.svg") no-repeat fixed;
+    background-size: contain;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.deck-left {
+    top: 50%;
+    left: 20%;
+    transform: translateY(-50%);
+    animation: orbit-left 5s ease-in-out forwards;
+}
+
+.deck-right {
+    top: 50%;
+    right: 20%;
+    transform: translateY(-50%);
+    animation: orbit-right 5s ease-in-out forwards;
+}
+
+
+/* Animations */
+@keyframes orbit-left {
+    0% {
+        transform: translate(-200px, -50%) rotate(0deg); /* Far left */
+    }
+    50% {
+        transform: translate(0, -200px) rotate(180deg); /* Above the moon */
+    }
+    100% {
+        transform: translate(-50px, -50%) rotate(360deg); /* Final position near the moon */
+    }
+}
+
+@keyframes orbit-right {
+    0% {
+        transform: translate(200px, -50%) rotate(0deg); /* Far right */
+    }
+    50% {
+        transform: translate(0, 200px) rotate(-180deg); /* Below the moon */
+    }
+    100% {
+        transform: translate(50px, -50%) rotate(-360deg); /* Final position near the moon */
+    }
+}
+
+
+@keyframes combine-left {
+    0% {
+        transform: translate(-50px, -50%); /* Matches final orbit position */
+    }
+    100% {
+        transform: translate(0, -50%); /* Move horizontally to the center */
+    }
+}
+
+@keyframes combine-right {
+    0% {
+        transform: translate(50px, -50%); /* Matches final orbit position */
+    }
+    100% {
+        transform: translate(0, -50%); /* Move horizontally to the center */
+    }
+}
+
+
+.deck-left {
+    animation: orbit-left 5s ease-in-out forwards;
+}
+
+.deck-right {
+    animation: orbit-right 5s ease-in-out forwards;
+}
+

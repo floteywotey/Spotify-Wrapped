@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Spotify Tarot Reading - Intermediate</title>
+    <title>Your Wrapped</title>
     <link rel="stylesheet" href="{% static 'SpotifyWrapped/resultsintermediate.css' %}">
 </head>
 <body style="background: black">
@@ -26,15 +26,18 @@
     const cards = document.querySelectorAll(".card");
     const fadeOverlay = document.getElementById("fadeOverlay");
     const finalPositions = [
-            { x: -300, y: -150, rotate: -15 },
-            { x: -150, y: -150, rotate: -10 },
-            { x: 0, y: -150, rotate: -5 },
-            { x: 150, y: -150, rotate: 0 },
-            { x: -300, y: 100, rotate: 5 },
-            { x: -150, y: 100, rotate: 10 },
-            { x: 0, y: 100, rotate: 15 },
-            { x: 150, y: 100, rotate: 20 },
+            { top: "calc(10vh + 5vh)", left: "calc(15vw)" },
+            { top: "calc(10vh + 5vh)", left: "calc(24vw)" },
+            { top: "calc(10vh + 5vh)", left: "calc(33vw)" },
+            { top: "calc(10vh + 5vh)", left: "calc(42vw)" },
+            { top: "calc(10vh + 5vh)", left: "calc(51vw)" },
+            { top: "calc(10vh + 5vh)", left: "calc(60vw)" },
+            { top: "calc(10vh + 5vh)", left: "calc(69vw)" },
+            { top: "calc(10vh + 5vh)", left: "calc(78vw)" }
         ];
+
+    const centerX = window.innerWidth / 2 - 75;
+    const centerY = window.innerHeight / 2 - 100;
 
     const shuffleCards = () => {
             cards.forEach((card) => {
@@ -53,8 +56,10 @@
 
     const layoutCards = () => {
             cards.forEach((card, index) => {
-                const { x, y, rotate } = finalPositions[index];
-                card.style.transform = `translate(${x}px, ${y}px) rotate(${rotate}deg)`;
+                const { top, left } = finalPositions[index];
+                card.style.position = "absolute";
+                card.style.transition = "transform 1s ease-in-out";
+                card.style.transform = `translate(calc(${left} - ${centerX}px), calc(${top} - ${centerY}px)) scale(0.33)`;
             });
         };
 

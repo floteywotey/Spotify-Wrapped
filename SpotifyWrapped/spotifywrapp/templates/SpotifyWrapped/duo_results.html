@@ -1,0 +1,1060 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Duo Wrapped</title>
+    <link rel="stylesheet" href="{% static 'SpotifyWrapped/duo_results.css' %}">
+</head>
+<body>
+<div class="header">
+    <form class="home" action="{% url 'home' %}" method="post">
+        {% csrf_token %}
+        <button class="home-button" aria-label="Home" title="Home">
+            <span class="close-icon"></span>
+        </button>
+    </form>
+</div>
+
+<div class="cards">
+    <!-- Card 1 -->
+    <div class="card1" id="card1">
+        <!-- Card Back -->
+        <div class="card-back" id="back1"></div>
+        <!-- Card Front -->
+        <div class="card-front" id="front1">
+            <!-- Info for shared tracks -->
+            <div class="info fade" id="info1">
+                <div class="scenario">
+                    <p>The cards reveal harmony—your musical fates are entwined! Together, you've found a shared rhythm in the stars.</p>
+                </div>
+                {% for track in wrap.duowrap.top_tracks|slice:":3" %}
+                <div class="details">
+                    <img src="{{ track.image }}" height="33" width="33" alt="{{ track.name }}">
+                    <div class="bullet">
+                        <img class="fbullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px" alt="Bullet Point">
+                    </div>
+                    <div class="text">
+                        <h2>{{ track.name }}</h2>
+                        <h3>{{ track.artists }}</h3>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- Info for no shared tracks -->
+            <div class="info fade" id="info1-none">
+                <div class="scenario">
+                    <p>The cards reveal a curious divergence—your musical fates have yet to intertwine. Explore new paths, and perhaps the stars will align for a shared melody.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card2" id="card2">
+        <!-- Card Back -->
+        <div class="card-back" id="back2"></div>
+        <!-- Card Front -->
+        <div class="card-front" id="front2">
+            <!-- Info for shared artists -->
+            <div class="info fade" id="info2">
+                <div class="scenario">
+                    <p>The Wheel of Fortune turns, revealing a shared rhythm between you both. Your love for the same artists is no mere coincidence—it’s a sign of the universe composing a duet meant to be discovered.</p>
+                </div>
+                {% for artist in wrap.duowrap.top_artists|slice:":3" %}
+                <div class="details">
+                    <img src="{{ artist.image }}" height="33" width="33" alt="{{ artist.name }}">
+                    <div class="bullet">
+                        <img class="fbullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px" alt="Bullet Point">
+                    </div>
+                    <div class="text">
+                        <h2>{{ artist.name }}</h2>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- Info for no shared artists -->
+            <div class="info fade" id="info2-none">
+                <div class="scenario">
+                    <p>Like The Lovers reversed, your favorite artists may seem worlds apart. Perhaps your differing sounds are meant to create a duet of discovery, inspiring each other to explore new musical realms.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card3" id="card3">
+        <!-- Card Back -->
+        <div class="card-back" id="back3"></div>
+        <!-- Card Front -->
+        <div class="card-front" id="front3">
+            <!-- Info for shared artists -->
+            <div class="info fade" id="info3">
+                <div class="scenario">
+                    <p>The Alchemist’s essence infuses your shared love for these genres, uncovering a connection as timeless and transformative as the art of alchemy itself. Together, your tastes forge a musical gold.</p>
+                </div>
+                {% for genre in wrap.duowrap.top_genres|slice:":3"%}
+                    <div class="details">
+                        <div class="bullet">
+                            <img class="fbullet-img" data-index="{{ forloop.counter }}" height="10px" width="10px">
+                        </div>
+                        <div class="text">
+                            <h2>{{ genre }}</h2>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- Info for no shared artists -->
+            <div class="info fade" id="info3-none">
+                <div class="scenario">
+                    <p>The Alchemist sees no shared essence in your genres, yet this is where the magic of exploration begins. In your unique tastes lies the potential for new alchemical creations waiting to be discovered together</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="card4" id="card4">
+        <!-- Card Back -->
+        <div class="card-back" id="back4"></div>
+        <!-- Card Front -->
+        <div class="card-front" id="front4">
+            <!-- Info for user1 more -->
+            <div class="info fade" id="info4-user1">
+                <div class="scenario">
+                    <p>The Explorer reveals a tale of two journeys: {{ wrap.user1}} has traversed {{ wrap.wrap1.num_genres }} genres,
+                        while {{ wrap.user2 }} has explored {{ wrap.wrap2.num_genres }}.
+                        Though their paths differ, both bring unique discoveries to their shared musical map.</p>
+                </div>
+            </div>
+            <div class="info fade" id="info4-user2">
+                <div class="scenario">
+                    <p>The Explorer reveals a tale of two journeys: {{ wrap.user2}} has traversed {{ wrap.wrap2.num_genres }} genres,
+                        while {{ wrap.user1 }} has explored {{ wrap.wrap1.num_genres }}.
+                        Though their paths differ, both bring unique discoveries to their shared musical map.</p>
+                </div>
+            </div>
+            <div class="info fade" id="info4-same">
+                <div class="scenario">
+                    <p>The Explorer celebrates your equal adventurous spirits, as both {{ wrap.user1 }} and {{ wrap.user2 }} have explored {{ wrap.wrap1.num_genres }} genres,
+                        weaving a shared tapestry of musical discovery.</p>
+                </div>
+            </div>
+        </div>
+        <script>
+            const user1 = {{ wrap.wrap1.num_genres }};
+            const user2 = {{ wrap.wrap2.num_genres }};
+
+            function setupMoreInfo() {
+                const card = document.querySelector(".card4");
+                const user1Info = document.getElementById("info4-user1");
+                const user2Info = document.getElementById("info4-user2");
+                const sameInfo = document.getElementById("info4-same");
+
+                card.addEventListener("mouseenter", () => {
+                    if (user2 < user1) {
+                        user1Info.style.display = "flex";
+                        user2Info.style.display = "none";
+                        sameInfo.style.display = "none";
+                    } else if (user1 < user2) {
+                        user1Info.style.display = "none";
+                        user2Info.style.display = "flex";
+                        sameInfo.style.display = "none";
+                    }
+                    else {
+                        user1Info.style.display = "none";
+                        user2Info.style.display = "none";
+                        sameInfo.style.display = "flex";
+                    }
+                });
+
+                card.addEventListener("mouseleave", () => {
+                    user1Info.style.display = "none";
+                    user2Info.style.display = "none";
+                    sameInfo.style.display = "none";
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", setupMoreInfo);
+        </script>
+    </div>
+
+
+{#    <!-- Old Card 5 -->#}
+{#    <div class="card5" id="card">#}
+{#        <div class="card-back" id="back5"></div>#}
+{#        <div class="card-front" id="front5">#}
+{#            <div class="info fade varlow" id="info5-varlow">#}
+{#                <div class="scenario">#}
+{#                    <p>The Hermit guides your connection into quieter rhythms, where introspection and stillness take the lead. Your shared musical journey embraces depth over movement, finding beauty in the calm.</p>#}
+{#                    <p>Your average danceability together: {{ wrap.duowrap.danceability }}%.</p>#}
+{#                    {% for track in wrap.wrap1.bot3danceability|slice:":1" %}#}
+{#                        <div class="details">#}
+{#                            <img src="{{ track.image }}" width="33" height="33">#}
+{#                            <div class="bullet">#}
+{#                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"#}
+{#                                     width="10px">#}
+{#                            </div>#}
+{#                            <div class="text">#}
+{#                                <h2>{{ track.name }}</h2>#}
+{#                                <h3>{{ track.artists }}</h3>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                    {% for track in wrap.wrap2.bot3danceability|slice:":1" %}#}
+{#                        <div class="details">#}
+{#                            <img src="{{ track.image }}" width="33" height="33">#}
+{#                            <div class="bullet">#}
+{#                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"#}
+{#                                     width="10px">#}
+{#                            </div>#}
+{#                            <div class="text">#}
+{#                                <h2>{{ track.name }}</h2>#}
+{#                                <h3>{{ track.artists }}</h3>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="info fade varhigh" id="info5-varhigh">#}
+{#                <div class="scenario">#}
+{#                    <p>The Jester takes center stage, spinning joy and rhythm into your connection. Your shared love for danceable tunes reveals a bond that thrives on energy, movement, and celebration.</p>#}
+{#                    <p>Your average danceability together: {{ wrap.duowrap.danceability }}%.</p>#}
+{#                </div>#}
+{#                {% for track in wrap.wrap1.top3danceability|slice:":1"%}#}
+{#                    <div class="details">#}
+{#                        <img src="{{ track.image }}" width="33" height="33">#}
+{#                        <div class="bullet">#}
+{#                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"#}
+{#                                 width="10px">#}
+{#                        </div>#}
+{#                        <div class="text">#}
+{#                            <h2>{{ track.name }}</h2>#}
+{#                            <h3>{{ track.artists }}</h3>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#                {% for track in wrap.wrap2.top3danceability|slice:":1"%}#}
+{#                    <div class="details">#}
+{#                        <img src="{{ track.image }}" width="33" height="33">#}
+{#                        <div class="bullet">#}
+{#                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"#}
+{#                                 width="10px">#}
+{#                        </div>#}
+{#                        <div class="text">#}
+{#                            <h2>{{ track.name }}</h2>#}
+{#                            <h3>{{ track.artists }}</h3>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#        </div>#}
+{#        <script>#}
+{#            const danceability = {{ wrap.duowrap.danceability }};#}
+{##}
+{#            function addDanceabilityId() {#}
+{#                const element = document.getElementById('front5');#}
+{##}
+{#                if (danceability < 50) {#}
+{#                    element.id = "front5-varlow";#}
+{#                } else {#}
+{#                    element.id = "front5-varhigh";#}
+{#                }#}
+{#            }#}
+{##}
+{#            function setupDanceabilityInfo() {#}
+{#                const card = document.querySelector(".card5");#}
+{#                const lowInfo = document.getElementById("info5-varlow");#}
+{#                const highInfo = document.getElementById("info5-varhigh");#}
+{##}
+{#                card.addEventListener("mouseenter", () => {#}
+{#                    if (danceability < 50) {#}
+{#                        lowInfo.style.display = "flex";#}
+{#                        highInfo.style.display = "none";#}
+{#                    } else {#}
+{#                        lowInfo.style.display = "none";#}
+{#                        highInfo.style.display = "flex";#}
+{#                    }#}
+{#                });#}
+{##}
+{#                card.addEventListener("mouseleave", () => {#}
+{#                    lowInfo.style.display = "none";#}
+{#                    highInfo.style.display = "none";#}
+{#                });#}
+{#            }#}
+{##}
+{#            document.addEventListener("DOMContentLoaded", addDanceabilityId);#}
+{#            document.addEventListener("DOMContentLoaded", setupDanceabilityInfo);#}
+{#        </script>#}
+{#    </div>#}
+<!-- New Card 5 -->
+    <div class="card5" id="card5">
+        <div class="card-back" id="back5"></div>
+        <div class="card-front" id="front5">
+            <div class="info fade vardiff" id="info5-vardiff">
+                <div class="scenario">
+                    <p>The Hermit stands beneath a cosmic sky, illuminating paths through different eras.
+                        Your bond is like two stars born in different epochs, drawn together by the gravity of discovery.</p>
+                </div>
+            </div>
+            <div class="info fade varoldie" id="info5-varoldie">
+                <div class="scenario">
+                    <p>The Jester spins through the cosmos, uniting your musical tastes in the same constellation of the 20th century.
+                        Your bond shines like twin stars in the universe of a shared time.</p>
+                </div>
+                {% for track in wrap.wrap1.track_oldie|slice:":1"%}
+                        <div class="details">
+                            <img src="{{ track.image }}" width="33" height="33">
+                            <div class="bullet">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                     width="10px">
+                            </div>
+                            <div class="text">
+                                <h2>{{ track.name }}</h2>
+                                <h3>{{ track.artists }}</h3>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% for track in wrap.wrap2.track_oldie|slice:":1"%}
+                        <div class="details">
+                            <img src="{{ track.image }}" width="33" height="33">
+                            <div class="bullet">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                     width="10px">
+                            </div>
+                            <div class="text">
+                                <h2>{{ track.name }}</h2>
+                                <h3>{{ track.artists }}</h3>
+                            </div>
+                        </div>
+                    {% endfor %}
+            </div>
+            <div class="info fade varnewbie" id="info5-varnewbie">
+                <div class="scenario">
+                    <p>The Jester spins through the cosmos, uniting your musical tastes in the same constellation of the 20th century.
+                        Your bond shines like twin stars in the universe of a shared time.</p>
+                </div>
+                {% for track in wrap.wrap1.track_modern|slice:":1"%}
+                        <div class="details">
+                            <img src="{{ track.image }}" width="33" height="33">
+                            <div class="bullet">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                     width="10px">
+                            </div>
+                            <div class="text">
+                                <h2>{{ track.name }}</h2>
+                                <h3>{{ track.artists }}</h3>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% for track in wrap.wrap2.track_modern|slice:":1"%}
+                        <div class="details">
+                            <img src="{{ track.image }}" width="33" height="33">
+                            <div class="bullet">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                     width="10px">
+                            </div>
+                            <div class="text">
+                                <h2>{{ track.name }}</h2>
+                                <h3>{{ track.artists }}</h3>
+                            </div>
+                        </div>
+                    {% endfor %}
+            </div>
+        </div>
+        <script>
+            let wrap1Era = "newbie";
+            if ({{ wrap.wrap1.count1900 }} > {{ wrap.wrap1.count2000 }}) {
+                wrap1Era = "oldie";
+            }
+            let wrap2Era = "newbie";
+            if ({{ wrap.wrap2.count1900 }} > {{ wrap.wrap2.count2000 }}) {
+                wrap2Era = "oldie";
+            }
+            function addEraId() {
+                const element = document.getElementById('front5');
+
+                if (wrap1Era === wrap2Era) {
+                    element.id = "front5-varhigh";
+                } else {
+                    element.id = "front5-varlow";
+                }
+            }
+
+            function setupEraInfo() {
+                const card = document.querySelector(".card5");
+                const diffInfo = document.getElementById("info5-vardiff");
+                const oldieInfo = document.getElementById("info5-varoldie");
+                const newbieInfo = document.getElementById("info5-varnewbie");
+
+                card.addEventListener("mouseenter", () => {
+                    if (wrap1Era === wrap2Era) {
+                        if (wrap1Era === "oldie") {
+                            oldieInfo.style.display = "flex";
+                            diffInfo.style.display = "none";
+                            newbieInfo.style.display = "none";
+                        } else {
+                            oldieInfo.style.display = "none";
+                            diffInfo.style.display = "none";
+                            newbieInfo.style.display = "flex";
+                        }
+                    } else {
+                        oldieInfo.style.display = "none";
+                        diffInfo.style.display = "flex";
+                        newbieInfo.style.display = "none";
+                    }
+                });
+
+                card.addEventListener("mouseleave", () => {
+                    oldieInfo.style.display = "none";
+                    diffInfo.style.display = "none";
+                    newbieInfo.style.display = "none";
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", addEraId);
+            document.addEventListener("DOMContentLoaded", setupEraInfo);
+        </script>
+    </div>
+
+{#    <!--Old Card 6-->#}
+{#    <div class="card6" id="card">#}
+{#        <div class="card-back" id="back6"></div>#}
+{#        <div class="card-front" id="front6">#}
+{#            <div class="info fade varlow" id="info6-varlow">#}
+{#                <div class="scenario">#}
+{#                    <p>The Sage guides your musical tastes into peaceful alignment, where quiet energy and delicate nuances create a bond rooted in understanding and calm.</p>#}
+{#                    <p>Your average energy together: {{ wrap.duowrap.energy }}%.</p>#}
+{#                    {% for track in wrap.wrap1.bot3energy|slice:":1"%}#}
+{#                        <div class="details">#}
+{#                            <img src="{{ track.image }}" width="33" height="33">#}
+{#                            <div class="bullet">#}
+{#                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"#}
+{#                                     width="10px">#}
+{#                            </div>#}
+{#                            <div class="text">#}
+{#                                <h2>{{ track.name }}</h2>#}
+{#                                <h3>{{ track.artists }}</h3>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                    {% for track in wrap.wrap2.bot3energy|slice:":1"%}#}
+{#                        <div class="details">#}
+{#                            <img src="{{ track.image }}" width="33" height="33">#}
+{#                            <div class="bullet">#}
+{#                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"#}
+{#                                     width="10px">#}
+{#                            </div>#}
+{#                            <div class="text">#}
+{#                                <h2>{{ track.name }}</h2>#}
+{#                                <h3>{{ track.artists }}</h3>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="info fade varhigh" id="info6-varhigh">#}
+{#                <div class="scenario">#}
+{#                    <p>The Chariot charges forward, fueled by your shared high-energy tracks. Your connection thrives on intensity, momentum, and a drive that pushes boundaries with every beat.</p>#}
+{#                    <p>Your average energy together: {{ wrap.duowrap.energy }}%.</p>#}
+{#                </div>#}
+{#                {% for track in wrap.wrap1.top3energy|slice:":1"%}#}
+{#                    <div class="details">#}
+{#                        <img src="{{ track.image }}" width="33" height="33">#}
+{#                        <div class="bullet">#}
+{#                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"#}
+{#                                 width="10px">#}
+{#                        </div>#}
+{#                        <div class="text">#}
+{#                            <h2>{{ track.name }}</h2>#}
+{#                            <h3>{{ track.artists }}</h3>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#                {% for track in wrap.wrap2.top3energy|slice:":1"%}#}
+{#                    <div class="details">#}
+{#                        <img src="{{ track.image }}" width="33" height="33">#}
+{#                        <div class="bullet">#}
+{#                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"#}
+{#                                 width="10px">#}
+{#                        </div>#}
+{#                        <div class="text">#}
+{#                            <h2>{{ track.name }}</h2>#}
+{#                            <h3>{{ track.artists }}</h3>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#        </div>#}
+{#        <script>#}
+{#            const energy = {{ wrap.duowrap.energy }};#}
+{##}
+{#            function addEnergyId() {#}
+{#                const element = document.getElementById('front6');#}
+{##}
+{#                if (energy < 50) {#}
+{#                    element.id = "front6-varlow";#}
+{#                } else {#}
+{#                    element.id = "front6-varhigh";#}
+{#                }#}
+{#            }#}
+{##}
+{#            function setupEnergyInfo() {#}
+{#                const card = document.querySelector(".card6");#}
+{#                const lowInfo = document.getElementById("info6-varlow");#}
+{#                const highInfo = document.getElementById("info6-varhigh");#}
+{##}
+{#                card.addEventListener("mouseenter", () => {#}
+{#                    if (energy < 50) {#}
+{#                        lowInfo.style.display = "flex";#}
+{#                        highInfo.style.display = "none";#}
+{#                    } else {#}
+{#                        lowInfo.style.display = "none";#}
+{#                        highInfo.style.display = "flex";#}
+{#                    }#}
+{#                });#}
+{##}
+{#                card.addEventListener("mouseleave", () => {#}
+{#                    lowInfo.style.display = "none";#}
+{#                    highInfo.style.display = "none";#}
+{#                });#}
+{#            }#}
+{##}
+{#            document.addEventListener("DOMContentLoaded", addEnergyId);#}
+{#            document.addEventListener("DOMContentLoaded", setupEnergyInfo);#}
+{#        </script>#}
+{#    </div>#}
+
+    <!--New Card 6-->
+    <div class="card6" id="card6">
+        <div class="card-back" id="back6"></div>
+        <div class="card-front" id="front6">
+            <div class="info fade varlow" id="info6-varlow">
+                <div class="scenario">
+                    <p>The Sage charts your musical journey like constellations of brief brilliance, where every note is a shining moment in time.
+                        Your connection thrives in the space between fleeting melodies.</p>
+                    <p>Your average time together: {{ wrap.duowrap.duration }}s.</p>
+                    {% for track in wrap.wrap1.bot_length|slice:":1"%}
+                        <div class="details">
+                            <img src="{{ track.image }}" width="33" height="33">
+                            <div class="bullet">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                     width="10px">
+                            </div>
+                            <div class="text">
+                                <h2>{{ track.name }}</h2>
+                                <h3>{{ track.artists }}</h3>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% for track in wrap.wrap2.bot_length|slice:":1"%}
+                        <div class="details">
+                            <img src="{{ track.image }}" width="33" height="33">
+                            <div class="bullet">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                     width="10px">
+                            </div>
+                            <div class="text">
+                                <h2>{{ track.name }}</h2>
+                                <h3>{{ track.artists }}</h3>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="info fade varhigh" id="info6-varhigh">
+                <div class="scenario">
+                    <p>The Chariot moves through the stars, guided by tracks that unfold like nebulae in the cosmos.
+                        Your bond celebrates the beauty of music that stretches across time, leaving trails of brilliance in its wake.</p>
+                    <p>Your average time together: {{ wrap.duowrap.duration }}s.</p>
+                </div>
+                {% for track in wrap.wrap1.top_length|slice:":1"%}
+                    <div class="details">
+                        <img src="{{ track.image }}" width="33" height="33">
+                        <div class="bullet">
+                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                 width="10px">
+                        </div>
+                        <div class="text">
+                            <h2>{{ track.name }}</h2>
+                            <h3>{{ track.artists }}</h3>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% for track in wrap.wrap2.top_length|slice:":1"%}
+                    <div class="details">
+                        <img src="{{ track.image }}" width="33" height="33">
+                        <div class="bullet">
+                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                 width="10px">
+                        </div>
+                        <div class="text">
+                            <h2>{{ track.name }}</h2>
+                            <h3>{{ track.artists }}</h3>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <script>
+            const length = {{ wrap.duowrap.duration }};
+
+            function addTimeId() {
+                const element = document.getElementById('front6');
+
+                if (length < 195) {
+                    element.id = "front6-varlow";
+                } else {
+                    element.id = "front6-varhigh";
+                }
+            }
+
+            function setupTimeInfo() {
+                const card = document.querySelector(".card6");
+                const lowInfo = document.getElementById("info6-varlow");
+                const highInfo = document.getElementById("info6-varhigh");
+
+                card.addEventListener("mouseenter", () => {
+                    if (length < 195) {
+                        lowInfo.style.display = "flex";
+                        highInfo.style.display = "none";
+                    } else {
+                        lowInfo.style.display = "none";
+                        highInfo.style.display = "flex";
+                    }
+                });
+
+                card.addEventListener("mouseleave", () => {
+                    lowInfo.style.display = "none";
+                    highInfo.style.display = "none";
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", addTimeId);
+            document.addEventListener("DOMContentLoaded", setupTimeInfo);
+        </script>
+    </div>
+
+    <div class="card7" id="card7">
+        <div class="card-back" id="back7"></div>
+        <div class="card-front" id="front7">
+            <div class="info fade varlow" id="info7-varlow">
+                <div class="scenario">
+                    <p>The Rogue’s card whispers of a shared love for the unseen and the unheard. Your connection thrives in the hidden corners of the musical world, where every track is a secret waiting to be discovered.</p>
+                    <p>The popularity of your songs: {{ wrap.duowrap.popularity }}%.</p>
+                    {% for track in wrap.wrap1.bot3popularity|slice:":1"%}
+                        <div class="details">
+                            <img src="{{ track.image }}" width="33" height="33">
+                            <div class="bullet">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                     width="10px">
+                            </div>
+                            <div class="text">
+                                <h2>{{ track.name }}</h2>
+                                <h3>{{ track.artists }}</h3>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% for track in wrap.wrap2.bot3popularity|slice:":1"%}
+                        <div class="details">
+                            <img src="{{ track.image }}" width="33" height="33">
+                            <div class="bullet">
+                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                     width="10px">
+                            </div>
+                            <div class="text">
+                                <h2>{{ track.name }}</h2>
+                                <h3>{{ track.artists }}</h3>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="info fade varhigh" id="info7-varhigh">
+                <div class="scenario">
+                    <p>The Bard strums a melody of shared acclaim, where your musical bond is built on tracks that have captured hearts across the globe. Your connection is a celebration of the songs everyone knows and loves.</p>
+                    <p>The popularity of your songs: {{ wrap.wrap1.popularity }}%.</p>
+                </div>
+                {% for track in wrap.wrap1.top3popularity|slice:":1"%}
+                    <div class="details">
+                        <img src="{{ track.image }}" width="33" height="33">
+                        <div class="bullet">
+                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                 width="10px">
+                        </div>
+                        <div class="text">
+                            <h2>{{ track.name }}</h2>
+                            <h3>{{ track.artists }}</h3>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% for track in wrap.wrap2.top3popularity|slice:":1"%}
+                    <div class="details">
+                        <img src="{{ track.image }}" width="33" height="33">
+                        <div class="bullet">
+                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"
+                                 width="10px">
+                        </div>
+                        <div class="text">
+                            <h2>{{ track.name }}</h2>
+                            <h3>{{ track.artists }}</h3>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <script>
+            const popularity = {{ wrap.duowrap.popularity }};
+
+            function addPopularityId() {
+                const element = document.getElementById('front7');
+
+                if (popularity < 50) {
+                    element.id = "front7-varlow";
+                } else {
+                    element.id = "front7-varhigh";
+                }
+            }
+
+            function setupPopularityInfo() {
+                const card = document.querySelector(".card7");
+                const lowInfo = document.getElementById("info7-varlow");
+                const highInfo = document.getElementById("info7-varhigh");
+
+                card.addEventListener("mouseenter", () => {
+                    if (popularity < 50) {
+                        lowInfo.style.display = "flex";
+                        highInfo.style.display = "none";
+                    } else {
+                        lowInfo.style.display = "none";
+                        highInfo.style.display = "flex";
+                    }
+                });
+
+                card.addEventListener("mouseleave", () => {
+                    lowInfo.style.display = "none";
+                    highInfo.style.display = "none";
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", addPopularityId);
+            document.addEventListener("DOMContentLoaded", setupPopularityInfo);
+        </script>
+    </div>
+
+<!--Old Card 8-->
+{#    <div class="card8" id="card">#}
+{#        <div class="card-back" id="back8"></div>#}
+{#        <div class="card-front" id="front8">#}
+{#            <div class="info fade varlow" id="info8-varlow">#}
+{#                <div class="scenario">#}
+{#                    <p>The Moon casts its ethereal light over your connection, revealing a shared affinity for music steeped in mystery and introspection. Your playlists explore the depths of emotion, embracing the shadows with grace.</p>#}
+{#                    <p>Your average positivity together: {{ wrap.duowrap.valence }}%.</p>#}
+{#                    {% for track in wrap.wrap1.bot3valence|slice:":1"%}#}
+{#                        <div class="details">#}
+{#                            <img src="{{ track.image }}" width="33" height="33">#}
+{#                            <div class="bullet">#}
+{#                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"#}
+{#                                     width="10px">#}
+{#                            </div>#}
+{#                            <div class="text">#}
+{#                                <h2>{{ track.name }}</h2>#}
+{#                                <h3>{{ track.artists }}</h3>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                    {% for track in wrap.wrap2.bot3valence|slice:":1"%}#}
+{#                        <div class="details">#}
+{#                            <img src="{{ track.image }}" width="33" height="33">#}
+{#                            <div class="bullet">#}
+{#                                <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"#}
+{#                                     width="10px">#}
+{#                            </div>#}
+{#                            <div class="text">#}
+{#                                <h2>{{ track.name }}</h2>#}
+{#                                <h3>{{ track.artists }}</h3>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="info fade varhigh" id="info8-varhigh">#}
+{#                <div class="scenario">#}
+{#                    <p>The Sun shines brightly on your connection, illuminating a shared love for uplifting and joyful tracks. Together, your playlists radiate positivity and warmth, a celebration of life’s brightest moments.</p>#}
+{#                    <p>Your average positivity together: {{ wrap.duowrap.valence }}%.</p>#}
+{#                </div>#}
+{#                {% for track in wrap.wrap1.top3valence|slice:":1"%}#}
+{#                    <div class="details">#}
+{#                        <img src="{{ track.image }}" width="33" height="33">#}
+{#                        <div class="bullet">#}
+{#                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"#}
+{#                                 width="10px">#}
+{#                        </div>#}
+{#                        <div class="text">#}
+{#                            <h2>{{ track.name }}</h2>#}
+{#                            <h3>{{ track.artists }}</h3>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#                {% for track in wrap.wrap2.top3valence|slice:":1"%}#}
+{#                    <div class="details">#}
+{#                        <img src="{{ track.image }}" width="33" height="33">#}
+{#                        <div class="bullet">#}
+{#                            <img class="tbullet-img" data-index="{{ forloop.counter }}" height="10px"#}
+{#                                 width="10px">#}
+{#                        </div>#}
+{#                        <div class="text">#}
+{#                            <h2>{{ track.name }}</h2>#}
+{#                            <h3>{{ track.artists }}</h3>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#        </div>#}
+{#        <script>#}
+{#            const valence = {{ wrap.duowrap.valence }};#}
+{##}
+{#            function addValenceId() {#}
+{#                const element = document.getElementById('front8');#}
+{##}
+{#                if (valence < 50) {#}
+{#                    element.id = "front8-varlow";#}
+{#                } else {#}
+{#                    element.id = "front8-varhigh";#}
+{#                }#}
+{#            }#}
+{##}
+{#            function setupValenceInfo() {#}
+{#                const card = document.querySelector(".card8");#}
+{#                const lowInfo = document.getElementById("info8-varlow");#}
+{#                const highInfo = document.getElementById("info8-varhigh");#}
+{##}
+{#                card.addEventListener("mouseenter", () => {#}
+{#                    if (valence < 50) {#}
+{#                        lowInfo.style.display = "flex";#}
+{#                        highInfo.style.display = "none";#}
+{#                    } else {#}
+{#                        lowInfo.style.display = "none";#}
+{#                        highInfo.style.display = "flex";#}
+{#                    }#}
+{#                });#}
+{##}
+{#                card.addEventListener("mouseleave", () => {#}
+{#                    lowInfo.style.display = "none";#}
+{#                    highInfo.style.display = "none";#}
+{#                });#}
+{#            }#}
+{##}
+{#            document.addEventListener("DOMContentLoaded", addValenceId);#}
+{#            document.addEventListener("DOMContentLoaded", setupValenceInfo);#}
+{#        </script>#}
+{#    </div>#}
+
+    <!--New Card 8-->
+    <div class="card8" id="card8">
+        <!-- Card Back -->
+        <div class="card-back" id="back8"></div>
+        <!-- Card Front -->
+        <div class="card-front" id="front8">
+            <!-- Info for user1 more -->
+            <div class="info fade" id="info8-user1">
+                <div class="scenario">
+                    <p>The Moon illuminates the difference in your celestial playlists:
+                        {{ wrap.user1 }} has embraced {{ wrap.wrap1.explicitPercent }} explicit tracks, venturing into the shadowed depths of raw emotion,
+                        while {{ wrap.user2 }} keeps to the softer glow with {{ wrap.wrap2.explicitPercent }} tracks.</p>
+                </div>
+            </div>
+            <div class="info fade" id="info8-user2">
+                <div class="scenario">
+                    <p>The Moon illuminates the difference in your celestial playlists:
+                        {{ wrap.user2 }} has embraced {{ wrap.wrap2.explicitPercent }} explicit tracks, venturing into the shadowed depths of raw emotion,
+                        while {{ wrap.user1 }} keeps to the softer glow with {{ wrap.wrap1.explicitPercent }} tracks.</p>
+                </div>
+            </div>
+            <div class="info fade same" id="info8-same">
+                <div class="scenario">
+                    <p>The Moon’s light reveals a rare symmetry: both {{ wrap.user1 }} and {{ wrap.user2 }} resonate with {{ wrap.wrap1.explicitPercent }}
+                        explicit tracks, drawn together by the same celestial pull toward raw emotion and cosmic truth.</p>
+                </div>
+            </div>
+        </div>
+        <script>
+            const ex1 = {{ wrap.wrap1.explicitPercent }};
+            const ex2 = {{ wrap.wrap2.explicitPercent }};
+
+            function setupExInfo() {
+                const card = document.querySelector(".card8");
+                const user1Info = document.getElementById("info8-user1");
+                const user2Info = document.getElementById("info8-user2");
+                const sameInfo = document.getElementById("info8-same");
+
+                card.addEventListener("mouseenter", () => {
+                    console.log("mouse entered");
+                    if (ex2 < ex1) {
+                        user1Info.style.display = "flex";
+                        user2Info.style.display = "none";
+                        sameInfo.style.display = "none";
+                    } else if (ex1 < ex2) {
+                        user1Info.style.display = "none";
+                        user2Info.style.display = "flex";
+                        sameInfo.style.display = "none";
+                    }
+                    else {
+                        user1Info.style.display = "none";
+                        user2Info.style.display = "none";
+                        sameInfo.style.display = "flex";
+                    }
+                });
+
+                card.addEventListener("mouseleave", () => {
+                    console.log("mouse leave");
+                    user1Info.style.display = "none";
+                    user2Info.style.display = "none";
+                    sameInfo.style.display = "none";
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", setupExInfo);
+        </script>
+    </div>
+</div>
+<div class="summary-button-container fade">
+        <a href="{% url 'duo_summary_intermediate' wrap.id %}" class="summary-button">View Summary</a>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    let flippedCards = new Set(); // Track flipped cards
+    const cards = document.querySelectorAll(".cards > div"); // All card elements
+    const summaryButtonContainer = document.querySelector(".summary-button-container");
+    let isAnimating = false;
+
+    // Function to check if all cards are flipped
+    function checkAllFlipped() {
+        if (flippedCards.size === cards.length) {
+            summaryButtonContainer.style.display = "block";
+            summaryButtonContainer.style.zIndex = "10";
+        } else {
+            summaryButtonContainer.style.zIndex = "-1";
+            summaryButtonContainer.style.display = "none";
+        }
+    }
+
+    // Function to split a card visually
+    function splitCard(card) {
+        const front = card.querySelector(".card-front");
+        front.style.opacity = "0"; // Hide the front
+        const frontBackground = getComputedStyle(front).background;
+
+        const leftHalf = document.createElement("div");
+        leftHalf.classList.add("split-left");
+        leftHalf.style.background = frontBackground;
+
+        const rightHalf = document.createElement("div");
+        rightHalf.classList.add("split-right");
+        rightHalf.style.background = frontBackground;
+
+        card.appendChild(leftHalf);
+        card.appendChild(rightHalf);
+
+        setTimeout(() => {
+            leftHalf.remove();
+            rightHalf.remove();
+            front.style.opacity = "1"; // Restore visibility
+        }, 3000);
+    }
+
+    // Function to set up card hover and interaction logic
+    function setupCardInfo(cardSelector, infoSelector, noneSelector, length) {
+        const card = document.querySelector(cardSelector);
+        const info = document.querySelector(infoSelector);
+        const none = document.querySelector(noneSelector);
+
+        card.addEventListener("mouseenter", () => {
+            if (length !== 0) {
+                info.style.display = "flex";
+                none.style.display = "none";
+            } else {
+                info.style.display = "none";
+                none.style.display = "flex";
+            }
+        });
+
+        card.addEventListener("mouseleave", () => {
+            info.style.display = "none";
+            none.style.display = "none";
+        });
+    }
+
+    // Card click event
+    cards.forEach(card => {
+        card.addEventListener("click", function () {
+            if (isAnimating) return;
+
+            isAnimating = true;
+
+            const lastFlippedCard = Array.from(cards).find(c => c !== this && c.classList.contains("clicked"));
+            if (lastFlippedCard) {
+                lastFlippedCard.classList.remove("clicked", "flipped");
+            }
+
+            card.classList.toggle("clicked");
+
+            if (this.classList.contains("clicked")) {
+                this.classList.add("flipped");
+                flippedCards.add(this);
+            } else {
+                this.classList.remove("flipped");
+            }
+
+            checkAllFlipped(); // Check if all cards are flipped
+
+            setTimeout(() => {
+                if (card.classList.contains("clicked")) {
+                    splitCard(card);
+                }
+            }, 600);
+
+            setTimeout(() => {
+                isAnimating = false;
+            }, 3000);
+        });
+    });
+
+    // Initialize flipped cards on load
+    cards.forEach(card => {
+        if (card.classList.contains("clicked")) {
+            flippedCards.add(card);
+        }
+    });
+
+    checkAllFlipped();
+
+    // Set up hover logic for individual cards
+    setupCardInfo("#card1", "#info1", "#info1-none", {{ wrap.duowrap.numSharedTracks }});
+    setupCardInfo("#card2", "#info2", "#info2-none", {{ wrap.duowrap.numSharedArtists }});
+    setupCardInfo("#card3", "#info3", "#info3-none", {{ wrap.duowrap.numSharedGenres }});
+
+    // Dynamically assign bullet images
+    const bulletImages = [
+        "{% static 'SpotifyWrapped/images/decorations/bullets/bullet1.svg' %}",
+        "{% static 'SpotifyWrapped/images/decorations/bullets/bullet2.svg' %}",
+        "{% static 'SpotifyWrapped/images/decorations/bullets/bullet3.svg' %}",
+    ];
+    document.querySelectorAll('.fbullet-img').forEach((bullet, index) => {
+        bullet.src = bulletImages[index % bulletImages.length];
+    });
+
+    // Additional dynamic assignment for tbullet images
+    const tbulletImages = [
+        "{% static 'SpotifyWrapped/images/decorations/bullets/bullet1.svg' %}",
+        "{% static 'SpotifyWrapped/images/decorations/bullets/bullet2.svg' %}",
+    ];
+    document.querySelectorAll('.tbullet-img').forEach((bullet, index) => {
+        bullet.src = tbulletImages[index % tbulletImages.length];
+    });
+});
+</script>
+</body>
+</html>
