@@ -159,7 +159,7 @@ h1 {
 .card-text-overlay p {
     color: black;
     font-family: 'Sahitya', serif;
-    font-size: 14px;
+    font-size: 12px;
     text-align: center;
     margin: 0;
     padding: 4px 8px;
@@ -176,7 +176,7 @@ h1 {
 
 .bottom-text {
     position: absolute;
-    bottom: -1.5%;
+    bottom: -1%;
     left: 50%;
     transform: translateX(-50%);
 }
