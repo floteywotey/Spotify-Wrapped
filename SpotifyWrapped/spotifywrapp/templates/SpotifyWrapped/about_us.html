@@ -17,6 +17,14 @@
         <div class="right">
             <a href="{% url 'profile' %}">Profile</a>
         </div>
+        <form method="post" action="{% url 'about_us' %}">
+        {% csrf_token %}
+        <!-- This is the Text Search bar -->
+        <input class="search-bar" type="text" placeholder="Write a message..." name="message">
+        <button class="search-button" type="submit">
+            Send Message
+        </button>
+    </form>
     </div>
 
     <div class="about-us-content">
@@ -87,5 +95,6 @@
             </div>
         </section>
     </div>
+
 </body>
 </html>

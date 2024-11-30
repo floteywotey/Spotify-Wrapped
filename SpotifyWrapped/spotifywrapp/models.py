@@ -59,6 +59,7 @@ class wraps(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     imageNum = models.IntegerField()
     image = models.CharField(max_length=150)
+    # isPublic = models.BooleanField()
     def getdate(self):
         return self.date
 

@@ -67,7 +67,16 @@ def home(request):
     return render(request, 'home.html', {'recent':sortedArray})
 
 def about_us(request):
-    return render(request, 'SpotifyWrapped/about_us.html')
+    if request.method == 'POST':
+        subject = 'Contact Us'
+        email = request.POST.get('message')
+        message = email + ' ' + request.user.email
+        send_mail(subject, message, 'spotifywrapped19@gmail.com', ['noreply.ethank@gmail.com'], fail_silently=False)
+        return redirect('about_us')
+    return render(request, 'about_us.html')
+
+
+
 
 def userlogin(request):
     if request.user.is_authenticated:
@@ -109,6 +118,10 @@ def deleteUser(request):
             item.delete()
         for item in invites.objects.filter(userFrom=request.user.username):
             item.delete()
+        for item in Friends.objects.filter(user1=request.user.username):
+            item.delete()
+        for item in Friends.objects.filter(user2=request.user.username):
+            item.delete()
         user.delete()
     return render(request, 'delete..html', {})
 
@@ -141,6 +154,8 @@ def profile(request):
             invite.save()
             if len(list(SpotifyUser.objects.filter(user=invite.userTo))) == 0:
                 invite.delete()
+            # if invite.userTo == request.user.username:
+            #    invite.delete()
             return redirect('profile')
     else:
         form = CreateInvite()
