@@ -19,13 +19,6 @@
     </div>
 </div>
 
-<script>
-    $("#my-button").click(function(e) {
-        $("#my-form").submit();
-    });
-</script>
-<form id="my-form" method="POST" action="" style="display: none"></form>
-
 <div class="main-container fade">
     <div class="main-items">
         <div class="side1">
@@ -34,13 +27,13 @@
                 <div class="settings">
                     <div class="button">
                         {% if usertoken %}
-                            <button id='my-button' onclick="window.location.href='{% url 'spotify_unauthorize' %}'">
+                            <button onclick="window.location.href='{% url 'spotify_unauthorize' %}'">
                                 <img class="link" src="{% static 'SpotifyWrapped/images/icons/external_link.svg' %}"
                                      alt="external link icon">
                                 Unlink
                             </button>
                         {% else %}
-                            <button id='my-button' onclick="window.location.href='{% url 'spotify_authorize_profile' %}'">
+                            <button onclick="window.location.href='{% url 'spotify_authorize_profile' %}'">
                                 <img class="link" src="{% static 'SpotifyWrapped/images/icons/external_link.svg' %}"
                                      alt="external link icon">
                                 Link
