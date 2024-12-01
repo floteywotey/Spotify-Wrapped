@@ -57,7 +57,23 @@ body {
     color: #8b8df8;
     letter-spacing: 0.1em;
 }
+.page {
+    display: flex;
 
+}
+.nav {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+.nav a {
+    text-decoration: none;
+    color: #ccceff;;
+}
+.nav a:hover {
+    text-decoration: none;
+    color: #3c3da5;
+}
 .about-us-content {
     margin: 5vw auto;
     max-width: 90vw;
