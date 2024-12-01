@@ -435,7 +435,8 @@ def duo_summary_intermediate(request, id):
         return redirect('login')
     wrap = wraps.objects.get(id=id)
     referer = request.META.get('HTTP_REFERER', '')
-    if not referer or "/duo-results/" not in referer:
+    print(referer)
+    if not referer or "/duo-wrap/" not in referer:
         return HttpResponseForbidden("You can't access this page directly.")
     return render(request, 'duo_summary_intermediate.html', context={'wrap' : wrap})
 
