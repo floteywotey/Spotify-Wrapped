@@ -11,7 +11,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from dotenv import load_dotenv
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 
 from .models import SpotifyUser, wraps, invites, Friends
 from django.core.mail import send_mail, BadHeaderError
@@ -42,7 +42,7 @@ def startscreen(request):
 
 def readings(request):
     if not request.user.is_authenticated:
-        return redirect('startscreen')
+        return redirect('login')
     if request.method == 'POST':
         identity = request.POST.get('id', '')
         wrap = wraps.objects.get(id=identity)
@@ -55,7 +55,7 @@ def readings(request):
 
 def home(request):
     if not request.user.is_authenticated:
-        return redirect('startscreen')
+        return redirect('login')
     recent = recentWraps(request.user.username)
     sortedArray = []
     if (recent):
@@ -95,12 +95,14 @@ def logout_view(request):
 
 def deleteQuestion(request):
     if not request.user.is_authenticated:
-        return redirect('startscreen')
+        return redirect('login')
+    if not request.method == 'POST':
+        return redirect('home')
     return render(request, 'delete?.html', {})
 
 def deleteUser(request):
     if not request.user.is_authenticated:
-        return redirect('startscreen')
+        return redirect('login')
     if request.method == 'POST':
         user = request.user
         for item in SpotifyUser.objects.filter(user=request.user.username):
@@ -120,7 +122,9 @@ def deleteUser(request):
         for item in Friends.objects.filter(user2=request.user.username):
             item.delete()
         user.delete()
-    return render(request, 'delete..html', {})
+        return render(request, 'delete..html', {})
+    else:
+        return redirect('home')
 
 # Home Page (Before spotify authorization login)
 def register(request):
@@ -151,8 +155,8 @@ def profile(request):
             invite.save()
             if len(list(SpotifyUser.objects.filter(user=invite.userTo))) == 0:
                 invite.delete()
-            # if invite.userTo == request.user.username:
-            #    invite.delete()
+            if invite.userTo == request.user.username:
+                invite.delete()
             return redirect('profile')
     else:
         form = CreateInvite()
@@ -164,32 +168,51 @@ def profile(request):
 
 def select_date(request):
     if not request.user.is_authenticated:
-        return redirect('startscreen')
+        return redirect('login')
     if SpotifyUser.objects.get(user=request.user.username).spotifytoken == '':
         return redirect('spotify_authorize_home')
     return render(request, 'selectDateScreen.html')
 
+def duo_wrap(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    sortedArray = recentWraps(request.user.username)
+    referer = request.META.get('HTTP_REFERER', '')
+    if not referer or "duointermediate" not in referer:
+        return HttpResponseForbidden("You can't access this page directly.")
+    return render(request, 'duo_results.html', context={'wrap': sortedArray[0]})
+
+def duointermediate(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    referer = request.META.get('HTTP_REFERER', '')
+    if not referer or "profile" not in referer:
+        return HttpResponseForbidden("You can't access this page directly.")
+    return render(request, 'duointermediate.html')
+
 def resultsintermediate(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    referer = request.META.get('HTTP_REFERER', '')
+    if not referer or "select-date" not in referer:
+        return HttpResponseForbidden("You can't access this page directly.")
     return render(request, 'resultsintermediate.html')
 
 def results(request):
     if not request.user.is_authenticated:
-        return redirect('startscreen')
+        return redirect('login')
     sortedArray = recentWraps(request.user.username)
+    referer = request.META.get('HTTP_REFERER', '')
+    if not referer or "resultsintermediate" not in referer:
+        return HttpResponseForbidden("You can't access this page directly.")
     if (len(sortedArray) > 0):
         return render(request, 'results.html', context={'wrap': sortedArray[0]})
     else:
-        return render(request, 'results.html', {})
-def post_results(request):
-    if not request.user.is_authenticated:
-        return redirect('startscreen')
-    identity = request.POST.get('id', '')
-    wrap = wraps.objects.get(id=identity)
-    return render(request, 'results.html', context={'wrap': wrap})
+        return redirect('home')
 
 def solo_results(request):
     if not request.user.is_authenticated:
-        return redirect('startscreen')
+        return redirect('login')
     if request.method == "POST":
         time = request.POST.get('time', '')
         data = getSoloWrap(request, request.user.username, time, 50)
@@ -202,20 +225,11 @@ def solo_results(request):
         wrap.save()
         print(wrap.duration)
         return redirect('resultsintermediate')
-    return redirect('resultsintermediate')
-
-def duo_wrap(request):
-    if not request.user.is_authenticated:
-        return redirect('startscreen')
-    sortedArray = recentWraps(request.user.username)
-    return render(request, 'duo_results.html', context={'wrap': sortedArray[0]})
-
-def duointermediate(request):
-    return render(request, 'duointermediate.html')
+    return redirect('home')
 
 def duo_results(request):
     if not request.user.is_authenticated:
-        return redirect('startscreen')
+        return redirect('login')
     if request.method == "POST":
         if SpotifyUser.objects.get(user=request.user.username).spotifytoken == '':
             return redirect('spotify_authorize_profile')
@@ -318,19 +332,7 @@ def duo_results(request):
         wrap = wraps.objects.create(wrap1=wrapData1, wrap2=wrapData2, duowrap=data, isDuo=True, user1=fromUser, user2=request.user.username, duration=timedict[time], imageNum = randInt, image = imageList[randInt])
         wrap.save()
         return redirect('duointermediate')
-    return redirect('duointermediate')
-
-def duosummary(request, id):
-    wrap = wraps.objects.get(id=id)
-    return render(request, 'duosummary.html', context={'wrap' : wrap})
-
-def duo_summary_intermediate(request, id):
-    wrap = wraps.objects.get(id=id)
-    return render(request, 'duo_summary_intermediate.html', context={'wrap' : wrap})
-
-def viewduowrap(request, id):
-    wrap = wraps.objects.get(id=id)
-    return render(request, 'viewduowrap.html', context={'wrap' : wrap})
+    return redirect('profile')
 
 def getUserToken(username):
     return getSpotifyUser(username).getspotifytoken()
@@ -397,16 +399,49 @@ def getSpotifyUser(username):
     return list(SpotifyUser.objects.filter(user=username))[0]
 
 def summary(request, id):
+    if not request.user.is_authenticated:
+        return redirect('login')
     wrap = wraps.objects.get(id=id)
+    referer = request.META.get('HTTP_REFERER', '')
+    print(referer)
+    if not referer or "/summaryintermediate/" not in referer:
+        return HttpResponseForbidden("You can't access this page directly.")
     return render(request, 'summary.html', context={'wrap' : wrap})
 
 def summaryintermediate(request, id):
+    if not request.user.is_authenticated:
+        return redirect('login')
     wrap = wraps.objects.get(id=id)
+    referer = request.META.get('HTTP_REFERER', '')
+    if not referer or "/results/" not in referer:
+        return HttpResponseForbidden("You can't access this page directly.")
     return render(request, 'summaryintermediate.html', context={'wrap' : wrap})
 
 def viewwrap(request, id):
     wrap = wraps.objects.get(id=id)
     return render(request, 'viewwrap.html', context={'wrap' : wrap})
+
+def duosummary(request, id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    wrap = wraps.objects.get(id=id)
+    referer = request.META.get('HTTP_REFERER', '')
+    if not referer or "/duo_summary_intermediate/" not in referer:
+        return HttpResponseForbidden("You can't access this page directly.")
+    return render(request, 'duosummary.html', context={'wrap' : wrap})
+
+def duo_summary_intermediate(request, id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    wrap = wraps.objects.get(id=id)
+    referer = request.META.get('HTTP_REFERER', '')
+    if not referer or "/duo-results/" not in referer:
+        return HttpResponseForbidden("You can't access this page directly.")
+    return render(request, 'duo_summary_intermediate.html', context={'wrap' : wrap})
+
+def viewduowrap(request, id):
+    wrap = wraps.objects.get(id=id)
+    return render(request, 'viewduowrap.html', context={'wrap' : wrap})
 
 def getSoloWrap(request, username, time, limit=50):
     # danceability = 0.0
@@ -579,9 +614,10 @@ def spotify_authorize_profile(request):
     return redirect(auth_url)
 
 def spotify_unauthorize(request):
-    for item in SpotifyUser.objects.filter(user=request.user.username):
-        item.spotifytoken = ''
-        item.save()
+    if request.method == 'POST':
+        for item in SpotifyUser.objects.filter(user=request.user.username):
+            item.spotifytoken = ''
+            item.save()
     return redirect('profile')
 
 def spotify_callback_profile(request):
@@ -624,34 +660,37 @@ def spotify_authorize_home(request):
     return redirect(auth_url)
 
 def spotify_callback_home(request):
-    code = request.GET.get('code')
-    token_url = 'https://accounts.spotify.com/api/token'
-    data = {
-        'grant_type': 'authorization_code',
-        'code': code,
-        'redirect_uri': REDIRECT_URI_HOME,
-        'client_id': CLIENT_ID,
-        'client_secret': CLIENT_SECRET,
-    }
-    response = requests.post(token_url, data=data)
-    # Check if the request was successful
-    if response.status_code == 200:
-        token_info = response.json()  # Get the token information
-        # Ensure access token is present in the response
-        if 'access_token' in token_info:
-            # Store the access token in the session
-            for item in SpotifyUser.objects.filter(user=request.user.username):
-                item.spotifytoken = token_info['access_token']
-                item.refreshtoken = token_info['refresh_token']
-                item.save()
-            # Redirect to the view that fetches user data
-            return redirect('home')
+    if request.method == 'GET':
+        code = request.GET.get('code')
+        token_url = 'https://accounts.spotify.com/api/token'
+        data = {
+            'grant_type': 'authorization_code',
+            'code': code,
+            'redirect_uri': REDIRECT_URI_HOME,
+            'client_id': CLIENT_ID,
+            'client_secret': CLIENT_SECRET,
+        }
+        response = requests.post(token_url, data=data)
+        # Check if the request was successful
+        if response.status_code == 200:
+            token_info = response.json()  # Get the token information
+            # Ensure access token is present in the response
+            if 'access_token' in token_info:
+                # Store the access token in the session
+                for item in SpotifyUser.objects.filter(user=request.user.username):
+                    item.spotifytoken = token_info['access_token']
+                    item.refreshtoken = token_info['refresh_token']
+                    item.save()
+                # Redirect to the view that fetches user data
+                return redirect('home')
+            else:
+                # Handle missing access token in the response
+                return JsonResponse({'error': 'Access token not found in the response'}, status=500)
         else:
-            # Handle missing access token in the response
-            return JsonResponse({'error': 'Access token not found in the response'}, status=500)
+            # Handle the case where the request to Spotify's token endpoint failed
+            return JsonResponse({'error': 'Failed to get the access token from Spotify'}, status=response.status_code)
     else:
-        # Handle the case where the request to Spotify's token endpoint failed
-        return JsonResponse({'error': 'Failed to get the access token from Spotify'}, status=response.status_code)
+        return redirect('home')
 
 def password_reset(request):
     if request.method == 'POST':
