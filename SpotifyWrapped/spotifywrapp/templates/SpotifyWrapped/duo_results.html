@@ -949,17 +949,44 @@
 
     // Function to split a card visually
     function splitCard(card) {
-        const front = card.querySelector(".card-front");
-        front.style.opacity = "0"; // Hide the front
-        const frontBackground = getComputedStyle(front).background;
+    card.style.background = "none";
+    const front = card.querySelector(".card-front");
+    front.style.opacity = "0"; // Hide the front
 
+    // Get the computed background image of the front card
+    const frontBackground = getComputedStyle(front).backgroundImage;
+    const imageUrl = frontBackground.match(/url\("(.*)"\)/)[1]; // Extract the URL
+
+    // Function to flip an image horizontally
+    function flipImageHorizontally(imageUrl, callback) {
+        const img = new Image();
+        img.crossOrigin = "anonymous"; // Handle cross-origin images
+        img.src = imageUrl;
+
+        img.onload = () => {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            // Flip the image horizontally
+            ctx.scale(-1, 1);
+            ctx.drawImage(img, -img.width, 0);
+
+            // Return the flipped image as a data URL
+            callback(canvas.toDataURL());
+        };
+    }
+
+    // Flip the background and assign to leftHalf and rightHalf
+    flipImageHorizontally(imageUrl, (flippedBackground) => {
         const leftHalf = document.createElement("div");
         leftHalf.classList.add("split-left");
-        leftHalf.style.background = frontBackground;
+        leftHalf.style.backgroundImage = `url(${flippedBackground})`;
 
         const rightHalf = document.createElement("div");
         rightHalf.classList.add("split-right");
-        rightHalf.style.background = frontBackground;
+        rightHalf.style.backgroundImage = `url(${flippedBackground})`; // Original image for right half
 
         card.appendChild(leftHalf);
         card.appendChild(rightHalf);
@@ -967,9 +994,11 @@
         setTimeout(() => {
             leftHalf.remove();
             rightHalf.remove();
+            card.style.background = "black";
             front.style.opacity = "1"; // Restore visibility
         }, 3000);
-    }
+    });
+}
 
     // Function to set up card hover and interaction logic
     function setupCardInfo(cardSelector, infoSelector, noneSelector, length) {
@@ -1003,6 +1032,9 @@
             const lastFlippedCard = Array.from(cards).find(c => c !== this && c.classList.contains("clicked"));
             if (lastFlippedCard) {
                 lastFlippedCard.classList.remove("clicked", "flipped");
+                const front = lastFlippedCard.querySelector(".card-front");
+                front.style.opacity = 0;
+                card.style.background = "black";
             }
 
             card.classList.toggle("clicked");
@@ -1012,6 +1044,9 @@
                 flippedCards.add(this);
             } else {
                 this.classList.remove("flipped");
+                const front = card.querySelector(".card-front");
+                front.style.opacity = 0;
+                card.style.background = "black";
             }
 
             checkAllFlipped(); // Check if all cards are flipped
