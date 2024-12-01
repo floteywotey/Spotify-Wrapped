@@ -49,7 +49,6 @@
                         cardsContainer.style.perspective = "none";
 
                         setTimeout(() => {
-                            $("#my-form").submit();
                             window.location.href = "{% url 'summary' wrap.id %}";
                         }, 1000);
                     }, 1000);
