@@ -605,59 +605,70 @@ def getSoloWrap(request, username, time, limit=50):
 
 # Redirect user for Spotify authorization
 def spotify_authorize_profile(request):
-    scope = 'user-top-read'
-    URI = REDIRECT_URI_PROFILE
-    auth_url = (
-        'https://accounts.spotify.com/authorize?'
-        f'client_id={CLIENT_ID}&response_type=code&redirect_uri={URI}&scope={scope}&show_dialog=true'
-    )
-    return redirect(auth_url)
+    if request.user.is_authenticated:
+        scope = 'user-top-read'
+        URI = REDIRECT_URI_PROFILE
+        auth_url = (
+            'https://accounts.spotify.com/authorize?'
+            f'client_id={CLIENT_ID}&response_type=code&redirect_uri={URI}&scope={scope}&show_dialog=true'
+        )
+        return redirect(auth_url)
+    else:
+        return redirect('login')
 
 def spotify_unauthorize(request):
-    if request.method == 'POST':
-        for item in SpotifyUser.objects.filter(user=request.user.username):
-            item.spotifytoken = ''
-            item.save()
+    referer = request.META.get('HTTP_REFERER', '')
+    if not referer or "/profile/" not in referer:
+        redirect('profile')
+    for item in SpotifyUser.objects.filter(user=request.user.username):
+        item.spotifytoken = ''
+        item.save()
     return redirect('profile')
 
 def spotify_callback_profile(request):
-    code = request.GET.get('code')
-    token_url = 'https://accounts.spotify.com/api/token'
-    data = {
-        'grant_type': 'authorization_code',
-        'code': code,
-        'redirect_uri': REDIRECT_URI_PROFILE,
-        'client_id': CLIENT_ID,
-        'client_secret': CLIENT_SECRET,
-    }
-    response = requests.post(token_url, data=data)
-    # Check if the request was successful
-    if response.status_code == 200:
-        token_info = response.json()  # Get the token information
-        # Ensure access token is present in the response
-        if 'access_token' in token_info:
-            # Store the access token in the session
-            for item in SpotifyUser.objects.filter(user=request.user.username):
-                item.spotifytoken = token_info['access_token']
-                item.refreshtoken = token_info['refresh_token']
-                item.save()
-            # Redirect to the view that fetches user data
-            return redirect('profile')
+    if request.method == 'GET':
+        code = request.GET.get('code')
+        token_url = 'https://accounts.spotify.com/api/token'
+        data = {
+            'grant_type': 'authorization_code',
+            'code': code,
+            'redirect_uri': REDIRECT_URI_PROFILE,
+            'client_id': CLIENT_ID,
+            'client_secret': CLIENT_SECRET,
+        }
+        response = requests.post(token_url, data=data)
+        # Check if the request was successful
+        if response.status_code == 200:
+            token_info = response.json()  # Get the token information
+            # Ensure access token is present in the response
+            if 'access_token' in token_info:
+                # Store the access token in the session
+                for item in SpotifyUser.objects.filter(user=request.user.username):
+                    item.spotifytoken = token_info['access_token']
+                    item.refreshtoken = token_info['refresh_token']
+                    item.save()
+                # Redirect to the view that fetches user data
+                return redirect('profile')
+            else:
+                # Handle missing access token in the response
+                return JsonResponse({'error': 'Access token not found in the response'}, status=500)
         else:
-            # Handle missing access token in the response
-            return JsonResponse({'error': 'Access token not found in the response'}, status=500)
+            # Handle the case where the request to Spotify's token endpoint failed
+            return JsonResponse({'error': 'Failed to get the access token from Spotify'}, status=response.status_code)
     else:
-        # Handle the case where the request to Spotify's token endpoint failed
-        return JsonResponse({'error': 'Failed to get the access token from Spotify'}, status=response.status_code)
+        return redirect('profile')
 
 def spotify_authorize_home(request):
-    scope = 'user-top-read'
-    URI = REDIRECT_URI_HOME
-    auth_url = (
-        'https://accounts.spotify.com/authorize?'
-        f'client_id={CLIENT_ID}&response_type=code&redirect_uri={URI}&scope={scope}&show_dialog=true'
-    )
-    return redirect(auth_url)
+    if request.user.is_authenticated:
+        scope = 'user-top-read'
+        URI = REDIRECT_URI_HOME
+        auth_url = (
+            'https://accounts.spotify.com/authorize?'
+            f'client_id={CLIENT_ID}&response_type=code&redirect_uri={URI}&scope={scope}&show_dialog=true'
+        )
+        return redirect(auth_url)
+    else:
+        return redirect('login')
 
 def spotify_callback_home(request):
     if request.method == 'GET':
