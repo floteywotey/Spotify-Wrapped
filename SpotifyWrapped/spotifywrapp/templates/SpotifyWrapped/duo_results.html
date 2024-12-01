@@ -949,6 +949,7 @@
 
     // Function to split a card visually
     function splitCard(card) {
+        card.style.background = "none";
         const front = card.querySelector(".card-front");
         front.style.opacity = "0"; // Hide the front
         const frontBackground = getComputedStyle(front).background;
@@ -967,6 +968,7 @@
         setTimeout(() => {
             leftHalf.remove();
             rightHalf.remove();
+            card.style.background = "black";
             front.style.opacity = "1"; // Restore visibility
         }, 3000);
     }
@@ -1003,6 +1005,9 @@
             const lastFlippedCard = Array.from(cards).find(c => c !== this && c.classList.contains("clicked"));
             if (lastFlippedCard) {
                 lastFlippedCard.classList.remove("clicked", "flipped");
+                const front = lastFlippedCard.querySelector(".card-front");
+                front.style.opacity = 0;
+                card.style.background = "black";
             }
 
             card.classList.toggle("clicked");
@@ -1012,6 +1017,9 @@
                 flippedCards.add(this);
             } else {
                 this.classList.remove("flipped");
+                const front = card.querySelector(".card-front");
+                front.style.opacity = 0;
+                card.style.background = "black";
             }
 
             checkAllFlipped(); // Check if all cards are flipped

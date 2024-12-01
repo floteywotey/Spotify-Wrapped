@@ -11,6 +11,7 @@ body {
     background-size: cover;
     color: white;
     overflow: hidden;
+
 }
 
 .header {
@@ -183,6 +184,7 @@ img {
     background-size: contain; /* Ensure background scales properly */
     background-position: center;
     background-repeat: no-repeat;
+    border-radius: 4px;
     transform-origin: bottom; /* Pivot for rotation animations */
 }
 
@@ -235,6 +237,7 @@ img {
     margin-bottom: 5px;
     background: black;
     background-size: cover;
+    border-radius: 8px;
     transition: transform .6s;
     transform-style: preserve-3d;
     transform: rotatex(75deg) translatey(-200px) translatez(-100px);
@@ -248,7 +251,6 @@ img {
 #front1 {
     background: white url("images/card/card_fronts/the-wizard.svg") no-repeat center center;
     background-size: contain;
-    color: black;
     transform: rotateY(180deg);
 }
 
@@ -295,8 +297,9 @@ img {
     height: 210px;
     margin-top: 5px;
     margin-bottom: 5px;
-    background: black;
     background-size: cover;
+    border-radius: 8px;
+    background: black;
     animation: animate 1s linear infinite;
     transition: transform .6s;
     transform-style: preserve-3d;
@@ -311,7 +314,6 @@ img {
 #front2 {
     background: white url("images/card/card_fronts/the-lovers.svg") no-repeat center center;
     background-size: contain;
-    color: black;
     transform: rotateY(180deg);
 }
 
@@ -370,7 +372,8 @@ img {
     height: 210px;
     margin-top: 5px;
     margin-bottom: 5px;
-    background: black url("images/card/card_backs/back3.svg") no-repeat fixed;
+    border-radius: 8px;
+    background: black;
     background-size: cover;
     transition: transform .6s;
     transform-style: preserve-3d;
@@ -444,6 +447,7 @@ img {
     height: 210px;
     margin-top: 5px;
     margin-bottom: 5px;
+    border-radius: 8px;
     background: black;
     background-size: cover;
     transform-style: preserve-3d;
@@ -503,6 +507,7 @@ img {
     height: 210px;
     margin-top: 5px;
     margin-bottom: 5px;
+    border-radius: 8px;
     background: black;
     background-size: cover;
     transform-style: preserve-3d;
@@ -570,6 +575,8 @@ img {
     margin-top: 5px;
     margin-bottom: 5px;
     background: black;
+    background-size: cover;
+    border-radius: 8px;
     transform-style: preserve-3d;
     transition: transform .6s;
     transform: rotatex(75deg) translatey(-200px) translatez(-100px);
@@ -636,6 +643,7 @@ img {
     background: black;
     background-size: cover;
     transform-style: preserve-3d;
+    border-radius: 8px;
     transition: transform .6s;
     transform: rotatex(75deg) translatey(-200px) translatez(-100px);
 }
@@ -702,6 +710,7 @@ img {
     background-size: cover;
     transform-style: preserve-3d;
     transition: transform .6s;
+    border-radius: 8px;
     transform: rotatex(75deg) translatey(-200px) translatez(-100px);
 }
 
