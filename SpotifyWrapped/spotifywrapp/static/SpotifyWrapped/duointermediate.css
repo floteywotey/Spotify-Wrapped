@@ -1,0 +1,86 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&display=swap');
+body {
+    background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-container {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    #deck1 {
+      bottom: -50%;
+      transition: bottom 2s ease;
+    }
+
+    #deck2 {
+      top: -50%;
+      transition: top 2s ease;
+      transform: rotateX(180deg);
+    }
+
+    .card {
+      position: absolute;
+      width: 180px;
+      height: 300px;
+      border-radius: 10px;
+      box-shadow: 2px 5px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      font-size: 2rem;
+      color: white;
+      font-family: 'Kaisei Tokumin', serif;
+      line-height: 150px;
+      transform-origin: bottom center;
+        transform-style: preserve-3d;
+      transition: transform 1s ease; /* Smooth animation */
+    }
+
+#card1 {
+    z-index: 8;
+    background: url("images/card/card_backs/back1.svg") no-repeat center center;
+    background-size: cover;
+}
+#card2 {
+    z-index: 7;
+    background: url("images/card/card_backs/back2.svg") no-repeat center center;
+    background-size: cover;
+}
+#card3 {
+    z-index: 6;
+    background: url("images/card/card_backs/back3.svg") no-repeat center center;
+    background-size: cover;
+}
+#card4 {
+    z-index: 5;
+    background: url("images/card/card_backs/back4.svg") no-repeat center center;
+    background-size: cover;
+}
+#card5 {
+    z-index: 4;
+    background: url("images/card/card_backs/back5.svg") no-repeat center center;
+    background-size: cover;
+}
+#card6 {
+    z-index: 3;
+    background: url("images/card/card_backs/back6.svg") no-repeat center center;
+    background-size: cover;
+}
+#card7 {
+    z-index: 2;
+    background: url("images/card/card_backs/back7.svg") no-repeat center center;
+    background-size: cover;
+}
+#card8 {
+    z-index: 1;
+    background: url("images/card/card_backs/back8.svg") no-repeat center center;
+    background-size: cover;
+}

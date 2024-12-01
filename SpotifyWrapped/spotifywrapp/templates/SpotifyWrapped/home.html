@@ -11,6 +11,7 @@
     <div class="left">
         <a href="{% url 'home' %}">Home</a>
         <a href="{% url 'readings' %}">Past Readings</a>
+        <a href="{% url 'about_us' %}">About Us</a>
     </div>
     <div class="right">
         <a href="{% url 'profile' %}">Profile</a>
@@ -56,17 +57,30 @@
         <h2>Recent Readings</h2>
         <div class="cards">
             <script>
-                function showPopup(id, date, cardContainer) {
-                    // Set the title and IDs for the popup
+                function showPopup(id, date, duration, cardContainer, duo) {
                     document.getElementById('popupTitle').textContent = `Wrap Date: ${date}`;
+                    document.getElementById('popupSubTitle').textContent = `Wrap Duration: ${duration}`;
+                    // Update the action URL for the "View" form dynamically
+                    const viewForm = document.querySelector('.invites .display').parentNode;
+
+                    if (duo === 'True') {
+                        document.getElementById('duo').textContent = `Wrap Type: Duo Wrap`;
+                        viewForm.action = `/viewduowrap/${id}`;
+                    } else {
+                        document.getElementById('duo').textContent = `Wrap Type: Solo Wrap`;
+                        viewForm.action = `/viewwrap/${id}`;
+                    }
                     document.getElementById('deleteId').value = id;
                     document.getElementById('displayId').value = id;
+
+
 
                     // Show the popup
                     const modal = document.getElementById('popupModal');
                     modal.style.display = 'flex';
 
-                    // Add "hovered" class to the card container
+                    // Add the "hovered" class to the clicked card
+                    document.querySelectorAll('.card-container').forEach(card => card.classList.remove('hovered'));
                     cardContainer.classList.add('hovered');
                 }
 
@@ -80,7 +94,6 @@
                     cards.forEach(card => card.classList.remove('hovered'));
                 }
 
-                // Prevent closing the popup when clicking inside the popup content
                 document.getElementById('popupModal').addEventListener('click', function (event) {
                     const popupContent = document.querySelector('.popup-content');
                     if (!popupContent.contains(event.target)) {
@@ -94,6 +107,8 @@
                     <span class="close-btn" onclick="closePopup()">&times;</span>
                     <div class="text">
                         <p id="popupTitle">Wrap Date</p>
+                        <p id="popupSubTitle">Wrap Duration</p>
+                        <p id="duo"></p>
                         <p>Will you revisit the stars of your past Wrapped or release it to the universe?</p>
                     </div>
                     <div class="buttons">
@@ -102,7 +117,7 @@
                             <input type="hidden" id="deleteId" name="id" value="">
                             <button class="delete" type="submit">Delete</button>
                         </form>
-                        <form class="invites" method="post" action="{% url 'post_results' %}">
+                        <form class="invites" method="post" action="">
                             {% csrf_token %}
                             <input type="hidden" id="displayId" name="id" value="">
                             <button class="display" type="submit">View</button>
@@ -111,29 +126,32 @@
                 </div>
             </div>
 
-            {% for item in recent %}
-                <div class="card-container" onclick="showPopup('{{ item.id }}', '{{ item.date }}', this)">
-                    <div class="main-card">
-                        <svg viewBox="0 0 200 315" class="card-back"></svg>
-                        <div class="card-front">
-                            <img src={{ item.image }}>
-                            <div class="card-text-overlay">
-                                <p class="top-text">{{ item.date }}</p>
-                                <p class="bottom-text">Bottom Label</p>
+            <div class="cards">
+                {% for item in recent %}
+                    <div class="card-container"
+                         onclick="showPopup('{{ item.id }}', '{{ item.date }}', '{{ item.duration }}', this, '{{ item.isDuo }}')">
+                        <div class="main-card">
+                            <svg viewBox="0 0 200 315" class="card-back"></svg>
+                            <div class="card-front">
+                                <img src="{{ item.image }}">
+                                <div class="card-text-overlay">
+                                    <p class="top-text">{{ item.date|date:"m.d.y" }}</p>
+                                    <p class="bottom-text">{{ item.duration }}</p>
+                                </div>
                             </div>
                         </div>
+                        <div class="fanned-card">
+                            <svg viewBox="0 0 200 315" class="card-back"></svg>
+                        </div>
+                        <div class="fanned-card">
+                            <svg viewBox="0 0 200 315" class="card-back"></svg>
+                        </div>
+                        <div class="fanned-card">
+                            <svg viewBox="0 0 200 315" class="card-back"></svg>
+                        </div>
                     </div>
-                    <div class="fanned-card">
-                        <svg viewBox="0 0 200 315" class="card-back"></svg>
-                    </div>
-                    <div class="fanned-card">
-                        <svg viewBox="0 0 200 315" class="card-back"></svg>
-                    </div>
-                    <div class="fanned-card">
-                        <svg viewBox="0 0 200 315" class="card-back"></svg>
-                    </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>
