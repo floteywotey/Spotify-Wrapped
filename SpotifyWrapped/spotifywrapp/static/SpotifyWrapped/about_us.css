@@ -14,6 +14,19 @@ body {
     margin: 0;
 }
 
+.fade {
+    animation: fadeIn 1.5s;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 .container {
     display: flex;
     flex-direction: row;
@@ -129,12 +142,28 @@ body {
     color: #8b8df8;
 }
 
+.combined-section h2 {
+    font-family: 'Kaisei Tokumin', serif;
+    font-size: 1.2rem;
+    color: #8b8df8;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: start;
+}
+
 .combined-section p {
     font-family: 'Sahitya', serif;
     font-size: 0.9rem;
     line-height: 1.5;
     color: white;
-    margin-bottom: 1vw;
+    margin-bottom: 0;
+    text-align: start;
+}
+
+.combined-section ul {
+    text-align: start;
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
 .team-section {
