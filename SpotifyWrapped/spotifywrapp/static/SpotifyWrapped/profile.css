@@ -1,4 +1,4 @@
-/* Import custom fonts */
+/*custom fonts: Kaisei Tokumin, Kalnia, Sahitya, Linden Hill*/
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Linden+Hill:ital@0;1&family=Sahitya:wght@400;700&display=swap');
 
 /* General Reset */
@@ -39,6 +39,14 @@ body.light-mode {
     transition: background 0.5s, color 0.5s;
 }
 
+.container {
+    display: flex;
+    flex-direction: row;
+    padding: 20px 100px;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Header styles */
 .dark-header {
     font-size: larger;
@@ -47,7 +55,21 @@ body.light-mode {
     top: 0;
     left: 0;
     right: 0;
+    backdrop-filter: blur(5px);
     transition: background 0.5s, color 0.5s;
+}
+
+.left {
+    display: flex;
+    gap: 40px;
+    justify-content: flex-start;
+    flex: 1 1 0;
+}
+
+.right {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1 1 0;
 }
 
 .dark-header a {
@@ -73,6 +95,7 @@ body.light-mode .dark-header a:hover {
     position: relative;
     justify-content: center;
     align-content: center;
+    color: white;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -109,6 +132,11 @@ body.light-mode .dark-header a:hover {
     transition: background 0.5s;
 }
 
+.settings {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
 body.light-mode .box {
     background: transparent;
 }
@@ -128,7 +156,7 @@ button {
 }
 
 button:hover {
-    box-shadow: 0 0 25px #5b5df6;
+    box-shadow: 0 0 25px rebeccapurple;
     background: transparent;
     letter-spacing: 0.1em;
     padding-left: 0px;
@@ -160,9 +188,16 @@ body.light-mode button:hover {
     transition: border 0.5s, background 0.5s;
 }
 
+.friend-list ul {
+    padding-left: 5px;
+}
+
 body.light-mode .scroll-box {
     background: rgba(255, 255, 255, 0.9);
 }
+
+body.light-mode .scroll-box {
+    background: rgba(255, 255, 255, 0.9);
 
 /* List items */
 .friends-list li {
@@ -182,8 +217,51 @@ body.light-mode .scroll-box {
     left: 0;
 }
 
-/* Form styling */
-#userto textarea, #message textarea {
+.link {
+    height: 1vw;
+    width: 1vw;
+}
+
+.invites-box .scroll-box {
+    width: 95%;
+    height: 55%;
+    border-radius: 12px;
+    border: 1px white solid;
+    overflow: auto;
+    background: transparent;
+    padding: 20px;
+    scrollbar-color: white whitesmoke;
+}
+
+.all-forms {
+    flex-direction: column;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    padding-right: 20px;
+}
+
+h1 {
+    margin: 0;
+    padding-bottom: 10px;
+    font-family: "Kaisei Tokumin", serif;
+}
+
+.account-settings h1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+#userto textarea{
     padding: 7px 10px;
     display: flex;
     align-items: center;
@@ -193,18 +271,67 @@ body.light-mode .scroll-box {
     border-radius: 16px;
     border: 1px solid currentColor;
     resize: none;
-    background: transparent;
-    font-family: Sahitya, serif;
-    color: inherit;
+    background: black;
+    font-family: "Sahitya", serif;
+    color: white;
     transition: background 0.5s, color 0.5s, border 0.5s;
 }
 
+#message textarea {
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    height: 125px;
+    width: 85%;
+    font-size: 15px;
+    border-radius: 16px;
+    border: 1px solid white;
+    resize: none;
+    background: black;
+    font-family: "Sahitya", serif;
+    color: white;
+}
+
+#charCount{
+    font-size: 0.9rem;
+    color: white;
+    margin: 0;
+}
+
+.cancel-button a {
+    text-decoration: none;
+    color: white;
+}
+
+.invites-box {
+   height: 400px;
+}
+
+.invites {
+    margin: 10px;
+}
 body.light-mode textarea {
     background: rgba(255, 255, 255, 0.9);
     border-color: black;
 }
+.search-button {
+    padding: 10px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: black;
+    cursor: pointer;
+    text-align: start;
+}
 
-/* Invite buttons */
+.search-button:hover {
+    box-shadow: 0 0 10px 0 rebeccapurple inset, 0 0 20px 2px rebeccapurple;
+    border: 3px solid rebeccapurple;
+    letter-spacing: normal;
+    background: black;
+}
+
 .invite-button {
     padding: 10px;
     width: 125px;
@@ -219,7 +346,7 @@ body.light-mode textarea {
 }
 
 .invite-button:hover {
-    box-shadow: 0 0 25px #5b5df6;
+    box-shadow: 0 0 25px rebeccapurple;
     background: transparent;
     letter-spacing: 0.1em;
 }
