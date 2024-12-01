@@ -72,7 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     // Redirect after scaling animation completes
                     setTimeout(() => {
-                        $("#my-form").submit();
                         window.location.href = "{% url 'duosummary' wrap.id %}";
                     }, 1000); // Wait for scaling to complete (match the transition duration)
                 }, 3000); // Delay before scaling
