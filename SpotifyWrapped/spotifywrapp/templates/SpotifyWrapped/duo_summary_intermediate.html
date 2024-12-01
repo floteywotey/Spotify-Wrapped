@@ -20,6 +20,7 @@
     <div class="deck deck-right">
     </div>
 </div>
+<form id="my-form" method="POST" action="" style="display: none"></form>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const leftDeck = document.querySelector(".deck-left");
@@ -71,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     // Redirect after scaling animation completes
                     setTimeout(() => {
+                        $("#my-form").submit();
                         window.location.href = "{% url 'duosummary' wrap.id %}";
                     }, 1000); // Wait for scaling to complete (match the transition duration)
                 }, 3000); // Delay before scaling

@@ -509,11 +509,18 @@
     </script>
 </div>
 
+<script>
+    $("#my-button").click(function(e) {
+        $("#my-form").submit();
+    });
+</script>
+<form id="my-form" method="POST" action="" style="display: none"></form>
+
 <div class="others">
     <div class="fade-text">Choose your first card</div>
 
     <div class="summary-button-container fade">
-        <a href="{% url 'summaryintermediate' wrap.id %}" class="summary-button">View Summary</a>
+        <a id='my-button' href="{% url 'summaryintermediate' wrap.id %}" class="summary-button">View Summary</a>
     </div>
 </div>
 

@@ -3,21 +3,135 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us</title>
-    <link rel="stylesheet" href="{% static 'SpotifyWrapped/home.css' %}">
+    <link rel="stylesheet" href="{% static 'SpotifyWrapped/about_us.css' %}">
 </head>
-<body class="about-us">
-    <div class="dark-header container">
-        <div class="left">
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'readings' %}">Past Readings</a>
-            <a href="{% url 'about_us' %}">About Us</a>
-        </div>
-        <div class="right">
-            <a href="{% url 'profile' %}">Profile</a>
-        </div>
+<body>
+<div class="dark-header container">
+    <div class="left">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'readings' %}">Past Readings</a>
+        <a href="{% url 'about_us' %}">About Us</a>
     </div>
-    <div class="about-us-container">
+    <div class="right">
+        <a href="{% url 'profile' %}">Profile</a>
     </div>
+</div>
+
+<div class="about-us-content">
+    <section class="combined-section">
+        <h1>Our Inspiration & Theme</h1>
+        <p>
+            Our project was inspired by Greg, Greg stared at his toaster, willing it to work faster. "Come on, I have
+            ideas waiting," he muttered.
+            The bread popped up, lightly singed, and he grabbed it with the zeal of a mad scientist uncovering a
+            breakthrough. He bit into the toast,
+            crunch echoing in the kitchen. And then—eureka! The idea struck like lightning. “What if,” he whispered,
+            crumbs flying,
+            “I made an app that tracks how toasted your toast gets?!” His cat, unimpressed, yawned. “Don’t give me that
+            look, Whiskers!
+            Genius isn’t always appreciated in its time,” Greg declared, toast app already being drafted in his head.
+        </p>
+        <p>
+            The stars shimmered above the Tanabata festival, lanterns swaying like tiny moons caught in the wind.
+            Children laughed as they wrote wishes on
+            colorful strips of paper, tying them to bamboo stalks that seemed to reach for the heavens. Mai gazed up at
+            the summer sky, imagining Hikoboshi and
+            Orihime—the star-crossed lovers separated by the Milky Way—meeting once more. “Do you think they’re happy
+            tonight?” she asked her grandmother,
+            who smiled gently. “They’re together, aren’t they?” came the reply. Mai nodded, her heart light as she tied
+            her own wish: May we all find a love that
+            bridges galaxies.
+        </p>
+    </section>
+
+    <section class="combined-section">
+        <h1>Process Description</h1>
+        <p>
+            THIS IS WHERE WE TALK ABOUT OUR PROCESS
+        </p>
+        <p>
+            THIS IS WHERE WE TALK ABOUT MORE PROCESS
+        </p>
+    </section>
+
+    <section class="team-section">
+        <h1>Team Members</h1>
+        <div class="team-grid">
+            <div class="team-card">
+                <h2>Member 1</h2>
+                <h3>Role: CODE</h3>
+                <p>WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS
+                    WORDS WORDS WORDS WORDS
+                    WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS WORDS
+                    WORDS WORDS WORDS WORDS WORDS
+                    WORDS WORDS WORDS WORDS WORDS WORDS WORDS
+                </p>
+            </div>
+            <div class="team-card">
+                <h2>Member 2</h2>
+                <h3>Role: CODE</h3>
+                <p>
+                    UHHHHHHH UHHHHHHH UMMMMMM UHHHHHHH UHHHHHHH UHHHHHHH UMMMMMM UMMMMMM UMMMMMM UMMMMMM UMMMMMM
+                </p>
+            </div>
+            <div class="team-card">
+                <h2>Member 3</h2>
+                <h3>Role: CODE</h3>
+                <p>
+                    The glow of the monitor bathed Alex’s face in hues of blue and white, the only light breaking the
+                    midnight stillness.
+                    Fingers danced across the keyboard, each keystroke a rhythm, a heartbeat, in the silence. Lines of
+                    code unfolded on the screen,
+                    cascading like poetry written in syntax and logic. A bug interrupted the flow, a red error glaring
+                    like an accusatory eye.
+                    Alex leaned in closer, brows furrowing, the thrill of the puzzle overtaking any frustration.
+                    Debugging wasn’t a chore—it was a conversation.
+                    At last, success. The program ran smoothly, and Alex leaned back, smiling. Creation complete. LOL
+                </p>
+            </div>
+            <div class="team-card">
+                <h2>Member 4</h2>
+                <h3>Role: CODE</h3>
+                <p>
+                    FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT
+                    FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT
+                </p>
+            </div>
+            <div class="team-card">
+                <h2>Kenny Nguyen</h2>
+                <h3>Role: Code</h3>
+                <p>
+                    test test test test test test test test test test test test test test test test test test test test
+                    test test test test test test test test
+                    test test test test test test test test test test test test test test test test test test test test
+                </p>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="combined-section" style="margin-top: 50px;">
+        <h1>Contact Us!</h1>
+        <div class="content">
+            <div class="left">
+                <p>
+                    Thank you for checking out our website. As a small group of developers, we appreciate any and all
+                    feedback as well as reports of any bugs!
+                </p>
+            </div>
+            <div class="right">
+                <form method="post" action="{% url 'about_us' %}">
+                    {% csrf_token %}
+                    <textarea class="message-bar" type="text" placeholder="Write a message..." name="message"></textarea>
+                    <button class="send-button" type="submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</div>
+
 </body>
 </html>

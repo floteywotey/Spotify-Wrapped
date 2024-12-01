@@ -25,7 +25,6 @@ urlpatterns = [
     path("duo-results/", views.duo_results, name='duo_results'),
     path("duo-wrap/", views.duo_wrap, name='duo_wrap'),
     path("results/", views.results, name='results'),
-    path("post-results/", views.post_results, name='post_results'),
     path("summary/<str:id>", views.summary, name='summary'),
     path('password_reset/', views.password_reset, name='password_reset'),
     path('password_reset_done/',
