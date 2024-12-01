@@ -951,7 +951,7 @@
     function splitCard(card) {
     card.style.background = "none";
     const front = card.querySelector(".card-front");
-    front.style.opacity = "0"; // Hide the front
+    front.style.opacity = "0";
 
     // Get the computed background image of the front card
     const frontBackground = getComputedStyle(front).backgroundImage;
@@ -1033,7 +1033,7 @@
             if (lastFlippedCard) {
                 lastFlippedCard.classList.remove("clicked", "flipped");
                 const front = lastFlippedCard.querySelector(".card-front");
-                front.style.opacity = 0;
+                front.style.opacity = "0";
                 card.style.background = "black";
             }
 
@@ -1045,7 +1045,7 @@
             } else {
                 this.classList.remove("flipped");
                 const front = card.querySelector(".card-front");
-                front.style.opacity = 0;
+                front.style.opacity = "0";
                 card.style.background = "black";
             }
 
