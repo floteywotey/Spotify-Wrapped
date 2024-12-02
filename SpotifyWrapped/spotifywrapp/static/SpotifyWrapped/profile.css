@@ -403,6 +403,7 @@ body.light-mode .search-button:hover {
     box-shadow: 0 0 10px 0 #5b5df6 inset, 0 0 20px 2px #5b5df6;
     border: 3px solid #5b5df6;
     background: transparent;
+}
 .invite-button a {
     text-decoration: none;
     color: white;
