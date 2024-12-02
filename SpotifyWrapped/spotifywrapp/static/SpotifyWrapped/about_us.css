@@ -14,6 +14,19 @@ body {
     margin: 0;
 }
 
+.fade {
+    animation: fadeIn 1.5s;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 .container {
     display: flex;
     flex-direction: row;
@@ -129,12 +142,28 @@ body {
     color: #8b8df8;
 }
 
+.combined-section h2 {
+    font-family: 'Kaisei Tokumin', serif;
+    font-size: 1.2rem;
+    color: #8b8df8;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: start;
+}
+
 .combined-section p {
     font-family: 'Sahitya', serif;
     font-size: 0.9rem;
     line-height: 1.5;
     color: white;
-    margin-bottom: 1vw;
+    margin-bottom: 0;
+    text-align: start;
+}
+
+.combined-section ul {
+    text-align: start;
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
 .team-section {
@@ -157,12 +186,15 @@ body {
 }
 
 .team-card {
+    display: flex;
+    flex-direction: column;
     width: 200px;
     border: 1px solid #8b8df8;
     border-radius: 8px;
     background-color: rgba(255, 255, 255, 0.08);
     padding: 15px;
-    text-align: center;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 .team-card h2 {
@@ -185,7 +217,33 @@ body {
     color: white;
     line-height: 1.3;
 }
-
+.profile {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border-radius: 6px;
+}
+#ethan {
+    background: url("images/about_us/profiles/Ethan.png") center center no-repeat;
+    background-size: contain;
+}
+#eris {
+    background: url("images/about_us/profiles/Eris.png") center center no-repeat;
+    background-size: contain;
+}
+#emily {
+    background: url("images/about_us/profiles/Emily.png") center center no-repeat;
+    background-size: contain;;
+}
+#john {
+    background: url("images/about_us/profiles/John.png") center center no-repeat;
+    background-size: contain;;
+}
+#kenny {
+    background: url("images/about_us/profiles/Kenny.png") center center no-repeat;
+    background-size: contain;;
+}
 .combined-section .content {
     display: flex;
     flex-direction: row;
