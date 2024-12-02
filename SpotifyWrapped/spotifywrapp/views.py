@@ -155,9 +155,16 @@ def profile(request):
             invite.save()
             if len(list(SpotifyUser.objects.filter(user=invite.userTo))) == 0:
                 invite.delete()
+                form.add_error(None, 'User does not exist')
             if invite.userTo == request.user.username:
                 invite.delete()
-            return redirect('profile')
+                form.add_error(None, 'Cannot send invite to yourself')
+            inviteList = list(invites.objects.filter(userTo=request.user.username))
+            friendList = list(Friends.objects.filter(user1=request.user.username))
+            return render(request, 'profile.html', {'username': request.user.username, 'form': form,
+                                                    'usertoken': getSpotifyUser(request.user.username).spotifytoken,
+                                                    'inviteList': inviteList,
+                                                    'friendList': friendList})
     else:
         form = CreateInvite()
     inviteList = list(invites.objects.filter(userTo=request.user.username))

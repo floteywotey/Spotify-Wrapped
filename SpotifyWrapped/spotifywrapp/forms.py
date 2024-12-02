@@ -18,7 +18,6 @@ class SignUpForm(UserCreationForm):
 
 
 class CreateInvite(forms.ModelForm):
-
     userTo = forms.CharField(
         widget=forms.Textarea(attrs={'placeholder': 'Enter username'}),
         required=True,
