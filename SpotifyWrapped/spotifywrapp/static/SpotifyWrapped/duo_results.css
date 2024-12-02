@@ -15,7 +15,8 @@ body {
 }
 
 body.light-mode {
-    background: white url("images/backgrounds/light-mode-background.svg") no-repeat center center fixed;
+    background: white url("images/backgrounds/light-mode-presentation.svg") no-repeat center center fixed;
+    background-size: cover;
 }
 
 
