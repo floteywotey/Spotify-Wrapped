@@ -320,8 +320,8 @@ def duo_results(request):
         duration_compat = math.ceil(100 * (1- (abs(wrapData1['avgSongLength'] - wrapData2['avgSongLength']))/max(wrapData1['avgSongLength'],wrapData2['avgSongLength'])))
         explicit_compat = math.ceil(100 * (1- (abs(wrapData1['explicitPercent'] - wrapData2['explicitPercent']))/max(wrapData1['explicitPercent'],wrapData2['explicitPercent'])))
         shared_track_bonus = len(shared_tracks) * 5
-        shared_artist_bonus = len(shared_artists) * 5
-        shared_genres_bonus = len(shared_genres) * 5
+        shared_artist_bonus = len(shared_artists)
+        shared_genres_bonus = len(shared_genres)
         compatibility = (popularity_compat + era_compat + duration_compat + explicit_compat)/4
         extra = math.ceil(compatibility + shared_genres_bonus + shared_artist_bonus + shared_track_bonus)
         final_compat = 100 if extra > 100 else extra
@@ -585,13 +585,11 @@ def getSoloWrap(request, username, time, limit=50):
     # bot_energy = sorted(track_dict, key=lambda x: x['energy'], reverse=False)
     # bot_danceability = sorted(track_dict, key=lambda x: x['danceability'], reverse=False)
     # Prepare data for response
-    explicitCount = explicitCount/limit * 100
     songLength = songLength/limit
     count1900 = count1900/limit * 100
     count2000 = count2000/limit * 100
     popularity /= limit
     popularity = round(popularity, 2)
-    explicitCount = round(explicitCount, 2)
     songLength = round(songLength, 2)
     count1900 = count1900/limit * 100
     count2000 = count2000/limit * 100

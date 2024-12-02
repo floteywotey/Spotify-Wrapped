@@ -462,11 +462,6 @@ body.light-mode .card-text-overlay p {
 }
 
 /* Buttons */
-body.light-mode button {
-    border: 1px solid black;
-    background: white;
-    color: black;
-}
 
 body.light-mode button:hover {
     border: 1px solid lightblue;
@@ -474,18 +469,8 @@ body.light-mode button:hover {
 }
 
 /* Popup styling */
-body.light-mode .popup-container {
-    background-color: rgba(255, 255, 255, 0.9);
-}
 
-body.light-mode .popup-content {
-    background: white url("images/decorations/pop-up.svg") no-repeat center center fixed;
-    color: black;
-}
 
-body.light-mode .popup-content .close-btn {
-    color: black;
-}
 
 body.light-mode .popup-content .close-btn:hover {
     color: #5b5df6;
