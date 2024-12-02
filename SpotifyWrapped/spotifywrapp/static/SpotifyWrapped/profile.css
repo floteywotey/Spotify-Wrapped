@@ -307,9 +307,7 @@ h1 {
 .invites {
     margin: 10px;
 }
-body.light-mode textarea {
-    background: rgba(255, 255, 255, 0.9);
-}
+
 .search-button {
     padding: 10px;
     width: 100%;
@@ -350,10 +348,6 @@ body.light-mode textarea {
 /* Light mode invite button overrides */
 
 
-body.light-mode .invite-button:hover {
-    box-shadow: 0 0 25px lightblue;
-}
-
 /* Search button */
 .search-button {
     padding: 10px;
@@ -373,11 +367,6 @@ body.light-mode .invite-button:hover {
     background: transparent;
 }
 
-
-body.light-mode .search-button:hover {
-    box-shadow: 0 0 10px 0 lightblue inset, 0 0 20px 2px lightblue;
-    border: 3px solid lightblue;
-}
 
 
 /* Match toggle button style with other buttons */
@@ -400,7 +389,3 @@ body.light-mode .search-button:hover {
     letter-spacing: 0.1em;
 }
 
-/* Light mode hover */
-body.light-mode .theme-toggle-button:hover {
-    box-shadow: 0 0 25px lightblue;
-}

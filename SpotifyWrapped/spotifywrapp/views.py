@@ -38,10 +38,11 @@ REDIRECT_URI_PROFILE = os.getenv("SPOTIFY_REDIRECT_URI_PROFILE")
 import logging
 logger = logging.getLogger(__name__)
 
-logger.debug(f"SPOTIFY_CLIENT_ID: {CLIENT_ID}")
-logger.debug(f"SPOTIFY_CLIENT_SECRET: {CLIENT_SECRET}")
-logger.debug(f"SPOTIFY_REDIRECT_URI_HOME: {REDIRECT_URI_HOME}")
-logger.debug(f"SPOTIFY_REDIRECT_URI_PROFILE: {REDIRECT_URI_PROFILE}")
+# Debugging Spotify 403 issue
+# logger.debug(f"SPOTIFY_CLIENT_ID: {CLIENT_ID}")
+# logger.debug(f"SPOTIFY_CLIENT_SECRET: {CLIENT_SECRET}")
+# logger.debug(f"SPOTIFY_REDIRECT_URI_HOME: {REDIRECT_URI_HOME}")
+# logger.debug(f"SPOTIFY_REDIRECT_URI_PROFILE: {REDIRECT_URI_PROFILE}")
 
 #Spotify Token URL
 AUTH_URL = 'https://accounts.spotify.com/api/token'
