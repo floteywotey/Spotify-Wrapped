@@ -37,5 +37,11 @@ urlpatterns = [
          auth_view.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'),
          name='password_reset_complete'),
     path('resultsintermediate/', views.resultsintermediate, name='resultsintermediate'),
+    path('duointermediate/', views.duointermediate, name='duointermediate'),
+    path('summaryintermediate/<str:id>', views.summaryintermediate, name='summaryintermediate'),
+    path('viewwrap/<str:id>', views.viewwrap, name='viewwrap'),
+    path('duo_summary_intermediate/<str:id>', views.duo_summary_intermediate, name='duo_summary_intermediate'),
+    path("duosummary/<str:id>", views.duosummary, name='duosummary'),
+    path('viewduowrap/<str:id>', views.viewduowrap, name='viewduowrap'),
     path("update-theme-preference/", views.update_theme_preference, name="update_theme_preference"),
 ]
