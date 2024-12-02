@@ -19,45 +19,127 @@
     </div>
 </div>
 
-<div class="about-us-content">
+<div class="about-us-content fade">
     <div class="nav">
-    <a href="#progress" class="btn">Our Progress</a>
-    <a href="#team" class="btn">Team Members</a>
-    <a href="#contact" class="btn">Contact</a>
-  </div>
+        <a href="#structure" class="btn">Structure</a>
+        <a href="#progress" class="btn">Our Process</a>
+        <a href="#team" class="btn">Team Members</a>
+        <a href="#contact" class="btn">Contact</a>
+    </div>
     <section class="combined-section">
-        <h1>Our Inspiration & Theme</h1>
+        <p style="text-align: center">Inspired by tarot, we wanted to create a unique and fun way to access statistics about the things you listen
+            to on Spotify, like Spotify Wrapped but can be accessed all year round! You can view your listening history
+            from the past year, six months, or three months or even create duo wraps to compared your music taste with your
+            friends. All the wraps that you create can be accessed in your past readings. We hope you enjoy!</p>
+    </section>
+    <section class="combined-section" id="structure">
+        <h1>Process Structure: Scrum</h1>
+        <h2>Role Assignment</h2>
         <p>
-            Our project was inspired by Greg, Greg stared at his toaster, willing it to work faster. "Come on, I have
-            ideas waiting," he muttered.
-            The bread popped up, lightly singed, and he grabbed it with the zeal of a mad scientist uncovering a
-            breakthrough. He bit into the toast,
-            crunch echoing in the kitchen. And then—eureka! The idea struck like lightning. “What if,” he whispered,
-            crumbs flying,
-            “I made an app that tracks how toasted your toast gets?!” His cat, unimpressed, yawned. “Don’t give me that
-            look, Whiskers!
-            Genius isn’t always appreciated in its time,” Greg declared, toast app already being drafted in his head.
+            In the beginning, we assigned roles based on our interests and experience
         </p>
+        <ul>
+            <li>Backend: Kenny, John, Ethan</li>
+            <li>Frontend: Eris, Emily</li>
+        </ul>
         <p>
-            The stars shimmered above the Tanabata festival, lanterns swaying like tiny moons caught in the wind.
-            Children laughed as they wrote wishes on
-            colorful strips of paper, tying them to bamboo stalks that seemed to reach for the heavens. Mai gazed up at
-            the summer sky, imagining Hikoboshi and
-            Orihime—the star-crossed lovers separated by the Milky Way—meeting once more. “Do you think they’re happy
-            tonight?” she asked her grandmother,
-            who smiled gently. “They’re together, aren’t they?” came the reply. Mai nodded, her heart light as she tied
-            her own wish: May we all find a love that
-            bridges galaxies.
+            However, as we started working on the project, roles were adapted and arranged based on what was completed
+            and what part of the project needed more assistance.
+        </p>
+        <ul>
+            <li>Backend: Ethan</li>
+            <li>Frontend: Eris, Emily</li>
+            <li>Fullstack: Kenny, John</li>
+        </ul>
+        <p>
+            We also assigned roles such as scrum master and product owner to Ethan and Eris respectively.
+            As scrum master, Ethan was responsible for laying out the scope and tasks for each person to complete. He
+            made sure the team stayed on track and created an efficient workflow.
+            As a product owner, Eris frequently interacted with the client. By communicating with the client, the team
+            was able to get feedback throughout each sprint.
+        </p>
+        <h2>User Stories</h2>
+        <p>For this project, the main foundation of the project, where we first started, were targeting the base user
+            stories such as:
+        <ul>
+            <li>Base User Story #1: As a user, I want to be able to view a presentation of the different
+                aspects of my personal Spotify music listening tastes displayed in colorful and fun ways.
+            </li>
+            <li>Base User Story #2: As a user, I would like to be able to create and login to an account that
+                saves my previously generated Spotify wraps.
+            </li>
+            <li>Base User Story #3: As a user, I would like the UI to be aesthetically-pleasing and responsive.</li>
+            <li>Base User Story #4: As a developer, I would like to avoid security leaks by not hosting secrets
+                like API keys on GitHub.
+            </li>
+        </ul>
+        <p>
+            Working on these base user stories was the main focus of Sprint 1. With the base of the project laid out, we
+            were then able to implement additional user stories like:
+        </p>
+        <ul>
+            <li>Duo-Wrapped</li>
+            <li>Different Spotify Wrap durations</li>
+            <li>Dark/Light Mode</li>
+            <li>Running on a host service</li>
+            <li>Transition animations</li>
+            <li>Contact the developers</li>
+            <li>Wireframe diagram on Figma</li>
+        </ul>
+        <p>
+            During sprints 2 and 3, we worked on the additional user stories, primarily focusing on Duo-Wrapped, running
+            on a hose service, transition animations, and contacting the developers (which you can find below).
+        </p>
+        <h2>Task Management</h2>
+        <p>Notion was our main platform for organizing tasks within our team. Backend tasks were divided into specific
+            functions such as filtering, password reset, and search function that were then assigned to each person. For
+            frontend, tasks were divided into creating a UI flowchart, designing pages on Figma, and ultimately applying
+            those designs with html and css. By subdividing tasks, placing them in “Not started”, “In progress”, and
+            “Done”, and checking off a checklist of user stories in Notion, we were able to easily identify any tasks
+            that needed to be picked up and which tasks were being implemented by someone else.
+        </p>
+        <h2>Scrum Meetings</h2>
+        <p>
+            Scrum meetings were conducted every weekend on Discord in order to check in with members in the team on what
+            they had worked on for the week, decide what tasks would have to be prioritized and completed for the next
+            week, and decide on what questions needed to be asked for our client meetings on Monday. Overall, we adapted
+            based on feedback and issues encountered while developing the project.
         </p>
     </section>
 
     <section class="combined-section" id="progress">
         <h1>Process Description</h1>
+        <h2>Brainstorm and References</h2>
         <p>
-            THIS IS WHERE WE TALK ABOUT OUR PROCESS
+            While looking at pictures of old spotify wraps, we found that many ended by giving each person a unique
+            label, such as time traveler and vampire. This sparked the idea of a tarot card which also had titles such
+            as The Chariot or The Tower. We looked through the spotify API to find data we can pull to make these
+            titles, originally using the track's unique features like danceability and positivity before they were
+            removed.
+        </p>
+        <h2>UI Design-Frontend</h2>
+        <p>
+            We designed the potential pages and assets on Figma, allowing us to have a definitive plan for when we start
+            implementing the front end and since we were integrating animations and targeting the user story for a fully
+            developed wireframe, our goal was to make a high-fidelity prototype of the whole website. For assets and the
+            tarot cards, we tried to combine the tarot theme and Spotify Wrapped features. For example, a crystal orb
+            would ask the user about the duration of the Spotify Wrapped and each card would have a distinct design
+            based on the title and Spotify Wrapped data. We detailed each presentation slide as a card, creating the
+            backs, fronts, and how the information will be displayed for each card. For the other pages, we asked our
+            client what information he’d like to have displayed. With each design, we made sure to check with our client
+            for feedback.
         </p>
         <p>
-            THIS IS WHERE WE TALK ABOUT MORE PROCESS
+            The main focus while wireframing was making the presentation of the Spotify Wrapped unique. As designers
+            without experience with tarot cards, we thought of ways that people hold and display cards. Therefore, based
+            on our limited knowledge, we made different iterations for possible presentation of the Spotify Wrapped and
+            received feedback from the client on their favorite design. We made sure that we made the transitions we
+            wanted very clear so that incorporating it later won’t be as confusing.
+        </p>
+        <p>
+            When we got started with implementation, since the two front end developers had worked on different screens,
+            we decided we would implement the screens we had designed. As the back end finished, we moved Kenny and John
+            to implement some front end features.
         </p>
     </section>
 
@@ -78,9 +160,15 @@
             <div class="team-card">
                 <div class="profile" id="eris"></div>
                 <h2>Eris Wang</h2>
-                <h3>Role: CODE</h3>
+                <h3>Role: Product Owner, Frontend Developer</h3>
                 <p>
-                    UHHHHHHH UHHHHHHH UMMMMMM UHHHHHHH UHHHHHHH UHHHHHHH UMMMMMM UMMMMMM UMMMMMM UMMMMMM UMMMMMM
+                    Hello, I'm Eris!
+                </p>
+                <p>
+                    As the product owner, I made sure to constantly update our client on our ideas and progress of the
+                    website, asking for feedback and his specific needs.
+                    I worked on the designs for the website, creating the idea for card names and layout, and for the
+                    pages I created the start screen, login/sign up, and profile.
                 </p>
             </div>
             <div class="team-card">
@@ -88,11 +176,12 @@
                 <h2>Emily Choi</h2>
                 <h3>Role: Frontend Developer</h3>
                 <p>
-                   Hi, I'm Emily!
+                    Hi, I'm Emily!
                 </p>
                 <p>
-                 I helped design the initial website aesthetics on Figma, including the starkid characters.
-                    I also implemented these designs on the final product as a frontend developer, working on the duo wrap and basic layout of the homepage.
+                    I helped design the initial website aesthetics on Figma, including the starkid characters.
+                    I also implemented these designs on the final product as a frontend developer, working on the duo
+                    wrap and basic layout of the homepage.
                 </p>
             </div>
             <div class="team-card">
@@ -107,11 +196,11 @@
             <div class="team-card">
                 <div class="profile" id="kenny"></div>
                 <h2>Kenny Nguyen</h2>
-                <h3>Role: Code</h3>
+                <h3>Role: Backend</h3>
                 <p>
-                    test test test test test test test test test test test test test test test test test test test test
-                    test test test test test test test test
-                    test test test test test test test test test test test test test test test test test test test test
+                    - I worked mostly on the backend. I implemented the functionality to access and authorize a user's Spotify account. I also implemented the login
+                    and registration page.
+                    - I implemented the card shuffling and other minor card animations!
                 </p>
 
             </div>
@@ -130,7 +219,8 @@
             <div class="right">
                 <form method="post" action="{% url 'about_us' %}">
                     {% csrf_token %}
-                    <textarea class="message-bar" type="text" placeholder="Write a message..." name="message"></textarea>
+                    <textarea class="message-bar" type="text" placeholder="Write a message..."
+                              name="message"></textarea>
                     <button class="send-button" type="submit">Send Message</button>
                 </form>
             </div>
