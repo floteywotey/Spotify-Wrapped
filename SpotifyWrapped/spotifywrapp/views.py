@@ -320,8 +320,8 @@ def duo_results(request):
         duration_compat = math.ceil(100 * (1- (abs(wrapData1['avgSongLength'] - wrapData2['avgSongLength']))/max(wrapData1['avgSongLength'],wrapData2['avgSongLength'])))
         explicit_compat = math.ceil(100 * (1- (abs(wrapData1['explicitPercent'] - wrapData2['explicitPercent']))/max(wrapData1['explicitPercent'],wrapData2['explicitPercent'])))
         shared_track_bonus = len(shared_tracks) * 5
-        shared_artist_bonus = len(shared_artists) * 5
-        shared_genres_bonus = len(shared_genres) * 5
+        shared_artist_bonus = len(shared_artists)
+        shared_genres_bonus = len(shared_genres)
         compatibility = (popularity_compat + era_compat + duration_compat + explicit_compat)/4
         extra = math.ceil(compatibility + shared_genres_bonus + shared_artist_bonus + shared_track_bonus)
         final_compat = 100 if extra > 100 else extra

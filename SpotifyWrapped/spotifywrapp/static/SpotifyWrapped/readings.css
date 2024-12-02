@@ -241,6 +241,14 @@ body.light-mode .card-container:hover {
     transition: transform 0.5s ease-out;
     transition-delay: 0.2s;
 }
+/* Buttons */
+
+body.light-mode button:hover {
+    border: 1px solid lightblue;
+    box-shadow: 0 0 50px lightblue;
+}
+
+/* Popup styling */
 
 .popup-container {
     display: none;
@@ -257,6 +265,7 @@ body.light-mode .card-container:hover {
 
 .popup-content {
     background: black url("images/decorations/pop-up.svg") no-repeat center center fixed;
+    background-size: auto;
     border-radius: 12px;
     text-align: center;
     width: 770px;
@@ -264,7 +273,6 @@ body.light-mode .card-container:hover {
     position: relative;
     justify-content: center;
     align-content: center;
-
 }
 
 .text {
