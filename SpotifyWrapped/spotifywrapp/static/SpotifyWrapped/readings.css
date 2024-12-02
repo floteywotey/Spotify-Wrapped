@@ -210,6 +210,24 @@ h1 {
     transition-delay: 0.1s;
 }
 
+body.light-mode .card-container {
+    background: url("images/decorations/light-mode-border.svg") no-repeat;
+    background-size: cover;
+    position: relative;
+    width: 18.8vw;
+    height: 29vw;
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Ensures the card doesn't exceed the border */
+    transition: 0.5s ease;
+}
+body.light-mode .card-container:hover {
+    box-shadow: 0 0 20px lightblue;
+    border-radius: 8px;
+}
+
 .card-container:hover .fanned-card:nth-child(3),
 .card-container.hovered .fanned-card:nth-child(3) {
     transform: translateY(90%) rotate(0deg) translateX(0%);
@@ -313,5 +331,5 @@ body.light-mode {
 
 
 body.light-mode, body.light-mode * {
-    transition: background 0.5s, color 0.5s, box-shadow 0.5s;
+    transition: all 0.5s;
 }

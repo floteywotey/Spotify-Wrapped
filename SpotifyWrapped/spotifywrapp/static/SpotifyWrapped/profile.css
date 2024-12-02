@@ -75,7 +75,7 @@ body.light-mode {
 .dark-header a {
     text-decoration: none;
     color: inherit;
-    transition: color 0.5s;
+    transition: all 0.5s;
 }
 
 .dark-header a:hover {
@@ -135,6 +135,7 @@ body.light-mode .dark-header a:hover {
 .settings {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 10px;
 }
 body.light-mode .box {
@@ -180,7 +181,7 @@ body.light-mode button:hover {
     border-radius: 12px;
     border: 1px solid currentColor;
     overflow: auto;
-    background: transparent;
+    background: none;
     scrollbar-color: currentColor whitesmoke;
     transition: border 0.5s, background 0.5s;
 }
@@ -188,14 +189,6 @@ body.light-mode button:hover {
 .friend-list ul {
     padding-left: 5px;
 }
-
-body.light-mode .scroll-box {
-    background: rgba(255, 255, 255, 0.9);
-}
-
-body.light-mode .scroll-box {
-    background: rgba(255, 255, 255, 0.9);
-
 /* List items */
 .friends-list li {
     display: flex;
@@ -274,6 +267,22 @@ h1 {
     transition: background 0.5s, color 0.5s, border 0.5s;
 }
 
+body.light-mode #userto textarea{
+    padding: 7px 10px;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    width: 50%;
+    font-size: 15px;
+    border-radius: 16px;
+    border: 1px solid currentColor;
+    resize: none;
+    background: white;
+    font-family: "Sahitya", serif;
+    color: black;
+    transition: background 0.5s, color 0.5s, border 0.5s;
+}
+
 #message textarea {
     padding: 5px 10px;
     display: flex;
@@ -287,6 +296,21 @@ h1 {
     background: black;
     font-family: "Sahitya", serif;
     color: white;
+}
+
+body.light-mode #message textarea{
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    height: 125px;
+    width: 85%;
+    font-size: 15px;
+    border-radius: 16px;
+    border: 1px solid white;
+    resize: none;
+    background: white;
+    font-family: "Sahitya", serif;
+    color: black;
 }
 
 #charCount{
@@ -319,11 +343,17 @@ h1 {
     text-align: start;
 }
 
+
 .search-button:hover {
     box-shadow: 0 0 10px 0 rebeccapurple inset, 0 0 20px 2px rebeccapurple;
     border: 3px solid rebeccapurple;
     letter-spacing: normal;
     background: black;
+}
+
+body.light-mode .search-button:hover {
+    box-shadow: 0 0 10px 0 white, 0 0 20px 2px white;
+    border: 3px solid white;
 }
 
 .invite-button {
@@ -336,6 +366,14 @@ h1 {
     color: inherit;
     font-family: Linden Hill, serif;
     transition: 0.5s;
+    cursor: pointer;
+}
+.cancel-label {
+    font-size: 1vw;
+    background: transparent;
+    color: inherit;
+    font-family: Linden Hill, serif;
+    text-decoration: none;
     cursor: pointer;
 }
 
