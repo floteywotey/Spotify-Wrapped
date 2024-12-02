@@ -35,6 +35,14 @@ CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
 REDIRECT_URI_HOME = os.getenv("SPOTIFY_REDIRECT_URI_HOME")
 REDIRECT_URI_PROFILE = os.getenv("SPOTIFY_REDIRECT_URI_PROFILE")
 
+import logging
+logger = logging.getLogger(__name__)
+
+logger.debug(f"SPOTIFY_CLIENT_ID: {CLIENT_ID}")
+logger.debug(f"SPOTIFY_CLIENT_SECRET: {CLIENT_SECRET}")
+logger.debug(f"SPOTIFY_REDIRECT_URI_HOME: {REDIRECT_URI_HOME}")
+logger.debug(f"SPOTIFY_REDIRECT_URI_PROFILE: {REDIRECT_URI_PROFILE}")
+
 #Spotify Token URL
 AUTH_URL = 'https://accounts.spotify.com/api/token'
 timedict = {'long_term': 'Long Term (~1 year)', 'medium_term': 'Medium Term (~6 months)', 'short_term': 'Short Term (~3 months)', }

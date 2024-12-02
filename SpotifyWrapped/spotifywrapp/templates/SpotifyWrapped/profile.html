@@ -26,18 +26,16 @@
                 <h1>Account Settings: {{ username }}</h1>
                 <div class="settings">
                     <div class="button">
-                        <label class="switch">
-                            <input
-                                id="themeToggle"
-                                type="checkbox"
-                                {% if theme_preference == "light" %}checked{% endif %}
-                                onchange="toggleThemePreference()"
-                            >
-                            <span class="slider round"></span>
-                        </label>
-                        <p id="themeText">
-                            {% if theme_preference == "light" %}Switch to Dark Mode{% else %}Enable Light Mode{% endif %}
-                        </p>
+                        <form method="post" onclick="toggleThemePreference()" style="margin: 0;">
+                            {% csrf_token %}
+                            <button type="button" class="theme-toggle-button">
+                                {% if theme_preference == "light" %}
+                                Switch to Dark Mode
+                                {% else %}
+                                Enable Light Mode
+                                {% endif %}
+                            </button>
+                        </form>
                     </div>
                     <div class="button">
                         {% if usertoken %}
@@ -177,32 +175,33 @@
 </div>
 
 <script>
-    function toggleThemePreference() {
-        const isChecked = document.getElementById('themeToggle').checked;
-        const newPreference = isChecked ? 'light' : 'dark'; // Checked = light, Unchecked = dark
+function toggleThemePreference() {
+    const isLightMode = document.body.classList.toggle('light-mode'); // Toggles the class on the body
+    const newPreference = isLightMode ? 'light' : 'dark';
 
-        document.body.classList.toggle('light-mode', newPreference === 'light');
-        // Send an AJAX request to update theme preference
-        fetch("{% url 'update_theme_preference' %}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": "{{ csrf_token }}"
-            },
-            body: JSON.stringify({ theme_preference: newPreference })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Update the UI text dynamically
-                document.getElementById('themeText').textContent =
-                    newPreference === 'light' ? "Switch to Dark Mode" : "Enable Light Mode";
-            } else {
-                alert("Failed to update theme preference.");
-            }
-        })
-        .catch(error => console.error("Error updating theme preference:", error));
+    // Update the button text dynamically
+    const button = document.querySelector('.theme-toggle-button');
+    if (button) {
+        button.textContent = newPreference === 'light' ? "Switch to Dark Mode" : "Enable Light Mode";
     }
+
+    // Send an AJAX request to update the theme preference in the backend
+    fetch("{% url 'update_theme_preference' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: JSON.stringify({ theme_preference: newPreference })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data.success) {
+            alert("Failed to update theme preference.");
+        }
+    })
+    .catch(error => console.error("Error updating theme preference:", error));
+}
 </script>
 </body>
 </html>

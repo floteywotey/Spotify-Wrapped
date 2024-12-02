@@ -14,6 +14,12 @@ body {
 
 }
 
+body.light-mode {
+    background: white url("images/backgrounds/light-mode-background.svg") no-repeat center center fixed;
+}
+
+
+
 .header {
     width: 100%;
     display: flex;

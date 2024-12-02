@@ -163,10 +163,7 @@ button:hover {
     padding-right: 0px;
 }
 
-/* Light mode button overrides */
-body.light-mode button {
-    border-color: black;
-}
+
 
 body.light-mode button:hover {
     box-shadow: 0 0 25px lightblue;
@@ -312,7 +309,6 @@ h1 {
 }
 body.light-mode textarea {
     background: rgba(255, 255, 255, 0.9);
-    border-color: black;
 }
 .search-button {
     padding: 10px;
@@ -352,9 +348,7 @@ body.light-mode textarea {
 }
 
 /* Light mode invite button overrides */
-body.light-mode .invite-button {
-    border-color: black;
-}
+
 
 body.light-mode .invite-button:hover {
     box-shadow: 0 0 25px lightblue;
@@ -379,13 +373,34 @@ body.light-mode .invite-button:hover {
     background: transparent;
 }
 
-/* Light mode search button overrides */
-body.light-mode .search-button {
-    background: rgba(255, 255, 255, 0.9);
-    color: black;
-}
 
 body.light-mode .search-button:hover {
     box-shadow: 0 0 10px 0 lightblue inset, 0 0 20px 2px lightblue;
     border: 3px solid lightblue;
+}
+
+
+/* Match toggle button style with other buttons */
+.theme-toggle-button {
+    padding: 7px 10px;
+    width: 125px;
+    font-size: 1vw;
+    border-radius: 16px;
+    border: 1px solid currentColor;
+    background: transparent;
+    color: inherit;
+    font-family: Linden Hill, serif;
+    transition: 0.5s;
+    cursor: pointer;
+    text-align: center;
+}
+
+.theme-toggle-button:hover {
+    box-shadow: 0 0 25px #5b5df6;
+    letter-spacing: 0.1em;
+}
+
+/* Light mode hover */
+body.light-mode .theme-toggle-button:hover {
+    box-shadow: 0 0 25px lightblue;
 }

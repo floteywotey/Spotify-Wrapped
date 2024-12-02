@@ -156,3 +156,18 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'spotifywrapped19@gmail.com'  # Replace with your email address
 EMAIL_HOST_PASSWORD = EMAIL_KEY  # Replace with your email password
 EMAIL_USE_SSL = False
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}
+
