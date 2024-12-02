@@ -411,7 +411,10 @@ def recentWraps(username):
     return sortedArray
 
 def getSpotifyUser(username):
-    return list(SpotifyUser.objects.filter(user=username))[0]
+    user = list(SpotifyUser.objects.filter(user=username))
+    if not user:  # If the query returns an empty list
+        return None
+    return user[0]
 
 def summary(request, id):
     if not request.user.is_authenticated:
