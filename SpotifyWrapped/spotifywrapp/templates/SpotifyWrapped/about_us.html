@@ -7,7 +7,7 @@
     <title>About Us</title>
     <link rel="stylesheet" href="{% static 'SpotifyWrapped/about_us.css' %}">
 </head>
-<body>
+<body class="{% if theme_preference == 'light' %}light-mode{% endif %}">
 <div class="dark-header container">
     <div class="left">
         <a href="{% url 'home' %}">Home</a>
@@ -193,10 +193,11 @@
             <div class="team-card">
                 <div class="profile" id="john"></div>
                 <h2>John Phan</h2>
-                <h3>Role: CODE</h3>
+                <h3>Role: Fullstack Developer</h3>
                 <p>
-                    FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT
-                    FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT FIT
+                    Hey, I'm John! I had a lot of fun implementing the dark/light mode toggle. It was an exciting challenge
+                    to make the design consistent and visually appealing. I also worked on backend features and helped
+                    ensure seamless integration between frontend and backend functionality.
                 </p>
             </div>
             <div class="team-card">

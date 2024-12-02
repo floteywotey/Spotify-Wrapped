@@ -27,6 +27,22 @@ body {
     }
 }
 
+body {
+    background: black url("images/backgrounds/dark-mode-background.svg") no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    font-family: Sahitya, serif;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.5s, color 0.5s;
+}
+
+/* Light Mode Styles */
+body.light-mode {
+    background: white url("images/backgrounds/light-mode-background.svg") no-repeat center center fixed;
+    background-size: cover;
+}
+
 .container {
     display: flex;
     flex-direction: row;
