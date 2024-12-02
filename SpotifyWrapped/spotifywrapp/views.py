@@ -585,13 +585,11 @@ def getSoloWrap(request, username, time, limit=50):
     # bot_energy = sorted(track_dict, key=lambda x: x['energy'], reverse=False)
     # bot_danceability = sorted(track_dict, key=lambda x: x['danceability'], reverse=False)
     # Prepare data for response
-    explicitCount = explicitCount/limit * 100
     songLength = songLength/limit
     count1900 = count1900/limit * 100
     count2000 = count2000/limit * 100
     popularity /= limit
     popularity = round(popularity, 2)
-    explicitCount = round(explicitCount, 2)
     songLength = round(songLength, 2)
     count1900 = count1900/limit * 100
     count2000 = count2000/limit * 100
