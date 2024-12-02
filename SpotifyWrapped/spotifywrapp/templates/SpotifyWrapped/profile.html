@@ -7,7 +7,7 @@
     <title>Profile</title>
     <link rel="stylesheet" href="{% static 'SpotifyWrapped/profile.css' %}">
 </head>
-<body>
+<body class="{% if theme_preference == 'light' %}light-mode{% endif %}">
 <div class="dark-header container">
     <div class="left">
         <a href="{% url 'home' %}">Home</a>
@@ -25,6 +25,18 @@
             <div class="account-settings box">
                 <h1>Account Settings: {{ username }}</h1>
                 <div class="settings">
+                    <div class="button">
+                        <form method="post" onclick="toggleThemePreference()" style="margin: 0;">
+                            {% csrf_token %}
+                            <button type="button" class="theme-toggle-button">
+                                {% if theme_preference == "light" %}
+                                Switch to Dark Mode
+                                {% else %}
+                                Enable Light Mode
+                                {% endif %}
+                            </button>
+                        </form>
+                    </div>
                     <div class="button">
                         {% if usertoken %}
                             <button onclick="window.location.href='{% url 'spotify_unauthorize' %}'">
@@ -133,7 +145,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button type="button" class="invite-button"><a href="{{ link }}">Cancel</a></button>
+                                    <button type="button" class="invite-button"><a href="{{ link }}"  class="cancel-label">Cancel</a></button>
                                     <button type="submit" class="invite-button">Send invite</button>
                                 </div>
                                 <div class="form=group">
@@ -170,5 +182,35 @@
         </div>
     </div>
 </div>
+
+<script>
+function toggleThemePreference() {
+    const isLightMode = document.body.classList.toggle('light-mode'); // Toggles the class on the body
+    const newPreference = isLightMode ? 'light' : 'dark';
+
+    // Update the button text dynamically
+    const button = document.querySelector('.theme-toggle-button');
+    if (button) {
+        button.textContent = newPreference === 'light' ? "Switch to Dark Mode" : "Enable Light Mode";
+    }
+
+    // Send an AJAX request to update the theme preference in the backend
+    fetch("{% url 'update_theme_preference' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: JSON.stringify({ theme_preference: newPreference })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data.success) {
+            alert("Failed to update theme preference.");
+        }
+    })
+    .catch(error => console.error("Error updating theme preference:", error));
+}
+</script>
 </body>
 </html>
