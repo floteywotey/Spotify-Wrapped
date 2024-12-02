@@ -47,7 +47,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # Application definition
 
 INSTALLED_APPS = [
-     'spotifywrapp',
+    'spotifywrapp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -82,6 +82,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'spotifywrapp.theme_processor.theme_preference'
             ],
         },
     },
@@ -155,3 +156,18 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'spotifywrapped19@gmail.com'  # Replace with your email address
 EMAIL_HOST_PASSWORD = EMAIL_KEY  # Replace with your email password
 EMAIL_USE_SSL = False
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}
+

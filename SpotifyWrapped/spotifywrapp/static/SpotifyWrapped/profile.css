@@ -1,10 +1,12 @@
 /*custom fonts: Kaisei Tokumin, Kalnia, Sahitya, Linden Hill*/
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Kalnia:wght@100..700&family=Linden+Hill:ital@0;1&family=Sahitya:wght@400;700&display=swap');
 
+/* General Reset */
 * {
     box-sizing: border-box;
 }
 
+/* Fade-in animation */
 .fade {
     animation: fadeIn 1.5s;
 }
@@ -18,6 +20,7 @@
     }
 }
 
+/* Dark and Light Mode Setup */
 body {
     background: black url("images/backgrounds/dark-mode-background.svg") no-repeat center center fixed;
     background-size: cover;
@@ -25,6 +28,15 @@ body {
     color: white;
     font-family: Sahitya, serif;
     flex-direction: column;
+    transition: background 0.5s, color 0.5s;
+}
+
+body.light-mode {
+    background: white url("images/backgrounds/light-mode-background.svg") no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
+    color: white;
+    transition: background 0.5s, color 0.5s;
 }
 
 .container {
@@ -35,6 +47,7 @@ body {
     align-items: center;
 }
 
+/* Header styles */
 .dark-header {
     font-size: larger;
     position: fixed;
@@ -43,6 +56,7 @@ body {
     left: 0;
     right: 0;
     backdrop-filter: blur(5px);
+    transition: background 0.5s, color 0.5s;
 }
 
 .left {
@@ -60,8 +74,8 @@ body {
 
 .dark-header a {
     text-decoration: none;
-    color: white;
-    transition: 0.5s;
+    color: inherit;
+    transition: all 0.5s;
 }
 
 .dark-header a:hover {
@@ -70,6 +84,13 @@ body {
     letter-spacing: 0.1em;
 }
 
+/* Light mode header overrides */
+
+body.light-mode .dark-header a:hover {
+    color: #5b5df6;
+}
+
+/* Main container */
 .main-container {
     position: relative;
     justify-content: center;
@@ -80,6 +101,7 @@ body {
     gap: 20px;
     flex: 1 1 0;
     padding-top: 100px;
+    transition: color 0.5s;
 }
 
 .main-items {
@@ -87,11 +109,13 @@ body {
     flex-direction: row;
     gap: 15px;
     border-radius: 32px;
-    border: 1px white solid;
+    border: 1px solid currentColor;
     height: 80vh;
     margin: 0 100px;
+    transition: border 0.5s;
 }
 
+/* Sides and boxes */
 .side1, .side2 {
     display: flex;
     flex-direction: column;
@@ -103,22 +127,30 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
+    background: transparent;
+    border-radius: 16px;
+    transition: background 0.5s;
 }
 
 .settings {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 10px;
 }
+body.light-mode .box {
+    background: transparent;
+}
 
+/* Buttons */
 button {
     padding: 7px 10px;
     width: 125px;
     font-size: 1vw;
     border-radius: 16px;
-    border: 1px white solid;
+    border: 1px solid currentColor;
     background: transparent;
-    color: white;
+    color: inherit;
     font-family: Linden Hill, serif;
     transition: 0.5s;
     cursor: pointer;
@@ -132,6 +164,13 @@ button:hover {
     padding-right: 0px;
 }
 
+
+
+body.light-mode button:hover {
+    box-shadow: 0 0 25px lightblue;
+}
+
+/* Friends list */
 .friends-list {
     list-style: none;
 }
@@ -140,16 +179,17 @@ button:hover {
     width: 100%;
     height: 67%;
     border-radius: 12px;
-    border: 1px white solid;
+    border: 1px solid currentColor;
     overflow: auto;
-    background: transparent;
-    scrollbar-color: white whitesmoke;
+    background: none;
+    scrollbar-color: currentColor whitesmoke;
+    transition: border 0.5s, background 0.5s;
 }
 
 .friend-list ul {
     padding-left: 5px;
 }
-
+/* List items */
 .friends-list li {
     display: flex;
     align-items: center;
@@ -161,7 +201,7 @@ button:hover {
 
 .friends-list li::before {
     content: "★";
-    color: white;
+    color: inherit;
     font-size: 0.75rem;
     position: absolute;
     left: 0;
@@ -219,11 +259,28 @@ h1 {
     width: 50%;
     font-size: 15px;
     border-radius: 16px;
-    border: 1px solid white;
+    border: 1px solid currentColor;
     resize: none;
     background: black;
     font-family: "Sahitya", serif;
     color: white;
+    transition: background 0.5s, color 0.5s, border 0.5s;
+}
+
+body.light-mode #userto textarea{
+    padding: 7px 10px;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    width: 50%;
+    font-size: 15px;
+    border-radius: 16px;
+    border: 1px solid currentColor;
+    resize: none;
+    background: white;
+    font-family: "Sahitya", serif;
+    color: black;
+    transition: background 0.5s, color 0.5s, border 0.5s;
 }
 
 #message textarea {
@@ -239,6 +296,21 @@ h1 {
     background: black;
     font-family: "Sahitya", serif;
     color: white;
+}
+
+body.light-mode #message textarea{
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    height: 125px;
+    width: 85%;
+    font-size: 15px;
+    border-radius: 16px;
+    border: 1px solid white;
+    resize: none;
+    background: white;
+    font-family: "Sahitya", serif;
+    color: black;
 }
 
 #charCount{
@@ -271,6 +343,7 @@ h1 {
     text-align: start;
 }
 
+
 .search-button:hover {
     box-shadow: 0 0 10px 0 rebeccapurple inset, 0 0 20px 2px rebeccapurple;
     border: 3px solid rebeccapurple;
@@ -278,16 +351,29 @@ h1 {
     background: black;
 }
 
+body.light-mode .search-button:hover {
+    box-shadow: 0 0 10px 0 white, 0 0 20px 2px white;
+    border: 3px solid white;
+}
+
 .invite-button {
     padding: 10px;
     width: 125px;
     font-size: 1vw;
     border-radius: 16px;
-    border: 1px white solid;
+    border: 1px solid currentColor;
     background: transparent;
-    color: white;
+    color: inherit;
     font-family: Linden Hill, serif;
     transition: 0.5s;
+    cursor: pointer;
+}
+.cancel-label {
+    font-size: 1vw;
+    background: transparent;
+    color: inherit;
+    font-family: Linden Hill, serif;
+    text-decoration: none;
     cursor: pointer;
 }
 
@@ -297,12 +383,52 @@ h1 {
     letter-spacing: 0.1em;
 }
 
+/* Light mode invite button overrides */
+
+
+/* Search button */
+.search-button {
+    padding: 10px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: transparent;
+    cursor: pointer;
+    text-align: start;
+    transition: border 0.5s, box-shadow 0.5s, background 0.5s;
+}
+
+.search-button:hover {
+    box-shadow: 0 0 10px 0 #5b5df6 inset, 0 0 20px 2px #5b5df6;
+    border: 3px solid #5b5df6;
+    background: transparent;
 .invite-button a {
     text-decoration: none;
     color: white;
 }
 
 
+
+/* Match toggle button style with other buttons */
+.theme-toggle-button {
+    padding: 7px 10px;
+    width: 125px;
+    font-size: 1vw;
+    border-radius: 16px;
+    border: 1px solid currentColor;
+    background: transparent;
+    color: inherit;
+    font-family: Linden Hill, serif;
+    transition: 0.5s;
+    cursor: pointer;
+    text-align: center;
+}
+
+.theme-toggle-button:hover {
+    box-shadow: 0 0 25px #5b5df6;
+    letter-spacing: 0.1em;
+}
 
 .error-message {
     color: red;

@@ -62,14 +62,15 @@ body {
     flex: 1 1 0;
 }
 
-.dark-header a {
+.page_header a {
     text-decoration: none;
     color: white;
+    font-size: larger;
     transition: 0.5s;
     cursor: pointer;
 }
 
-.dark-header a:hover {
+.page_header a:hover {
     text-decoration: none;
     color: #8b8df8;
     letter-spacing: 0.1em;
@@ -287,6 +288,7 @@ body {
     transform: translateX(-50%);
 }
 
+
 .card-back {
     background: url("images/card/default-card-back.svg") no-repeat center center;
     background-size: contain;
@@ -400,10 +402,124 @@ button:hover {
     font-size: 30px;
     color: white;
     cursor: pointer;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
     margin-right: 10px;
 }
 
 .close-btn:hover {
     color: #8b8df8;
+}
+
+/* Light mode general styles */
+body.light-mode {
+    background: white url("images/backgrounds/light-mode-background.svg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    color: white;
+}
+
+/* Light mode transitions */
+body.light-mode, body.light-mode * {
+    transition: all 0.5s;
+}
+
+/* Header settings */
+body.light-mode .dark-header a {
+    color: black;
+}
+
+body.light-mode .dark-header a:hover {
+    color: #5b5df6;
+}
+
+/* Card styles */
+body.light-mode .card-container {
+    background: url("images/decorations/light-mode-border.svg") no-repeat;
+    background-size: cover;
+    position: relative;
+    width: 18.8vw;
+    height: 29vw;
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Ensures the card doesn't exceed the border */
+    transition: 0.5s ease;
+}
+
+body.light-mode .card-container:hover {
+    box-shadow: 0 0 20px lightblue;
+    border-radius: 8px;
+}
+
+.theme-toggle-button {
+    position: fixed;
+    transform: translate(10px, 90vh);
+    background: transparent;
+}
+/* Card text overlays */
+body.light-mode .card-text-overlay p {
+    color: black;
+}
+
+/* Buttons */
+body.light-mode button {
+    border: 1px solid black;
+    background: white;
+    color: black;
+}
+
+body.light-mode button:hover {
+    border: 1px solid lightblue;
+    box-shadow: 0 0 50px lightblue;
+}
+
+/* Popup styling */
+body.light-mode .popup-container {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+body.light-mode .popup-content {
+    background: white url("images/decorations/pop-up.svg") no-repeat center center fixed;
+    color: black;
+}
+
+body.light-mode .popup-content .close-btn {
+    color: black;
+}
+
+body.light-mode .popup-content .close-btn:hover {
+    color: #5b5df6;
+}
+
+/* Display panels */
+body.light-mode .display {
+    background: white;
+    color: black;
+}
+
+/* Light mode scrollbar */
+body.light-mode ::-webkit-scrollbar {
+    background: #f0f0f0;
+    width: 10px;
+}
+
+body.light-mode ::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border-radius: 10px;
+}
+
+body.light-mode .page-header {
+    color: white;
+}
+
+/* Light mode header links */
+body.light-mode .page-header a {
+    text-decoration: none;
+    color: white;
+    transition: 0.5s;
+}
+
+body.light-mode .page-header a:hover {
+    color: lightblue;
+    letter-spacing: 0.1em;
 }

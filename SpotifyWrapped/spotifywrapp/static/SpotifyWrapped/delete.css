@@ -13,6 +13,12 @@ body {
     font-family: Linden Hill, serif;
 }
 
+body.light-mode {
+    background: white url("images/backgrounds/light-mode-background.svg") no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
+}
+
 .main-items {
     justify-content: center;
     text-align: center;
