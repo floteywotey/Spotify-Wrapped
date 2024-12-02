@@ -253,7 +253,7 @@ h1 {
 }
 
 .invites-box {
-   height: 400px;
+   height: 320px;
 }
 
 .invites {
@@ -300,4 +300,12 @@ h1 {
 .invite-button a {
     text-decoration: none;
     color: white;
+}
+
+
+
+.error-message {
+    color: red;
+    font-size: 13px;
+    margin-bottom: 10px;
 }
